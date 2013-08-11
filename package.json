@@ -1,0 +1,19 @@
+{
+  "name": "workshopper",
+  "version": "0.0.0",
+  "description": "A terminal workshop runner framework",
+  "main": "./workshopper.js",
+  "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
+  "license": "MIT",
+  "dependencies": {
+    "map-async": "~0.1.1",
+    "tuple-stream": "~0.0.2",
+    "split": "~0.2.10",
+    "through": "~2.3.4",
+    "mkdirp": "~0.3.5",
+    "colors-tmpl": "~0.1.0",
+    "terminal-menu": "~0.0.0",
+    "optimist": "~0.6.0",
+    "pygmentize-bundled": "~1.2.0"
+  }
+}
