@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/workshopper.png)](https://nodei.co/npm/workshopper/) 
 
-![Learn You The Node.js For Much Win!](./workshopper.png)
+![Learn You The Node.js For Much Win!](https://raw.github.com/rvagg/learnyounode/master/learnyounode.png)
 
 **Workshopper** is used as a framework for the **[learnyounode](https://github.com/rvagg/learnyounode)** introduction to Node.js workshop application.
 
