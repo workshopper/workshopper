@@ -192,7 +192,7 @@ function runArgs (setup) {
 }
 
 Workshopper.prototype._printUsage = function () {
-  printText(this.name, path.join(__dirname, '../usage.txt'))
+  printText(this.name, path.join(__dirname, './usage.txt'))
 }
 
 function onpass (setup, dir, current) {

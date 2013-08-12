@@ -5,7 +5,7 @@ const fs         = require('fs')
 function printText (appname, file, callback) {
   var variables = {
       appname : appname
-    , rootdir : path.resolve(__dirname, '..')
+    , rootdir : path.resolve(__dirname, '.')
   }
 
   fs.readFile(file, 'utf8', function (err, contents) {
