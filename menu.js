@@ -3,8 +3,7 @@ const tmenu        = require('terminal-menu')
     , fs           = require('fs')
     , EventEmitter = require('events').EventEmitter
 
-const printText = require('./print-text')
-    , repeat    = require('./term-util').repeat
+const repeat    = require('./term-util').repeat
     , bold      = require('./term-util').bold
 
 function showMenu (opts) {

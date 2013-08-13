@@ -2,10 +2,10 @@ const fs         = require('fs')
     , path       = require('path')
     , colorsTmpl = require('colors-tmpl')
 
-function printText (appname, file, callback) {
+function printText (name, appDir, file, callback) {
   var variables = {
-      appname : appname
-    , rootdir : path.resolve(__dirname, '..')
+      appname : name
+    , rootdir : appDir
   }
 
   fs.readFile(file, 'utf8', function (err, contents) {

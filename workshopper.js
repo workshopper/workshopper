@@ -192,7 +192,7 @@ function runArgs (setup) {
 }
 
 Workshopper.prototype._printUsage = function () {
-  printText(this.name, path.join(__dirname, '../usage.txt'))
+  printText(this.name, this.appDir, path.join(__dirname, './usage.txt'))
 }
 
 function onpass (setup, dir, current) {
@@ -289,7 +289,7 @@ function onselect (name) {
     return name
   })
 
-  printText(this.name, file, function () {
+  printText(this.name, this.appDir, file, function () {
     console.log(
       bold('\n » To print these instructions again, run: `' + this.name + ' print`.'))
     console.log(
