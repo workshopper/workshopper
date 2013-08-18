@@ -5,6 +5,7 @@ function verifyOnlyAsyncOrSync (sync, trackFile, callback) {
   var track   = require(trackFile)
     , fscalls = track.calls.filter(function (call) {
         return call.module == 'fs'
+          && call.stack
           && call.stack[0].file != 'module.js'
           && call.stack[0].file != 'fs.js'
       })
