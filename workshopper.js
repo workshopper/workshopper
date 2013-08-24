@@ -97,9 +97,13 @@ Workshopper.prototype.verify = function (run) {
     return setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
   }
 
-  setupFn(run, function (setup) {
+  setupFn(run, function (err, setup) {
+    if (err) {
+      console.error('An error occurred during setup:', err)
+      return console.error(err.stack)
+    }
     setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
-  })
+  }.bind(this))
 }
 
 Workshopper.prototype.printMenu = function () {
@@ -159,8 +163,8 @@ Workshopper.prototype.dirFromName = function (name) {
   )
 }
 Workshopper.prototype.runSolution = function (setup, dir, current, run) {
-  var a   = runArgs(setup)
-    , b   = [ dir + '/solution.js' ].concat(setup.args || [])
+  var a   = submissionCmd(setup)
+    , b   = solutionCmd(dir, setup)
     , v   = verify(a, b, {
           a      : setup.a
         , b      : setup.b
@@ -186,21 +190,33 @@ Workshopper.prototype.runSolution = function (setup, dir, current, run) {
     setup.b.resume()
 }
 
-function runArgs (setup) {
-  var exec
+function solutionCmd (dir, setup) {
+  var args = setup.args || setup.solutionArgs || []
+  return [ dir + '/solution.js' ].concat(args)
+}
+
+function submissionCmd (setup) {
+  var args = setup.args || setup.submissionArgs || []
+    , exec
 
   if (setup.modUseTrack) {
+    // deprecated
     exec = [
         require.resolve('./exec-wrapper')
       , require.resolve('./module-use-tracker')
-      , setup.modUseTrack
+      , setup.modUseTrack.trackFile
+      , setup.modUseTrack.modules.join(',')
       , argv._[1]
     ]
+  } else if (setup.execWrap) {
+    exec = [ require.resolve('./exec-wrapper') ]
+    exec = exec.concat(setup.execWrap)
+    exec = exec.concat(argv._[1])
   } else {
     exec = [ argv._[1] ]
   }
 
-  return exec.concat(setup.args || [])
+  return exec.concat(args)
 }
 
 Workshopper.prototype._printUsage = function () {

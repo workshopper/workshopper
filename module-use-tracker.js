@@ -11,7 +11,7 @@ function writeData (outfile) {
   }
 }
 
-function track (outfile, fn, args, stack) {
+function track (mod, outfile, fn, args, stack) {
   on = false
   var _args = Array.prototype.map.call(args, function (a) {
     if (typeof a == 'function')
@@ -20,23 +20,19 @@ function track (outfile, fn, args, stack) {
       return '<Buffer>'
     return a
   })
-  data.calls.push({ module: 'fs', fn: fn, args: _args, stack: stack })
+  data.calls.push({ module: mod, fn: fn, args: _args, stack: stack })
   data.required = Object.keys(require.cache)
   writeData(outfile)
   on = true
 }
 
-function init (outfile) {
-  data.argv = process.argv
-  data.cwd  = process.cwd()
-  writeData(outfile)
-
-  Object.keys(fs).forEach(function (fn) {
+function trackMethods (name, obj, trackFile) {
+  Object.keys(obj).forEach(function (fn) {
     var err, stack
 
-    if (typeof fs[fn] == 'function') {
-      fs['__' + fn] = fs[fn]
-      fs[fn] = function replacement () {
+    if (typeof obj[fn] == 'function') {
+      obj['__' + fn] = obj[fn]
+      obj[fn] = function replacement () {
         try {
           err = new Error
           Error._prepareStackTrace = Error.prepareStackTrace
@@ -59,13 +55,30 @@ function init (outfile) {
         } catch (e) {}
 
         if (on) {
-          //console.log('fs.' + fn, arguments[0])
-          track(outfile, fn, arguments, stack)
+          track(name, trackFile, fn, arguments, stack)
         }
-        return fs['__' + fn].apply(this, arguments)
+        return obj['__' + fn].apply(this, arguments)
       }
     }
   })
 }
 
-module.exports.init = init
+function init () {
+  var outfile = process.argv[3]
+    , modules = process.argv[4].split(',')
+
+  data.argv    = process.argv
+  data.cwd     = process.cwd()
+  data.modules = modules
+
+  writeData(outfile)
+
+  modules.forEach(function (mod) {
+    var m = require(mod)
+    trackMethods(mod, m, outfile)
+  })
+}
+
+module.exports.trackMethods = trackMethods
+module.exports.init         = init
+module.exports.args         = 2
