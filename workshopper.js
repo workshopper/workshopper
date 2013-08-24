@@ -32,12 +32,14 @@ function Workshopper (options) {
   if (typeof options.appDir != 'string')
     throw new TypeError('need to provide an `appDir` String option')
 
-  this.name    = options.name
-  this.title   = options.title
-  this.width   = typeof options.width == 'number' ? options.width : defaultWidth
+  this.name        = options.name
+  this.title       = options.title
+  this.subtitle    = options.subtitle
+  this.menuOptions = options.menu
+  this.width       = typeof options.width == 'number' ? options.width : defaultWidth
 
-  this.appDir  = options.appDir
-  this.dataDir = path.join(
+  this.appDir      = options.appDir
+  this.dataDir     = path.join(
       process.env.HOME || process.env.USERPROFILE
     , '.config'
     , this.name
@@ -78,6 +80,7 @@ Workshopper.prototype.init = function () {
 
 Workshopper.prototype.verify = function (run) {
   var current = this.getData('current')
+    , setupFn
     , dir
     , setup
 
@@ -86,19 +89,28 @@ Workshopper.prototype.verify = function (run) {
     return process.exit(1)
   }
   
-  dir   = this.dirFromName(current)
-  setup = require(dir + '/setup.js')(run)
+  dir     = this.dirFromName(current)
+  setupFn = require(dir + '/setup.js')
 
-  setTimeout(this.runSetup.bind(this, setup, dir, current, run), setup.wait || 1)
+  if (!setupFn.async) {
+    setup = setupFn(run)
+    return setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
+  }
+
+  setupFn(run, function (setup) {
+    setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
+  })
 }
 
 Workshopper.prototype.printMenu = function () {
   var menu = showMenu({
       name      : this.name
     , title     : this.title
+    , subtitle  : this.subtitle
     , width     : this.width
     , completed : this.getData('completed') || []
     , problems  : this.problems()
+    , menu      : this.menuOptions
   })
   menu.on('select', onselect.bind(this))
   menu.on('exit', function () {
@@ -146,7 +158,7 @@ Workshopper.prototype.dirFromName = function (name) {
         .replace(/[^a-z_]/gi, '')
   )
 }
-Workshopper.prototype.runSetup = function (setup, dir, current, run) {
+Workshopper.prototype.runSolution = function (setup, dir, current, run) {
   var a   = runArgs(setup)
     , b   = [ dir + '/solution.js' ].concat(setup.args || [])
     , v   = verify(a, b, {
