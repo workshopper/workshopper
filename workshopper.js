@@ -183,16 +183,26 @@ Workshopper.prototype.runSolution = function (setup, dir, current, run) {
     setup.stdin.pipe(v)
     setup.stdin.resume()
   }
-  
-  if (setup.a)
+
+  if (setup.a && (!setup.a._readableState || !setup.a._readableState.flowing))
     setup.a.resume()
-  if (setup.b)
+  if (setup.b && (!setup.a._readableState || !setup.a._readableState.flowing))
     setup.b.resume()
 }
 
 function solutionCmd (dir, setup) {
   var args = setup.args || setup.solutionArgs || []
-  return [ dir + '/solution.js' ].concat(args)
+    , exec
+
+  if (setup.solutionExecWrap) {
+    exec = [ require.resolve('./exec-wrapper') ]
+    exec = exec.concat(setup.solutionExecWrap)
+    exec = exec.concat(dir + '/solution.js')
+  } else {
+    exec = [ dir + '/solution.js' ]
+  }
+
+  return exec.concat(args)
 }
 
 function submissionCmd (setup) {
