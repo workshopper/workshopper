@@ -29,6 +29,8 @@ Workshopper({
 }).init()
 ```
 
+Additionally you can supply a `'subtitle'` String option and a `'menu'` object option that will be passed to [terminal-menu](https://github.com/substack/terminal-menu) so you can change the `'bg'` and `'fg'` colours.
+
 Create a *menu.json* file in your project that looks something like this:
 
 ```js
@@ -45,10 +47,10 @@ Where the menu items correspond to lower-case, punctuation-free directories in a
 Each subdirectory in the *problems/* directory should contain the following files:
 
  * **problem.txt** - a description of the problem. You can use [colors-tmpl](https://github.com/rvagg/colors-tmpl) formatting for colouring and you may also use the string `{appname}` to substitute in the name you provided to `Workshopper()` and `{rootdir}` to substitute for the absolute path of where your application has been installed on the users' system.
- * **setup.js** - a module that sets up the test environment and can verify solutions. Look at the exercises in **[learnyounode](https://github.com/rvagg/learnyounode)** to figure out what you can do (quite a lot).
- * **solution.js** - the "official" solution to the problem.
+ * **setup.js** - a module that sets up the test environment with any fixtures required and can verify solutions. More on this below.
+ * **solution.js** - the "official" solution to the problem. You can have multiple files in your solution, they filenames just need to be prefixed with 'solution' and end with '.js' and they will all be shown together as the official solution.
 
-**Workshopper** should also be largely compatible with the exercises in **[stream-adventure](https://github.com/substack/stream-adventure)**.
+**Workshopper** should also be largely compatible with the exercises in **[stream-adventure](https://github.com/substack/stream-adventure)**. Feel free to mix and match exercises from the projects that use Workshopper!
 
 ## License
 
