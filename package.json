@@ -5,6 +5,9 @@
   "main": "./workshopper.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
   "license": "MIT",
+  "repository": {
+    "url": "git://github.com/rvagg/workshopper"
+  },
   "dependencies": {
     "map-async": "~0.1.1",
     "tuple-stream": "~0.0.2",
