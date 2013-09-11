@@ -4,10 +4,12 @@
   "description": "A terminal workshop runner framework",
   "main": "./workshopper.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
-  "license": "MIT",
+  "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
   "repository": {
-    "url": "git://github.com/rvagg/workshopper"
+    "type": "git",
+    "url": "https://github.com/rvagg/workshopper.git"
   },
+  "license": "MIT",
   "dependencies": {
     "map-async": "~0.1.1",
     "tuple-stream": "~0.0.2",
