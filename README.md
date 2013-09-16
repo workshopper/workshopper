@@ -8,7 +8,7 @@
 
 ![Level Me Up Scotty!](https://raw.github.com/rvagg/levelmeup/master/levelmeup.png)
 
-**Workshopper** is used by **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Node.js workshop application, and **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Level* / NodeBase workshop application.
+**Workshopper** is used by **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Node.js workshop application, and **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Level\* / NodeBase workshop application.
 
 ## Usage
 
@@ -185,6 +185,10 @@ module.exports = function (run) {
 ```
 
 **You must always consider whether "run" mode is going to cause problems with your setup.js**
+
+### ... MORE TO COME
+
+*I'm still documenting this, check back later for more content here or just read the existing exercises available and go from there! Feel free to open an issue here if you have questions.*
 
 ## License
 
