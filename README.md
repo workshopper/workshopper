@@ -8,11 +8,11 @@
 
 ![Level Me Up Scotty!](https://raw.github.com/rvagg/levelmeup/master/levelmeup.png)
 
-**Workshopper** is used by **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Node.js workshop application, and **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Level\* / NodeBase workshop application.
+**Workshopper** is used by **[learnyounode](https://github.com/rvagg/learnyounode)**, an introduction to Node.js workshop application, and **[levelmeup](https://github.com/rvagg/levelmeup)**, an introduction to Level\* / NodeBase workshop application.
 
 ## Usage
 
-Mostly you should just follow how **[learnyounode](https://github.com/rvagg/learnyounode)** and **[learnyounode](https://github.com/rvagg/learnyounode)** works.
+Mostly you should just follow how **[learnyounode](https://github.com/rvagg/learnyounode)** and **[levelmeup](https://github.com/rvagg/levelmeup)** works.
 
 Create a new Node project, add a `"bin"` that looks something like this:
 
