@@ -1,6 +1,6 @@
 {
   "name": "workshopper",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A terminal workshop runner framework",
   "main": "./workshopper.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
@@ -18,7 +18,7 @@
     "colors-tmpl": "~0.1.0",
     "terminal-menu": "~0.1.0",
     "optimist": "~0.6.0",
-    "pygmentize-bundled": "~1.2.0",
+    "pygmentize-bundled": "~2.1.0",
     "xtend": "~2.0.6"
   }
 }
