@@ -36,6 +36,7 @@ function Workshopper (options) {
   this.title       = options.title
   this.subtitle    = options.subtitle
   this.menuOptions = options.menu
+  this.helpFile    = options.helpFile
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
 
   this.appDir      = options.appDir
@@ -50,7 +51,7 @@ function Workshopper (options) {
 
 Workshopper.prototype.init = function () {
   if (argv.h || argv.help || argv._[0] == 'help')
-    return this._printUsage()
+    return this._printHelp()
 
   if (argv.v || argv.version || argv._[0] == 'version')
     return console.log(this.name + '@' + require(path.join(this.appDir, 'package.json')).version)
@@ -123,7 +124,7 @@ Workshopper.prototype.printMenu = function () {
   })
   menu.on('help', function () {
     console.log()
-    return this._printUsage()
+    return this._printHelp()
   }.bind(this))
 }
 
@@ -227,6 +228,13 @@ function submissionCmd (setup) {
   }
 
   return exec.concat(args)
+}
+
+Workshopper.prototype._printHelp = function () {
+  this._printUsage()
+
+  if (this.helpFile)
+    printText(this.name, this.appDir, this.helpFile)
 }
 
 Workshopper.prototype._printUsage = function () {
@@ -333,7 +341,12 @@ function onselect (name) {
     console.log(
       bold(' » To execute your program in a test environment, run:\n   `' + this.name + ' run program.js`.'))
     console.log(
-      bold(' » To verify your program, run: `' + this.name + ' verify program.js`.\n'))
+      bold(' » To verify your program, run: `' + this.name + ' verify program.js`.'))
+    if (this.helpFile) {
+      console.log(
+        bold(' » For help with this problem or with ' + this.name + ', run:\n   `' + this.name + ' help`.'))
+    }
+    console.log()
   }.bind(this))
 }
 
