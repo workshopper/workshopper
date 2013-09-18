@@ -17,6 +17,10 @@ function printText (name, appDir, file, callback) {
     Object.keys(variables).forEach(function (k) {
       contents = contents.replace(new RegExp('\\{' + k + '\\}', 'gi'), variables[k])
     })
+    // proper path resolution
+    contents = contents.replace(/\{rootdir:([^}]+)\}/, function (match, subpath) {
+      return path.join(appDir, subpath)
+    })
     console.log(contents)
     callback && callback()
   })
