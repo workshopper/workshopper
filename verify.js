@@ -3,6 +3,7 @@ const spawn   = require('child_process').spawn
     , through = require('through')
     , split   = require('split')
     , path    = require('path')
+    , coffee  = require('coffee-script')
 
 const wrap    = require('./term-util').wrap
     , red     = require('./term-util').red
@@ -12,7 +13,7 @@ const wrap    = require('./term-util').wrap
 function verify (acmd, bcmd, opts) {
   if (!opts) opts = {}
 
-  var a = spawn(process.execPath, acmd)
+  var a
     , b
     , c
     , tr
@@ -22,6 +23,13 @@ function verify (acmd, bcmd, opts) {
         if (b && b.kill)
           b.kill()
       }
+
+  if (coffee.helpers.isCoffee(acmd)) {
+    a = spawn(__dirname + '/node_modules/coffee-script/bin/coffee', acmd);
+  }
+  else {
+    a = spawn(process.execPath, acmd);
+  }
 
   if (opts.run) {
     ;(opts.a || a.stdout).pipe(process.stdout)
@@ -46,7 +54,7 @@ function verify (acmd, bcmd, opts) {
   tr = through()
   tr.pipe(opts.a || a.stdin)
   tr.pipe(opts.b || b.stdin)
-  
+
   return tr
 }
 
@@ -60,7 +68,7 @@ function compare (actual, expected, opts) {
         var eq = pair[0] === pair[1]
 
         equal = equal && eq
-        
+
         if (opts.long) {
           this.queue('ACTUAL:   '
             + colourfn(eq ? 'PASS' : 'FAIL')(JSON.stringify(pair[0]))
