@@ -12,6 +12,7 @@ const showMenu  = require('./menu')
     , bold      = require('./term-util').bold
     , red       = require('./term-util').red
     , green     = require('./term-util').green
+    , yellow    = require('./term-util').yellow
     , center    = require('./term-util').center
 
 const defaultWidth = 65
@@ -164,6 +165,10 @@ Workshopper.prototype.dirFromName = function (name) {
   )
 }
 Workshopper.prototype.runSolution = function (setup, dir, current, run) {
+  console.log(
+    bold(yellow((run ? 'Running' : 'Verifying') + ' "' + current + '"...')) + '\n'
+  )
+
   var a   = submissionCmd(setup)
     , b   = solutionCmd(dir, setup)
     , v   = verify(a, b, {
