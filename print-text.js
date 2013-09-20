@@ -18,7 +18,7 @@ function printText (name, appDir, file, callback) {
       contents = contents.replace(new RegExp('\\{' + k + '\\}', 'gi'), variables[k])
     })
     // proper path resolution
-    contents = contents.replace(/\{rootdir:([^}]+)\}/, function (match, subpath) {
+    contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
       return path.join(appDir, subpath)
     })
     console.log(contents)
