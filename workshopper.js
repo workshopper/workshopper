@@ -328,13 +328,21 @@ function onselect (name) {
   console.log('  ' + repeat('#', 69) + '\n')
   
   var dir  = this.dirFromName(name)
-    , file = path.resolve(dir, 'problem.txt')
+    , txt  = path.resolve(dir, 'problem.txt')
+    , md   = path.resolve(dir, 'problem.md')
+    , file
 
   this.updateData('current', function () {
     return name
   })
 
-  printText(this.name, this.appDir, file, function () {
+  // Preferentially render Markdown, fall back to text if it's not present.
+  if (fs.existsSync(md))
+    file = md
+  else
+    file = txt
+
+  printText(this.name, this.appDir, file, path.extname(file), function () {
     console.log(
       bold('\n » To print these instructions again, run: `' + this.name + ' print`.'))
     console.log(

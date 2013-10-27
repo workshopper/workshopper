@@ -49,7 +49,7 @@ Where the menu items correspond to lower-case, punctuation-free directories in a
 
 Each subdirectory in the *problems/* directory should contain the following files:
 
- * **problem.txt** - a description of the problem, in [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). You should use fenced code blocks for example code. You can use [colors-tmpl](https://github.com/rvagg/colors-tmpl) formatting for colouring and you may also use the string `{appname}` to substitute in the name you provided to `Workshopper()` and `{rootdir}` to substitute for the absolute path of where your application has been installed on the users' system.
+ * **problem.md** - a description of the problem, in [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). You should use fenced code blocks for example code. If you prefer, you can instead use a plain text file named **problem.txt**. For either file type, you can use [colors-tmpl](https://github.com/rvagg/colors-tmpl) formatting for colouring and you may also use the string `{appname}` to substitute in the name you provided to `Workshopper()` and `{rootdir}` to substitute for the absolute path of where your application has been installed on the users' system.
  * **setup.js** - a module that sets up the test environment with any fixtures required and can verify solutions. More on this below.
  * **solution.js** - the "official" solution to the problem. You can have multiple files in your solution, they filenames just need to be prefixed with 'solution' and end with '.js' and they will all be shown together as the official solution.
 
