@@ -1,6 +1,7 @@
 const fs         = require('fs')
     , path       = require('path')
     , colorsTmpl = require('colors-tmpl')
+    , msee       = require('msee')
 
 function printText (name, appDir, file, callback) {
   var variables = {
@@ -21,6 +22,9 @@ function printText (name, appDir, file, callback) {
     contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
       return path.join(appDir, subpath)
     })
+    // convert Markdown to ANSI
+    contents = msee.parse(contents)
+
     console.log(contents)
     callback && callback()
   })

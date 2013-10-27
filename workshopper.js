@@ -4,6 +4,7 @@ const argv       = require('optimist').argv
     , mkdirp     = require('mkdirp')
     , map        = require('map-async')
     , pygmentize = require('pygmentize-bundled')
+    , msee       = require('msee')
 
 const showMenu  = require('./menu')
     , verify    = require('./verify')
@@ -267,15 +268,9 @@ function onpass (setup, dir, current) {
   map(
       solutions
     , function (file, i, callback) {
-        pygmentize(
-            { lang: 'js', format: 'terminal256' }
-          , file.content
-          , function (err, content) {
-              if (!err)
-                file.content = content.toString()
-              callback(null, file)
-            }
-        )
+        // code fencing is necessary for msee to render the solution as code
+        file.content = msee.parse("```js\n" + file.content + "\n```")
+        callback(null, file)
       }
     , function (err, solutions) {
         if (err)
