@@ -3,7 +3,6 @@ const argv       = require('optimist').argv
     , path       = require('path')
     , mkdirp     = require('mkdirp')
     , map        = require('map-async')
-    , pygmentize = require('pygmentize-bundled')
     , msee       = require('msee')
 
 const showMenu  = require('./menu')
