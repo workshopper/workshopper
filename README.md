@@ -193,6 +193,15 @@ module.exports = function (run) {
 
 *I'm still documenting this, check back later for more content here or just read the existing exercises available and go from there! Feel free to open an issue here if you have questions.*
 
+### Contributors
+
+<b><code>workshopper</code></b> is proudly brought to you by the following hackers:
+
+* [@rvagg](https://github.com/rvagg)
+* [@substack](https://github.com/substack)
+* [@maxogden](https://github.com/maxogden)
+* [@cjb](https://github.com/cjb)
+
 ## License
 
 **Workshopper** is Copyright (c) 2013 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licenced under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE file for more details.
