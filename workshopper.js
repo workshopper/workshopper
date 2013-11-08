@@ -268,7 +268,7 @@ function onpass (setup, dir, current) {
       solutions
     , function (file, i, callback) {
         // code fencing is necessary for msee to render the solution as code
-        file.content = msee.parse("```js\n" + file.content + "\n```")
+        file.content = msee.parse('```js\n' + file.content + '\n```')
         callback(null, file)
       }
     , function (err, solutions) {

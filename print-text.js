@@ -22,7 +22,7 @@ function printText (name, appDir, file, filetype, callback) {
     contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
       return path.join(appDir, subpath)
     })
-    if (filetype === ".md") {
+    if (filetype == '.md') {
       // convert Markdown to ANSI
       contents = msee.parse(contents)
     }
