@@ -18,7 +18,7 @@
     "colors-tmpl": "~0.1.0",
     "terminal-menu": "~0.1.0",
     "optimist": "~0.6.0",
-    "pygmentize-bundled": "~2.1.0",
-    "xtend": "~2.1.1"
+    "xtend": "~2.1.1",
+    "msee": "~0.1.0-alpha.3"
   }
 }
