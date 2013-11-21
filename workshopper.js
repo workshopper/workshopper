@@ -249,6 +249,10 @@ Workshopper.prototype._printUsage = function () {
 function onpass (setup, dir, current) {
   console.log(bold(green('# PASS')))
   console.log('\nYour solution to ' + current + ' passed!')
+
+  if (setup.hideSolutions)
+    return
+
   console.log('\nHere\'s what the official solution is if you want to compare notes:\n')
 
   var solutions = fs.readdirSync(dir).filter(function (file) {
