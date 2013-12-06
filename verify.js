@@ -42,6 +42,10 @@ function verify (acmd, bcmd, opts) {
     kill()
     tr.emit('fail')
   })
+  
+  process.once('exit', function () {
+      kill()
+  });
 
   tr = through()
   tr.pipe(opts.a || a.stdin)
