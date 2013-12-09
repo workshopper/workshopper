@@ -135,13 +135,13 @@ Often a problem will not lend itself to concocting console output so you need to
 var PassThrough = require('stream').PassThrough || require('readable-stream/passthrough')
   , hyperquest  = require('hyperquest')
 
-module.exports = function () {
+module.exports = function (run) {
   var submissionOut = new PassThrough()
     , solutionout   = new PassThrough()
 
   setTimeout(function () {
     hyperquest.get('http://localhost:8000').pipe(submissionOut)
-    hyperquest.get('http://localhost:8001').pipe(solutionOut)
+    if (!run) hyperquest.get('http://localhost:8001').pipe(solutionOut)
   }, 500)
 
   return {
