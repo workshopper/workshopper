@@ -38,6 +38,7 @@ function Workshopper (options) {
   this.subtitle    = options.subtitle
   this.menuOptions = options.menu
   this.helpFile    = options.helpFile
+  this.creditsFile = options.creditsFile
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
 
   this.appDir      = options.appDir
@@ -117,6 +118,7 @@ Workshopper.prototype.printMenu = function () {
     , completed : this.getData('completed') || []
     , problems  : this.problems()
     , menu      : this.menuOptions
+    , credits   : this.creditsFile && fs.existsSync(this.creditsFile)
   })
   menu.on('select', onselect.bind(this))
   menu.on('exit', function () {
@@ -126,6 +128,10 @@ Workshopper.prototype.printMenu = function () {
   menu.on('help', function () {
     console.log()
     return this._printHelp()
+  }.bind(this))
+  menu.on('credits', function () {
+    console.log()
+    return this._printCredits()
   }.bind(this))
 }
 
@@ -240,6 +246,11 @@ Workshopper.prototype._printHelp = function () {
 
   if (this.helpFile)
     printText(this.name, this.appDir, this.helpFile)
+}
+
+Workshopper.prototype._printCredits = function () {
+  if (this.creditsFile)
+    printText(this.name, this.appDir, this.creditsFile)
 }
 
 Workshopper.prototype._printUsage = function () {

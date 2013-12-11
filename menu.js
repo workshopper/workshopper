@@ -36,8 +36,10 @@ function showMenu (opts) {
 
   menu.write(repeat('-', opts.width) + '\n')
   menu.add(bold('HELP'))
+  if (opts.credits)
+    menu.add(bold('CREDITS'))
   menu.add(bold('EXIT'))
-  
+
   menu.on('select', function (label) {
     var name = label.replace(/(^[^»]+»[^\s]+ )|(\s{2}.*)/g, '')
     
@@ -48,6 +50,9 @@ function showMenu (opts) {
 
     if (name === bold('HELP'))
       return emitter.emit('help')
+
+    if (name === bold('CREDITS'))
+      return emitter.emit('credits')
 
     emitter.emit('select', name)
   })
