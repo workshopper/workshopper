@@ -56,6 +56,12 @@ Workshopper.prototype.init = function () {
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
 
+  if (argv._[0] == 'credits')
+    return this._printCredits()
+
+  if (argv._[0] == 'setups')
+    return this._printSetups()
+
   if (argv.v || argv.version || argv._[0] == 'version')
     return console.log(this.name + '@' + require(path.join(this.appDir, 'package.json')).version)
 
@@ -379,6 +385,14 @@ function onselect (name) {
       console.log(
         bold(' » For help with this problem or with ' + this.name + ', run:\n   `' + this.name + ' help`.'))
     }
+    if (this.creditsFile) {
+      console.log(
+        bold(' » For a list of those who contributed to ' + this.name + ', run:\n   `' + this.name + ' credits`.'))
+    }
+    if (this.setupsFile) {
+      console.log(
+        bold(' » For any setup/installion prerequisites for ' + this.name + ', run:\n   `' + this.name + ' setups`.'))
+    }        
     console.log()
   }.bind(this))
 }

@@ -27,12 +27,18 @@ Workshopper({
   , title    : 'LEARN YOU THE NODE.JS FOR MUCH WIN!'
   , appDir   : __dirname
   , helpFile : path.join(__dirname, 'help.txt')
+  , setupsFile : path.join(__dirname, 'setups.txt')
+  , creditsFile : path.join(__dirname, 'credits.txt')
 }).init()
 ```
 
 Additionally you can supply a `'subtitle'` String option and a `'menu'` object option that will be passed to [terminal-menu](https://github.com/substack/terminal-menu) so you can change the `'bg'` and `'fg'` colours.
 
 The `'helpFile'` option is optional but if you supply one, users will get the contents of this file when they type `app help` (where 'app' is your workshop application name). They will also see a pointer to this whenever they select a new exercise, so make sure you fill it up with details of where to receive actual help for your workshop: a repo, a Google Group, an IRC channel, whatever.
+
+The `'setupsFile'` option is optional but if you supply one, users will get the contents of this file when they type `app setups` (where 'app' is your workshop application name). This file is intended to contain any instructions required for installations or setups which are prerequisites needed to begin the lessons. They will also see a pointer to this whenever they select a new exercise.
+
+The `'creditsFile'` option is optional but if you supply one, users will get the contents of this file when they type `app credits` (where 'app' is your workshop application name). This file is intended to give credit to those who have added or assisted in creating the exercises. They will also see a pointer to this whenever they select a new exercise.
 
 Create a *menu.json* file in your project that looks something like this:
 
