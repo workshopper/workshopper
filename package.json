@@ -6,7 +6,7 @@
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rvagg/workshopper.git"
+    "url": "https://github.com/braz/workshopper.git"
   },
   "license": "MIT",
   "dependencies": {
