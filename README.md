@@ -215,6 +215,19 @@ module.exports = function (run) {
 * [@bobholt](https://github.com/bobholt)
 * [@jessmartin](https://github.com/jessmartin)
 * [@braz](https://github.com/braz)
+* [@timoxley](https://github.com/timoxley)
+* [@dominictarr](https://github.com/dominictarr)
+
+#### Maintainers
+
+* [@rvagg](https://github.com/rvagg)
+* [@substack](https://github.com/substack)
+* [@maxogden](https://github.com/maxogden)
+* [@cjb](https://github.com/cjb)
+* [@timoxley](https://github.com/timoxley)
+* [@dominictarr](https://github.com/dominictarr)
+* [@braz](https://github.com/braz)
+
 
 ## License
 
