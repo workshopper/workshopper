@@ -23,12 +23,12 @@ const Workshopper = require('workshopper')
     , path        = require('path')
 
 Workshopper({
-    name     : 'learnyounode'
-  , title    : 'LEARN YOU THE NODE.JS FOR MUCH WIN!'
-  , appDir   : __dirname
-  , helpFile : path.join(__dirname, 'help.txt')
-  , setupsFile : path.join(__dirname, 'setups.txt')
-  , creditsFile : path.join(__dirname, 'credits.txt')
+    name              : 'learnyounode'
+  , title             : 'LEARN YOU THE NODE.JS FOR MUCH WIN!'
+  , appDir            : __dirname
+  , helpFile          : path.join(__dirname, 'help.txt')
+  , prerequisitesFile : path.join(__dirname, 'prerequisites.txt')
+  , creditsFile       : path.join(__dirname, 'credits.txt')
 }).init()
 ```
 
@@ -36,7 +36,7 @@ Additionally you can supply a `'subtitle'` String option and a `'menu'` object o
 
 The `'helpFile'` option is optional but if you supply one, users will get the contents of this file when they type `app help` (where 'app' is your workshop application name). They will also see a pointer to this whenever they select a new exercise, so make sure you fill it up with details of where to receive actual help for your workshop: a repo, a Google Group, an IRC channel, whatever.
 
-The `'setupsFile'` option is optional but if you supply one, users will get the contents of this file when they type `app setups` (where 'app' is your workshop application name). This file is intended to contain any instructions required for installations or setups which are prerequisites needed to begin the lessons. They will also see a pointer to this whenever they select a new exercise.
+The `'prerequisitesFile'` option is optional but if you supply one, users will get the contents of this file when they type `app prerequisites` (where 'app' is your workshop application name). This file is intended to contain any instructions required for installations or set ups which are prerequisites needed to begin the lessons. They will also see a pointer to this whenever they select a new exercise.
 
 The `'creditsFile'` option is optional but if you supply one, users will get the contents of this file when they type `app credits` (where 'app' is your workshop application name). This file is intended to give credit to those who have added or assisted in creating the exercises. They will also see a pointer to this whenever they select a new exercise.
 
@@ -207,6 +207,7 @@ module.exports = function (run) {
 * [@substack](https://github.com/substack)
 * [@maxogden](https://github.com/maxogden)
 * [@cjb](https://github.com/cjb)
+* [@braz](https://github.com/braz)
 
 ## License
 

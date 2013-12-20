@@ -36,8 +36,8 @@ function showMenu (opts) {
 
   menu.write(repeat('-', opts.width) + '\n')
   menu.add(bold('HELP'))
-  if (opts.setups)
-    menu.add(bold('SETUPS'))
+  if (opts.prerequisites)
+    menu.add(bold('PREREQUISITES'))
   if (opts.credits)
     menu.add(bold('CREDITS'))
   menu.add(bold('EXIT'))
@@ -56,8 +56,8 @@ function showMenu (opts) {
     if (name === bold('CREDITS'))
       return emitter.emit('credits')
 
-    if (name === bold('SETUPS'))
-      return emitter.emit('setups')
+    if (name === bold('PREREQUISITES'))
+      return emitter.emit('prerequisites')
     
     emitter.emit('select', name)
   })

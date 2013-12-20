@@ -10,6 +10,10 @@
     Show the currently selected workshop.
   {bold}{green}{appname}{/green} print{/bold}
     Print the instructions for the currently selected workshop.
+  {bold}{green}{appname}{/green} credits{/bold}
+    Print the credits for these workshops.
+  {bold}{green}{appname}{/green} prerequisites{/bold}
+    Print any prerequisites for these workshops.
   {bold}{green}{appname}{/green} run program.js{/bold}
     Run your program against the selected input.
   {bold}{green}{appname}{/green} verify program.js{/bold}

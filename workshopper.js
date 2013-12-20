@@ -39,7 +39,7 @@ function Workshopper (options) {
   this.menuOptions = options.menu
   this.helpFile    = options.helpFile
   this.creditsFile = options.creditsFile
-  this.setupsFile  = options.setupsFile
+  this.prerequisitesFile  = options.prerequisitesFile
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
 
   this.appDir      = options.appDir
@@ -59,8 +59,8 @@ Workshopper.prototype.init = function () {
   if (argv._[0] == 'credits')
     return this._printCredits()
 
-  if (argv._[0] == 'setups')
-    return this._printSetups()
+  if (argv._[0] == 'prerequisites')
+    return this._printPrerequisities()
 
   if (argv.v || argv.version || argv._[0] == 'version')
     return console.log(this.name + '@' + require(path.join(this.appDir, 'package.json')).version)
@@ -118,15 +118,15 @@ Workshopper.prototype.verify = function (run) {
 
 Workshopper.prototype.printMenu = function () {
   var menu = showMenu({
-      name      : this.name
-    , title     : this.title
-    , subtitle  : this.subtitle
-    , width     : this.width
-    , completed : this.getData('completed') || []
-    , problems  : this.problems()
-    , menu      : this.menuOptions
-    , credits   : this.creditsFile && fs.existsSync(this.creditsFile)
-    , setups    : this.setupsFile && fs.existsSync(this.setupsFile)
+      name              : this.name
+    , title             : this.title
+    , subtitle          : this.subtitle
+    , width             : this.width
+    , completed         : this.getData('completed') || []
+    , problems          : this.problems()
+    , menu              : this.menuOptions
+    , credits           : this.creditsFile && fs.existsSync(this.creditsFile)
+    , prerequisites     : this.prerequisitesFile && fs.existsSync(this.prerequisitesFile)
   })
   menu.on('select', onselect.bind(this))
   menu.on('exit', function () {
@@ -141,9 +141,9 @@ Workshopper.prototype.printMenu = function () {
     console.log()
     return this._printCredits()
   }.bind(this))
-  menu.on('setups', function () {
+  menu.on('prerequisites', function () {
     console.log()
-    return this._printSetups()
+    return this._printPrerequisites()
   }.bind(this))
 }
 
@@ -265,9 +265,9 @@ Workshopper.prototype._printCredits = function () {
     printText(this.name, this.appDir, this.creditsFile)
 }
 
-Workshopper.prototype._printSetups = function () {
-  if (this.setupsFile)
-    printText(this.name, this.appDir, this.setupsFile)
+Workshopper.prototype._printPrerequisites = function () {
+  if (this.prerequisitesFile)
+    printText(this.name, this.appDir, this.prerequisitesFile)
 }
 
 Workshopper.prototype._printUsage = function () {
@@ -389,9 +389,9 @@ function onselect (name) {
       console.log(
         bold(' » For a list of those who contributed to ' + this.name + ', run:\n   `' + this.name + ' credits`.'))
     }
-    if (this.setupsFile) {
+    if (this.prerequisitesFile) {
       console.log(
-        bold(' » For any setup/installion prerequisites for ' + this.name + ', run:\n   `' + this.name + ' setups`.'))
+        bold(' » For any set up/installion prerequisites for ' + this.name + ', run:\n   `' + this.name + ' prerequisites`.'))
     }        
     console.log()
   }.bind(this))
