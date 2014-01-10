@@ -1,7 +1,11 @@
-const fs         = require('fs')
-    , path       = require('path')
-    , colorsTmpl = require('colors-tmpl')
-    , msee       = require('msee')
+const fs          = require('fs')
+    , path        = require('path')
+    , colorsTmpl  = require('colors-tmpl')
+    , msee        = require('msee')
+    , mseeOptions = {
+          paragraphStart: ''
+        , paragraphEnd: '\n\n'
+      }
 
 function printText (name, appDir, file, filetype, callback) {
   var variables = {
@@ -24,7 +28,7 @@ function printText (name, appDir, file, filetype, callback) {
     })
     if (filetype == '.md') {
       // convert Markdown to ANSI
-      contents = msee.parse(contents)
+      contents = msee.parse(contents, mseeOptions)
     }
     console.log(contents)
     callback && callback()
