@@ -24,7 +24,7 @@ function printText (name, appDir, file, filetype, callback) {
     })
     // proper path resolution
     contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
-      return path.join(appDir, subpath)
+      return 'file://' + path.join(appDir, subpath)
     })
     if (filetype == '.md') {
       // convert Markdown to ANSI
