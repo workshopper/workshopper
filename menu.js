@@ -43,8 +43,8 @@ function showMenu (opts) {
   menu.add(bold('EXIT'))
 
   menu.on('select', function (label) {
-    var name = label.replace(/(^[^»]+»[^\s]+ )|(\s{2}.*)/g, '')
-    
+    var name = label.replace(/^(\033\[[0-9;]*m»?){2}\s+/, '').replace(/\s+$/, '')
+
     menu.close()
 
     if (name === bold('EXIT'))
