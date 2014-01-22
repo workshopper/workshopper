@@ -33,6 +33,7 @@ function Workshopper (options) {
   if (typeof options.appDir != 'string')
     throw new TypeError('need to provide an `appDir` String option')
 
+  this.id
   this.name        = options.name
   this.title       = options.title
   this.subtitle    = options.subtitle
@@ -161,15 +162,15 @@ Workshopper.prototype.getData = function (name) {
   return null
 }
 
-Workshopper.prototype.updateData = function (name, fn) {
+Workshopper.prototype.updateData = function (id, fn) {
   var json = {}
     , file
 
   try {
-    json = this.getData(name)
+    json = this.getData(id)
   } catch (e) {}
 
-  file = path.resolve(this.dataDir, name + '.json')
+  file = path.resolve(this.dataDir, id + '.json')
   fs.writeFileSync(file, JSON.stringify(fn(json)))
 }
 
@@ -355,6 +356,10 @@ function onfail (setup, dir, current) {
 }
 
 function onselect (name) {
+  var name = name
+  var id = name.toLowerCase()
+        .replace(/\s/g, '_')
+        .replace(/[^a-z_]/gi, '')
   console.log('\n  ' + repeat('#', 69))
   console.log(center(this.width, '~~  ' + name + '  ~~'))
   console.log('  ' + repeat('#', 69) + '\n')
