@@ -33,7 +33,6 @@ function Workshopper (options) {
   if (typeof options.appDir != 'string')
     throw new TypeError('need to provide an `appDir` String option')
 
-  this.id
   this.name        = options.name
   this.title       = options.title
   this.subtitle    = options.subtitle
@@ -356,10 +355,6 @@ function onfail (setup, dir, current) {
 }
 
 function onselect (name) {
-  var name = name
-  var id = name.toLowerCase()
-        .replace(/\s/g, '_')
-        .replace(/[^a-z_]/gi, '')
   console.log('\n  ' + repeat('#', 69))
   console.log(center(this.width, '~~  ' + name + '  ~~'))
   console.log('  ' + repeat('#', 69) + '\n')
