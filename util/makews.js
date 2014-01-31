@@ -46,7 +46,7 @@ function processExercise (name) {
     if (err)
       return console.error('Error making', dir + ':', err)
 
-    ;'problem.md setup.js solution/index.js'.split(' ').forEach(function (f) {
+    ;'problem.md exercise.js solution/index.js'.split(' ').forEach(function (f) {
       f = path.join(dir, f)
       fs.exists(f, function (exists) {
         if (exists)
