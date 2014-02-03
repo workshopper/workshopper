@@ -3,10 +3,10 @@ const tmenu        = require('terminal-menu')
     , fs           = require('fs')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
+    , chalk        = require('chalk')
 
-const repeat    = require('./term-util').repeat
-    , bold      = require('./term-util').bold
-    , italic    = require('./term-util').italic
+const util         = require('./util')
+
 
 function showMenu (opts) {
   var emitter  = new EventEmitter()
@@ -17,10 +17,10 @@ function showMenu (opts) {
       }, opts.menu))
 
   menu.reset()
-  menu.write(bold(opts.title) + '\n')
+  menu.write(chalk.bold(opts.title) + '\n')
   if (typeof opts.subtitle == 'string')
-    menu.write(italic(opts.subtitle) + '\n')
-  menu.write(repeat('-', opts.width) + '\n')
+    menu.write(chalk.italic(opts.subtitle) + '\n')
+  menu.write(util.repeat('-', opts.width) + '\n')
     
   opts.exercises.forEach(function (name) {
     var isDone = opts.completed.indexOf(name) >= 0
@@ -29,18 +29,18 @@ function showMenu (opts) {
     name = name
 
     if (isDone)
-      return menu.add(bold('»') + ' ' + name + Array(63 - m.length - name.length + 1).join(' ') + m)
+      return menu.add(chalk.bold('»') + ' ' + name + Array(opts.width - m.length - name.length + 1).join(' ') + m)
     else
-      menu.add(bold('»') + ' ' + name)
+      menu.add(chalk.bold('»') + ' ' + name)
   })
 
-  menu.write(repeat('-', opts.width) + '\n')
-  menu.add(bold('HELP'))
+  menu.write(util.repeat('-', opts.width) + '\n')
+  menu.add(chalk.bold('HELP'))
   if (opts.prerequisites)
-    menu.add(bold('PREREQUISITES'))
+    menu.add(chalk.bold('PREREQUISITES'))
   if (opts.credits)
-    menu.add(bold('CREDITS'))
-  menu.add(bold('EXIT'))
+    menu.add(chalk.bold('CREDITS'))
+  menu.add(chalk.bold('EXIT'))
 
   menu.on('select', function (label) {
     var name = label.replace(/(^\S+\s+)|(\s+(\[COMPLETED\])?$)/g, '')
@@ -49,16 +49,16 @@ function showMenu (opts) {
     menu.reset()    
     menu.close()
 
-    if (name === bold('EXIT'))
+    if (name === chalk.bold('EXIT'))
       return emitter.emit('exit')
 
-    if (name === bold('HELP'))
+    if (name === chalk.bold('HELP'))
       return emitter.emit('help')
 
-    if (name === bold('CREDITS'))
+    if (name === chalk.bold('CREDITS'))
       return emitter.emit('credits')
 
-    if (name === bold('PREREQUISITES'))
+    if (name === chalk.bold('PREREQUISITES'))
       return emitter.emit('prerequisites')
     
     emitter.emit('select', name)
@@ -68,5 +68,6 @@ function showMenu (opts) {
   
   return emitter
 }
+
 
 module.exports = showMenu

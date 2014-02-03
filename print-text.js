@@ -7,6 +7,7 @@ const fs          = require('fs')
         , paragraphEnd: '\n\n'
       }
 
+
 function printText (appName, appDir, filetype, contents) {
   var variables = {
       appname : appName

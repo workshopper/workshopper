@@ -1,6 +1,11 @@
 const path = require('path')
 
 
+function repeat (ch, sz) {
+  return new Array(sz + 1).join(ch)
+}
+
+
 function idFromName (id) {
   return id.toLowerCase()
     .replace(/\s/g, '_')
@@ -15,3 +20,4 @@ function dirFromName (exerciseDir, name) {
 
 module.exports.idFromName  = idFromName
 module.exports.dirFromName = dirFromName
+module.exports.repeat      = repeat
