@@ -110,7 +110,7 @@ function Workshopper (options) {
 
 Workshopper.prototype.fail = function (mode, exercise) {
   console.log('\n' + chalk.bold.red('# FAIL') + '\n')
-  console.log(chalk.yellow('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n'))
+  console.log('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n')
 
   this.end(mode, false, exercise)
 }
@@ -130,7 +130,7 @@ Workshopper.prototype.end = function (mode, pass, exercise) {
 
 Workshopper.prototype.pass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# PASS') + '\n')
-  console.log(chalk.green('Your solution to ' + exercise.name + ' passed!') + '\n')
+  console.log(chalk.bold('Your solution to ' + exercise.name + ' passed!') + '\n')
 
   if (exercise.hideSolutions)
     return
@@ -141,7 +141,7 @@ Workshopper.prototype.pass = function (mode, exercise) {
     if (!files.length)
       return
 
-    console.log(chalk.yellow('Here\'s the official solution is if you want to compare notes:') + '\n')
+    console.log('Here\'s the official solution is if you want to compare notes:\n')
 
     map(
         files
@@ -186,7 +186,7 @@ Workshopper.prototype.pass = function (mode, exercise) {
           remaining = this.exercises.length - completed.length
 
           if (remaining === 0) {
-            console.log(chalk.bold.yellow('You\'ve finished all the challenges! Hooray!') + '\n')
+            console.log('You\'ve finished all the challenges! Hooray!\n')
           } else {
             console.log(
                 'You have '
