@@ -205,6 +205,16 @@ Workshopper.prototype.pass = function (mode, exercise) {
 }
 
 
+function onpass (msg) {
+  console.log(chalk.green.bold('\u2713 ') + msg)
+}
+
+
+function onfail (msg) {
+  console.log(chalk.red.bold('\u2717 ') + msg)
+}
+
+
 Workshopper.prototype.execute = function (mode, args) {
   var current  = this.getData('current')
     , exercise = current && this.loadExercise(current)
@@ -214,6 +224,9 @@ Workshopper.prototype.execute = function (mode, args) {
 
   if (!exercise)
     return error('No such exercise: ' + name)
+
+  exercise.on('pass', onpass)
+  exercise.on('fail', onfail)
 
   exercise[mode](args, function (err, pass) {
     if (err)
