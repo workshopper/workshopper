@@ -163,12 +163,12 @@ Workshopper.prototype.pass = function (mode, exercise) {
             , remaining
 
           solutions.forEach(function (file, i) {
-            console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
+            console.log(chalk.yellow(util.repeat('\u2500', 80)))
 
             if (solutions.length > 1)
               console.log(chalk.bold.yellow(file.name + ':') + '\n')
 
-            console.log(file.content)
+            console.log(file.content.replace(/\n$/m, ''))
 
             if (i == solutions.length - 1)
               console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
