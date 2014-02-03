@@ -143,64 +143,64 @@ Workshopper.prototype.pass = function (mode, exercise) {
 
     console.log('Here\'s the official solution is if you want to compare notes:\n')
 
-    map(
-        files
-      , function (file, callback) {
-          fs.readFile(file, 'utf8', function (err, content) {
-            if (err)
-              return callback(err)
+    function processSolutionFile (file, callback) {
+      fs.readFile(file, 'utf8', function (err, content) {
+        if (err)
+          return callback(err)
 
-            // code fencing is necessary for msee to render the solution as code
-            content = msee.parse('```js\n' + content + '\n```')
-            callback(null, { file: file, content: content })
-          })
-        }
-      , function (err, solutions) {
-          if (err)
-            return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
+        // code fencing is necessary for msee to render the solution as code
+        content = msee.parse('```js\n' + content + '\n```')
+        callback(null, { file: file, content: content })
+      })
+    }
 
-          var completed = this.getData('completed') || []
-            , remaining
+    function printSolutions (err, solutions) {
+      if (err)
+        return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
 
-          solutions.forEach(function (file, i) {
-            console.log(chalk.yellow(util.repeat('\u2500', 80)))
+      var completed = this.getData('completed') || []
+        , remaining
 
-            if (solutions.length > 1)
-              console.log(chalk.bold.yellow(file.name + ':') + '\n')
+      solutions.forEach(function (file, i) {
+        console.log(chalk.yellow(util.repeat('\u2500', 80)))
 
-            console.log(file.content.replace(/\n$/m, ''))
+        if (solutions.length > 1)
+          console.log(chalk.bold.yellow(file.name + ':') + '\n')
 
-            if (i == solutions.length - 1)
-              console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
-          }.bind(this))
+        console.log(file.content.replace(/\n$/m, ''))
 
-          this.updateData('completed', function (xs) {
-            if (!xs)
-              xs = []
+        if (i == solutions.length - 1)
+          console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
+      }.bind(this))
 
-            return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
-          })
+      this.updateData('completed', function (xs) {
+        if (!xs)
+          xs = []
 
-          completed = this.getData('completed') || []
+        return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
+      })
 
-          remaining = this.exercises.length - completed.length
+      completed = this.getData('completed') || []
 
-          if (remaining === 0) {
-            console.log('You\'ve finished all the challenges! Hooray!\n')
-          } else {
-            console.log(
-                'You have '
-              + remaining
-              + ' challenge'
-              + (remaining != 1 ? 's' : '')
-              + ' left.'
-            )
-            console.log('Type `' + this.appName + '` to show the menu.\n')
-          }
+      remaining = this.exercises.length - completed.length
 
-          this.end(mode, true, exercise)
-        }.bind(this)
-    )
+      if (remaining === 0) {
+        console.log('You\'ve finished all the challenges! Hooray!\n')
+      } else {
+        console.log(
+            'You have '
+          + remaining
+          + ' challenge'
+          + (remaining != 1 ? 's' : '')
+          + ' left.'
+        )
+        console.log('Type `' + this.appName + '` to show the menu.\n')
+      }
+
+      this.end(mode, true, exercise)
+    }
+
+    map(files, processSolutionFile, printSolutions.bind(this))
   }.bind(this))
 }
 
