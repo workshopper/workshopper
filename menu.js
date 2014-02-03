@@ -20,7 +20,7 @@ function showMenu (opts) {
   menu.write(chalk.bold(opts.title) + '\n')
   if (typeof opts.subtitle == 'string')
     menu.write(chalk.italic(opts.subtitle) + '\n')
-  menu.write(util.repeat('-', opts.width) + '\n')
+  menu.write(util.repeat('\u2500', opts.width) + '\n')
     
   opts.exercises.forEach(function (name) {
     var isDone = opts.completed.indexOf(name) >= 0
@@ -28,13 +28,14 @@ function showMenu (opts) {
 
     name = name
 
-    if (isDone)
-      return menu.add(chalk.bold('»') + ' ' + name + Array(opts.width - m.length - name.length + 1).join(' ') + m)
-    else
-      menu.add(chalk.bold('»') + ' ' + name)
+    if (isDone) {
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - m.length - name.length - 2) + m)
+    } else {
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - name.length - 2))
+    }
   })
 
-  menu.write(util.repeat('-', opts.width) + '\n')
+  menu.write(util.repeat('\u2500', opts.width) + '\n')
   menu.add(chalk.bold('HELP'))
   if (opts.prerequisites)
     menu.add(chalk.bold('PREREQUISITES'))

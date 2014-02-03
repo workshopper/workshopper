@@ -109,8 +109,8 @@ function Workshopper (options) {
 
 
 Workshopper.prototype.fail = function (mode, exercise) {
-  console.log(chalk.bold.red('# FAIL'))
-  console.log('\nYour solution to ' + exercise.name + ' didn\'t pass. Try again!\n')
+  console.log('\n' + chalk.bold.red('# FAIL') + '\n')
+  console.log(chalk.yellow('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n'))
 
   this.end(mode, false, exercise)
 }
@@ -129,8 +129,8 @@ Workshopper.prototype.end = function (mode, pass, exercise) {
 
 
 Workshopper.prototype.pass = function (mode, exercise) {
-  console.log(chalk.bold.green('# PASS') + '\n')
-  console.log(chalk.bold.yellow('Your solution to ' + exercise.name + ' passed!') + '\n')
+  console.log('\n' + chalk.bold.green('# PASS') + '\n')
+  console.log(chalk.green('Your solution to ' + exercise.name + ' passed!') + '\n')
 
   if (exercise.hideSolutions)
     return
@@ -141,7 +141,7 @@ Workshopper.prototype.pass = function (mode, exercise) {
     if (!files.length)
       return
 
-    console.log('Here\'s the official solution is if you want to compare notes:\n')
+    console.log(chalk.yellow('Here\'s the official solution is if you want to compare notes:') + '\n')
 
     map(
         files
@@ -163,7 +163,7 @@ Workshopper.prototype.pass = function (mode, exercise) {
             , remaining
 
           solutions.forEach(function (file, i) {
-            console.log(chalk.bold.yellow(util.repeat('\u2500', 90)) + '\n')
+            console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
 
             if (solutions.length > 1)
               console.log(chalk.bold.yellow(file.name + ':') + '\n')
@@ -171,7 +171,7 @@ Workshopper.prototype.pass = function (mode, exercise) {
             console.log(file.content)
 
             if (i == solutions.length - 1)
-              console.log(chalk.bold.yellow(util.repeat('\u2500', 90)) + '\n')
+              console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
           }.bind(this))
 
           this.updateData('completed', function (xs) {
@@ -319,35 +319,49 @@ function printExercise (type, exerciseText) {
   print.text(this.appName, this.appDir, type, exerciseText)
 
   console.log(
-    chalk.bold('\n » To print these instructions again, run: `' + this.appName + ' print`.'))
+      chalk.bold(' »')
+    + ' To print these instructions again, run: '
+    + chalk.italic(this.appName + ' print')
+  )
   console.log(
-    chalk.bold(' » To execute your program in a test environment, run: `' + this.appName + ' run program.js`.'))
+      chalk.bold(' »')
+    + ' To execute your program in a test environment, run: '
+    + chalk.italic(this.appName + ' run program.js')
+  )
   console.log(
-    chalk.bold(' » To verify your program, run: `' + this.appName + ' verify program.js`.'))
+      chalk.bold(' »')
+    + ' To verify your program, run: '
+    + chalk.italic(this.appName + ' verify program.js')
+  )
 
   if (this.helpFile) {
     console.log(
-      chalk.bold(' » For help with this exercise or with ' + this.appName + ', run: `' + this.appName + ' help`.'))
+        chalk.bold(' »')
+      + ' For help with this exercise or with '
+      + this.appName
+      + ', run: '
+      + chalk.italic(this.appName + ' help')
+      )
   }
 
   if (this.creditsFile) {
-    console.log(chalk.bold(
-        ' » For a list of those who contributed to '
+    console.log(
+        chalk.bold(' »')
+      + ' For a list of those who contributed to '
       + this.appName
-      + ', run: `'
-      + this.appName
-      + ' credits`.'
-    ))
+      + ', run: '
+      + chalk.italic(this.appName + ' credits')
+      )
   }
 
   if (this.prerequisitesFile) {
-    console.log(chalk.bold(
-        ' » For any set up/installion prerequisites for '
+    console.log(
+        chalk.bold(' »')
+      + ' For any set up/installion prerequisites for '
       + this.appName
-      + ', run: `'
-      + this.appName
-      + ' prerequisites`.'
-    ))
+      + ', run: '
+      + chalk.italic(this.appName + ' prerequisites')
+    )
   }
 
   console.log()
@@ -406,7 +420,7 @@ function onselect (name) {
   console.log(chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2)))
   console.log(' ' + chalk.yellow.bold(exercise.name))
   console.log(' ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length))
-  console.log()
+  console.log('\n')
 
   this.updateData('current', function () {
     return exercise.name
