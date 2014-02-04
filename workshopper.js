@@ -433,7 +433,7 @@ function onselect (name) {
   console.log(chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2)))
   console.log(' ' + chalk.yellow.bold(exercise.name))
   console.log(' ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length))
-  console.log('\n')
+  console.log()
 
   this.updateData('current', function () {
     return exercise.name
