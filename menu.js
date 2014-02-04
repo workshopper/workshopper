@@ -44,7 +44,9 @@ function showMenu (opts) {
 
   menu.on('select', function (label) {
     var name = label.replace(/(^[^»]+»[^\s]+ )|(\s{2}.*)/g, '')
-    
+
+    menu.y = 0
+    menu.reset()
     menu.close()
 
     if (name === bold('EXIT'))
