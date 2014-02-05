@@ -51,11 +51,23 @@ function Workshopper (options) {
 
   this.appName     = options.name
   this.title       = options.title
+  // optional
   this.subtitle    = options.subtitle
+  // optional
   this.menuOptions = options.menu
+  // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-  this.creditsFile = options.creditsFile
+                            && fs.existsSync(this.helpFile)
+                            && options.helpFile
+  // optional
   this.prerequisitesFile = options.prerequisitesFile
+                            && fs.existsSync(this.prerequisitesFile)
+                            && options.prerequisitesFile
+  // optional
+  this.creditsFile = options.creditsFile
+                            && fs.existsSync(this.creditsFile)
+                            && options.creditsFile
+  // optional
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
@@ -108,14 +120,6 @@ function Workshopper (options) {
 }
 
 
-Workshopper.prototype.fail = function (mode, exercise) {
-  console.log('\n' + chalk.bold.red('# FAIL') + '\n')
-  console.log('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n')
-
-  this.end(mode, false, exercise)
-}
-
-
 Workshopper.prototype.end = function (mode, pass, exercise) {
   exercise.end(mode, pass, function (err) {
     if (err)
@@ -128,7 +132,17 @@ Workshopper.prototype.end = function (mode, pass, exercise) {
 }
 
 
-Workshopper.prototype.pass = function (mode, exercise) {
+// overall exercise fail
+Workshopper.prototype.exerciseFail = function (mode, exercise) {
+  console.log('\n' + chalk.bold.red('# FAIL') + '\n')
+  console.log('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n')
+
+  this.end(mode, false, exercise)
+}
+
+
+// overall exercise pass
+Workshopper.prototype.exercisePass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# PASS') + '\n')
   console.log(chalk.bold('Your solution to ' + exercise.name + ' passed!') + '\n')
 
@@ -205,11 +219,13 @@ Workshopper.prototype.pass = function (mode, exercise) {
 }
 
 
+// single 'pass' event for a validation
 function onpass (msg) {
   console.log(chalk.green.bold('\u2713 ') + msg)
 }
 
 
+// single 'fail' event for validation
 function onfail (msg) {
   console.log(chalk.red.bold('\u2717 ') + msg)
 }
@@ -225,10 +241,11 @@ Workshopper.prototype.execute = function (mode, args) {
   if (!exercise)
     return error('No such exercise: ' + name)
 
+  // individual validation events
   exercise.on('pass', onpass)
   exercise.on('fail', onfail)
 
-  exercise[mode](args, function (err, pass) {
+  function done (err, pass) {
     if (err)
       return error('Could not ' + mode + ': ' + (err.message || err))
 
@@ -236,10 +253,12 @@ Workshopper.prototype.execute = function (mode, args) {
       return // nothing to see here
 
     if (!pass)
-      return this.fail(mode, exercise)
+      return this.exerciseFail(mode, exercise)
 
-    this.pass(mode, exercise)
-  }.bind(this))
+    this.exercisePass(mode, exercise)
+  }
+
+  exercise[mode](args, done.bind(this))
 }
 
 
@@ -252,8 +271,8 @@ Workshopper.prototype.printMenu = function () {
     , completed     : this.getData('completed') || []
     , exercises     : this.exercises
     , menu          : this.menuOptions
-    , credits       : this.creditsFile && fs.existsSync(this.creditsFile)
-    , prerequisites : this.prerequisitesFile && fs.existsSync(this.prerequisitesFile)
+    , credits       : this.creditsFile
+    , prerequisites : this.prerequisitesFile
   })
 
   menu.on('select', onselect.bind(this))
@@ -428,12 +447,13 @@ function onselect (name) {
   if (!exercise)
     return error('No such exercise: ' + name)
 
-  console.log()
-  console.log(' ' + chalk.green.bold(this.title))
-  console.log(chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2)))
-  console.log(' ' + chalk.yellow.bold(exercise.name))
-  console.log(' ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length))
-  console.log()
+  console.log(
+      '\n ' + chalk.green.bold(this.title)
+    + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2))
+    + '\n ' + chalk.yellow.bold(exercise.name)
+    + '\n ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length)
+    + '\n'
+  )
 
   this.updateData('current', function () {
     return exercise.name

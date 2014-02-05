@@ -11,15 +11,11 @@
   "license": "MIT",
   "dependencies": {
     "map-async": "~0.1.1",
-    "tuple-stream": "~0.0.2",
-    "split": "~0.2.10",
-    "through": "~2.3.4",
     "mkdirp": "~0.3.5",
     "colors-tmpl": "~0.1.0",
-    "terminal-menu": "~0.2.0",
-    "optimist": "~0.6.0",
+    "chalk": "~0.4.0",
     "xtend": "~2.1.2",
-    "msee": "~0.1.1",
-    "chalk": "~0.4.0"
+    "terminal-menu": "~0.2.0",
+    "msee": "~0.1.1"
   }
 }
