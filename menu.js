@@ -47,9 +47,8 @@ function showMenu (opts) {
   menu.add(chalk.bold('EXIT'))
 
   menu.on('select', function (label) {
-    var name = label.replace(/(^[^\w]+\s+)|(\s+(\[COMPLETED\])?$)/g, '')
-
-    name = chalk.stripColor(name)
+    var name = chalk.stripColor(label)
+                .replace(/(^»?\s+)|(\s+(\[COMPLETED\])?$)/g, '')
 
     menu.y = 0
     menu.reset()
