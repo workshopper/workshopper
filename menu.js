@@ -37,31 +37,33 @@ function showMenu (opts) {
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
   menu.add(chalk.bold('HELP'))
-  if (opts.prerequisites)
-    menu.add(chalk.bold('PREREQUISITES'))
-  if (opts.credits)
-    menu.add(chalk.bold('CREDITS'))
+
+  if (opts.extras) {
+    opts.extras.forEach(function (extra) {
+      menu.add(chalk.bold(extra.toUpperCase()))
+    })
+  }
+
   menu.add(chalk.bold('EXIT'))
 
   menu.on('select', function (label) {
-    var name = label.replace(/(^\S+\s+)|(\s+(\[COMPLETED\])?$)/g, '')
+    var name = label.replace(/(^[^\w]+\s+)|(\s+(\[COMPLETED\])?$)/g, '')
+
+    name = chalk.stripColor(name)
 
     menu.y = 0
-    menu.reset()    
+    menu.reset()
     menu.close()
 
-    if (name === chalk.bold('EXIT'))
+    if (name === 'EXIT')
       return emitter.emit('exit')
 
-    if (name === chalk.bold('HELP'))
+    if (name === 'HELP')
       return emitter.emit('help')
 
-    if (name === chalk.bold('CREDITS'))
-      return emitter.emit('credits')
+    if (opts.extras.indexOf(name.toLowerCase()) != -1)
+      return emitter.emit('extra-' + name.toLowerCase())
 
-    if (name === chalk.bold('PREREQUISITES'))
-      return emitter.emit('prerequisites')
-    
     emitter.emit('select', name)
   })
 

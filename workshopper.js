@@ -19,6 +19,7 @@ function Workshopper (options) {
 
   var stat
     , menuJson
+    , handled = false
 
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
@@ -60,14 +61,6 @@ function Workshopper (options) {
                             && fs.existsSync(this.helpFile)
                             && options.helpFile
   // optional
-  this.prerequisitesFile = options.prerequisitesFile
-                            && fs.existsSync(this.prerequisitesFile)
-                            && options.prerequisitesFile
-  // optional
-  this.creditsFile = options.creditsFile
-                            && fs.existsSync(this.creditsFile)
-                            && options.creditsFile
-  // optional
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
@@ -81,18 +74,25 @@ function Workshopper (options) {
 
   mkdirp.sync(this.dataDir)
 
+  if (argv.v || argv.version || argv._[0] == 'version')
+    return console.log(this.appName + '@' + require(path.join(this.appDir, 'package.json')).version)
 
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
 
-  if (argv._[0] == 'credits')
-    return this._printCredits()
+  if (Array.isArray(options.menuItems)) {
+    options.menuItems.forEach(function (item) {
+      if (argv._[0] == item.name || argv[item.name]) {
+        handled = true
+        return item.handler(this)
+      }
+    })
 
-  if (argv._[0] == 'prerequisites')
-    return this._printPrerequisities()
+    if (handled)
+      return
 
-  if (argv.v || argv.version || argv._[0] == 'version')
-    return console.log(this.appName + '@' + require(path.join(this.appDir, 'package.json')).version)
+    this.menuItems = options.menuItems
+  }
 
   if (argv._[0] == 'list') {
     return this.exercises.forEach(function (name) {
@@ -270,9 +270,10 @@ Workshopper.prototype.printMenu = function () {
     , width         : this.width
     , completed     : this.getData('completed') || []
     , exercises     : this.exercises
+    , extras        : this.menuItems && this.menuItems.map(function (item) {
+                        return item.name.toLowerCase()
+                      })
     , menu          : this.menuOptions
-    , credits       : this.creditsFile
-    , prerequisites : this.prerequisitesFile
   })
 
   menu.on('select', onselect.bind(this))
@@ -282,16 +283,16 @@ Workshopper.prototype.printMenu = function () {
   })
   menu.on('help', function () {
     console.log()
-    return this._printHelp()
+    this._printHelp()
   }.bind(this))
-  menu.on('credits', function () {
-    console.log()
-    return this._printCredits()
-  }.bind(this))
-  menu.on('prerequisites', function () {
-    console.log()
-    return this._printPrerequisites()
-  }.bind(this))
+
+  if (this.menuItems) {
+    this.menuItems.forEach(function (item) {
+      menu.on('extra-' + item.name, function () {
+        item.handler(this)
+      }.bind(this))
+    }.bind(this))
+  }
 }
 
 
@@ -330,18 +331,6 @@ Workshopper.prototype._printHelp = function () {
 }
 
 
-Workshopper.prototype._printCredits = function () {
-  if (this.creditsFile)
-    print.file(this.appName, this.appDir, this.creditsFile)
-}
-
-
-Workshopper.prototype._printPrerequisites = function () {
-  if (this.prerequisitesFile)
-    print.file(this.appName, this.appDir, this.prerequisitesFile)
-}
-
-
 Workshopper.prototype._printUsage = function () {
   print.file(this.appName, this.appDir, path.join(__dirname, './usage.txt'))
 }
@@ -374,26 +363,6 @@ function printExercise (type, exerciseText) {
       + ', run: '
       + chalk.italic(this.appName + ' help')
       )
-  }
-
-  if (this.creditsFile) {
-    console.log(
-        chalk.bold(' »')
-      + ' For a list of those who contributed to '
-      + this.appName
-      + ', run: '
-      + chalk.italic(this.appName + ' credits')
-      )
-  }
-
-  if (this.prerequisitesFile) {
-    console.log(
-        chalk.bold(' »')
-      + ' For any set up/installion prerequisites for '
-      + this.appName
-      + ', run: '
-      + chalk.italic(this.appName + ' prerequisites')
-    )
   }
 
   console.log()
