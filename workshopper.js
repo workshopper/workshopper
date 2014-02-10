@@ -435,7 +435,7 @@ Workshopper.prototype.loadExercise = function (name) {
   if (!exercise || typeof exercise.init != 'function')
     return error('ERROR:', exerciseFile, 'is not a workshopper exercise')
 
-  exercise.init(id, name, dir, number)
+  exercise.init(this, id, name, dir, number)
 
   return exercise
 }
