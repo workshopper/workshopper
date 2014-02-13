@@ -61,6 +61,14 @@ function colourfn (type) {
 function compare (actual, expected, opts) {
   var equal  = true
     , write = function (pair) {
+        //passthru null/'', ''/null
+        //so console.log in given solution can match
+        //.pipe(process.stdout) in user's solution
+        if((pair[0] === '' || pair[0] === null) &&
+           (pair[1] === '' || pair[1] === null)){
+          return;
+        }
+
         var eq = pair[0] === pair[1]
 
         equal = equal && eq
