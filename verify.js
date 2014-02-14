@@ -12,8 +12,11 @@ const wrap    = require('./term-util').wrap
 function verify (acmd, bcmd, opts) {
   if (!opts) opts = {}
 
-  var a = spawn(process.execPath, acmd)
-    , b
+  var a = opts.submission
+    ? opts.submission(acmd)
+    : spawn(process.execPath, acmd)
+
+  var b
     , c
     , tr
     , kill = function () {
@@ -24,14 +27,17 @@ function verify (acmd, bcmd, opts) {
       }
 
   if (opts.run) {
-    ;(opts.a || a.stdout).pipe(process.stdout)
-    ;(opts.a || a.stdout).on('end', kill)
+    ;(opts.a || a.stdout || a).pipe(process.stdout)
+    ;(opts.a || a.stdout || a).on('end', kill)
     if (a.stderr) a.stderr.pipe(process.stderr)
-    return opts.a || a.stdin
+    return opts.a || a.stdin || a
   }
 
-  b = spawn(process.execPath, bcmd)
-  c = compare(opts.a || a.stdout, opts.b || b.stdout, opts)
+  b = opts.solution
+    ? opts.solution(bcmd)
+    : spawn(process.execPath, bcmd)
+
+  c = compare(opts.a || a.stdout || a, opts.b || b.stdout || b, opts)
 
   c.on('pass', function () {
     kill()

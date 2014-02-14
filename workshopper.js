@@ -4,6 +4,7 @@ const argv       = require('optimist').argv
     , mkdirp     = require('mkdirp')
     , map        = require('map-async')
     , msee       = require('msee')
+    , xtend      = require('xtend')
 
 const showMenu  = require('./menu')
     , verify    = require('./verify')
@@ -189,13 +190,10 @@ Workshopper.prototype.runSolution = function (setup, dir, current, run) {
 
   var a   = submissionCmd(setup)
     , b   = solutionCmd(dir, setup)
-    , v   = verify(a, b, {
-          a      : setup.a
-        , b      : setup.b
-        , long   : setup.long
-        , run    : run
+    , v   = verify(a, b, xtend(setup, {
+          run    : run
         , custom : setup.verify
-      })
+      }))
 
   v.on('pass', onpass.bind(this, setup, dir, current))
   v.on('fail', onfail.bind(this, setup, dir, current))
