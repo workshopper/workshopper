@@ -8,7 +8,7 @@ const fs     = require('fs')
     , path   = require('path')
     , mkdirp = require('mkdirp')
 
-    , util   = require('../lib/util')
+    , util   = require('../util')
 
 function usage (err) {
   if (err)
