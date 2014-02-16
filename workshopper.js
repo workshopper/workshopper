@@ -162,9 +162,11 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
         if (err)
           return callback(err)
 
+        var filename = path.basename(file)
+
         // code fencing is necessary for msee to render the solution as code
         content = msee.parse('```js\n' + content + '\n```')
-        callback(null, { file: file, content: content })
+        callback(null, { name: filename, content: content })
       })
     }
 
