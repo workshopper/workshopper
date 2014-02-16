@@ -252,7 +252,7 @@ Workshopper.prototype.execute = function (mode, args) {
       return error('Could not ' + mode + ': ' + (err.message || err))
 
     if (mode == 'run')
-      return // nothing to see here
+      return this.end(mode, true, exercise) // clean up
 
     if (!pass)
       return this.exerciseFail(mode, exercise)
