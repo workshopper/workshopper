@@ -64,7 +64,9 @@ function Workshopper (options) {
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
-  this.exercises   = require(menuJson)
+  this.exercises   = require(menuJson).filter(function (e) {
+    return !/^\/\//.test(e)
+  })
 
   this.dataDir     = path.join(
       process.env.HOME || process.env.USERPROFILE
