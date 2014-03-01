@@ -4,22 +4,22 @@ const argv       = require('optimist').argv
     , mkdirp     = require('mkdirp')
     , map        = require('map-async')
     , msee       = require('msee')
+    , chalk      = require('chalk')
 
 const showMenu  = require('./menu')
-    , verify    = require('./verify')
-    , printText = require('./print-text')
-    , repeat    = require('./term-util').repeat
-    , bold      = require('./term-util').bold
-    , red       = require('./term-util').red
-    , green     = require('./term-util').green
-    , yellow    = require('./term-util').yellow
-    , center    = require('./term-util').center
+    , print     = require('./print-text')
+    , util      = require('./util')
 
 const defaultWidth = 65
+
 
 function Workshopper (options) {
   if (!(this instanceof Workshopper))
     return new Workshopper(options)
+
+  var stat
+    , menuJson
+    , handled = false
 
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
@@ -30,43 +30,74 @@ function Workshopper (options) {
   if (typeof options.title != 'string')
     throw new TypeError('need to provide a `title` String option')
 
+  if (typeof options.exerciseDir != 'string')
+    throw new TypeError('need to provide an "exerciseDir" String option')
+
+  stat = fs.statSync(options.exerciseDir)
+  if (!stat || !stat.isDirectory())
+    throw new Error('"exerciseDir" [' + options.exerciseDir + '] does not exist or is not a directory')
+
   if (typeof options.appDir != 'string')
-    throw new TypeError('need to provide an `appDir` String option')
+    throw new TypeError('need to provide an "appDir" String option')
 
-  this.name        = options.name
+  stat = fs.statSync(options.appDir)
+  if (!stat || !stat.isDirectory())
+    throw new Error('"appDir" [' + options.appDir + '] does not exist or is not a directory')
+
+  menuJson = path.join(options.exerciseDir, 'menu.json')
+  stat = fs.statSync(menuJson)
+  if (!stat || !stat.isFile())
+    throw new Error('[' + menuJson + '] does not exist or is not a file')
+
+
+  this.appName     = options.name
   this.title       = options.title
+  // optional
   this.subtitle    = options.subtitle
+  // optional
   this.menuOptions = options.menu
+  // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-  this.creditsFile = options.creditsFile
-  this.prerequisitesFile  = options.prerequisitesFile
+                            && fs.existsSync(this.helpFile)
+                            && options.helpFile
+  // optional
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
-
+  this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
+  this.exercises   = require(menuJson).filter(function (e) {
+    return !/^\/\//.test(e)
+  })
+
   this.dataDir     = path.join(
       process.env.HOME || process.env.USERPROFILE
     , '.config'
-    , this.name
+    , this.appName
   )
 
   mkdirp.sync(this.dataDir)
-}
 
-Workshopper.prototype.init = function () {
+  if (argv.v || argv.version || argv._[0] == 'version')
+    return console.log(this.appName + '@' + require(path.join(this.appDir, 'package.json')).version)
+
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
 
-  if (argv._[0] == 'credits')
-    return this._printCredits()
+  if (Array.isArray(options.menuItems)) {
+    options.menuItems.forEach(function (item) {
+      if (argv._[0] == item.name || argv[item.name]) {
+        handled = true
+        return item.handler(this)
+      }
+    })
 
-  if (argv._[0] == 'prerequisites')
-    return this._printPrerequisities()
+    if (handled)
+      return
 
-  if (argv.v || argv.version || argv._[0] == 'version')
-    return console.log(this.name + '@' + require(path.join(this.appDir, 'package.json')).version)
+    this.menuItems = options.menuItems
+  }
 
   if (argv._[0] == 'list') {
-    return this.problems().forEach(function (name) {
+    return this.exercises.forEach(function (name) {
       console.log(name)
     })
   }
@@ -81,53 +112,174 @@ Workshopper.prototype.init = function () {
     )
   }
 
-  var run = argv._[0] == 'run'
-  if (argv._[0] == 'verify' || run)
-    return this.verify(run)
+  if (argv._[0] == 'verify' || argv._[0] == 'run') {
+    if (argv._.length == 1)
+      return error('Usage:', this.appName, argv._[0], 'mysubmission.js')
+    return this.execute(argv._[0], argv._.slice(1))
+  }
 
   this.printMenu()
 }
 
-Workshopper.prototype.verify = function (run) {
-  var current = this.getData('current')
-    , setupFn
-    , dir
-    , setup
 
-  if (!current) {
-    console.error('ERROR: No active problem. Select a challenge from the menu.')
-    return process.exit(1)
-  }
-  
-  dir     = this.dirFromName(current)
-  setupFn = require(dir + '/setup.js')
+Workshopper.prototype.end = function (mode, pass, exercise) {
+  exercise.end(mode, pass, function (err) {
+    if (err)
+      return error('Error cleaning up:' + (err.message || err))
 
-  if (!setupFn.async) {
-    setup = setupFn(run)
-    return setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
-  }
+    setImmediate(function () {
+      process.exit(pass ? 0 : -1)
+    })
+  })
+}
 
-  setupFn(run, function (err, setup) {
-    if (err) {
-      console.error('An error occurred during setup:', err)
-      return console.error(err.stack)
+
+// overall exercise fail
+Workshopper.prototype.exerciseFail = function (mode, exercise) {
+  console.log('\n' + chalk.bold.red('# FAIL') + '\n')
+  console.log('Your solution to ' + exercise.name + ' didn\'t pass. Try again!\n')
+
+  this.end(mode, false, exercise)
+}
+
+
+// overall exercise pass
+Workshopper.prototype.exercisePass = function (mode, exercise) {
+  console.log('\n' + chalk.bold.green('# PASS') + '\n')
+  console.log(chalk.bold('Your solution to ' + exercise.name + ' passed!') + '\n')
+
+  if (exercise.hideSolutions)
+    return
+
+  exercise.getSolutionFiles(function (err, files) {
+    if (err)
+      return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
+    if (!files.length)
+      return
+
+    console.log('Here\'s the official solution is if you want to compare notes:\n')
+
+    function processSolutionFile (file, callback) {
+      fs.readFile(file, 'utf8', function (err, content) {
+        if (err)
+          return callback(err)
+
+        var filename = path.basename(file)
+
+        // code fencing is necessary for msee to render the solution as code
+        content = msee.parse('```js\n' + content + '\n```')
+        callback(null, { name: filename, content: content })
+      })
     }
-    setTimeout(this.runSolution.bind(this, setup, dir, current, run), setup.wait || 1)
+
+    function printSolutions (err, solutions) {
+      if (err)
+        return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
+
+      var completed = this.getData('completed') || []
+        , remaining
+
+      solutions.forEach(function (file, i) {
+        console.log(chalk.yellow(util.repeat('\u2500', 80)))
+
+        if (solutions.length > 1)
+          console.log(chalk.bold.yellow(file.name + ':') + '\n')
+
+        console.log(file.content.replace(/\n$/m, ''))
+
+        if (i == solutions.length - 1)
+          console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
+      }.bind(this))
+
+      this.updateData('completed', function (xs) {
+        if (!xs)
+          xs = []
+
+        return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
+      })
+
+      completed = this.getData('completed') || []
+
+      remaining = this.exercises.length - completed.length
+
+      if (remaining === 0) {
+        console.log('You\'ve finished all the challenges! Hooray!\n')
+      } else {
+        console.log(
+            'You have '
+          + remaining
+          + ' challenge'
+          + (remaining != 1 ? 's' : '')
+          + ' left.'
+        )
+        console.log('Type `' + this.appName + '` to show the menu.\n')
+      }
+
+      this.end(mode, true, exercise)
+    }
+
+    map(files, processSolutionFile, printSolutions.bind(this))
   }.bind(this))
 }
 
+
+// single 'pass' event for a validation
+function onpass (msg) {
+  console.log(chalk.green.bold('\u2713 ') + msg)
+}
+
+
+// single 'fail' event for validation
+function onfail (msg) {
+  console.log(chalk.red.bold('\u2717 ') + msg)
+}
+
+
+Workshopper.prototype.execute = function (mode, args) {
+  var current  = this.getData('current')
+    , exercise = current && this.loadExercise(current)
+
+  if (!current)
+    return error('No active exercise. Select one from the menu.')
+
+  if (!exercise)
+    return error('No such exercise: ' + name)
+
+  // individual validation events
+  exercise.on('pass', onpass)
+  exercise.on('fail', onfail)
+
+  function done (err, pass) {
+    if (err)
+      return error('Could not ' + mode + ': ' + (err.message || err))
+
+    if (mode == 'run')
+      return this.end(mode, true, exercise) // clean up
+
+    if (!pass)
+      return this.exerciseFail(mode, exercise)
+
+    this.exercisePass(mode, exercise)
+  }
+
+  exercise[mode](args, done.bind(this))
+}
+
+
 Workshopper.prototype.printMenu = function () {
   var menu = showMenu({
-      name              : this.name
-    , title             : this.title
-    , subtitle          : this.subtitle
-    , width             : this.width
-    , completed         : this.getData('completed') || []
-    , problems          : this.problems()
-    , menu              : this.menuOptions
-    , credits           : this.creditsFile && fs.existsSync(this.creditsFile)
-    , prerequisites     : this.prerequisitesFile && fs.existsSync(this.prerequisitesFile)
+      name          : this.appName
+    , title         : this.title
+    , subtitle      : this.subtitle
+    , width         : this.width
+    , completed     : this.getData('completed') || []
+    , exercises     : this.exercises
+    , extras        : this.menuItems && this.menuItems.map(function (item) {
+                        return item.name.toLowerCase()
+                      })
+    , menu          : this.menuOptions
   })
+
   menu.on('select', onselect.bind(this))
   menu.on('exit', function () {
     console.log()
@@ -135,23 +287,18 @@ Workshopper.prototype.printMenu = function () {
   })
   menu.on('help', function () {
     console.log()
-    return this._printHelp()
+    this._printHelp()
   }.bind(this))
-  menu.on('credits', function () {
-    console.log()
-    return this._printCredits()
-  }.bind(this))
-  menu.on('prerequisites', function () {
-    console.log()
-    return this._printPrerequisites()
-  }.bind(this))
+
+  if (this.menuItems) {
+    this.menuItems.forEach(function (item) {
+      menu.on('extra-' + item.name, function () {
+        item.handler(this)
+      }.bind(this))
+    }.bind(this))
+  }
 }
 
-Workshopper.prototype.problems = function () {
-  if (!this._problems)
-    this._problems = require(path.join(this.appDir, 'menu.json'))
-  return this._problems
-}
 
 Workshopper.prototype.getData = function (name) {
   var file = path.resolve(this.dataDir, name + '.json')
@@ -160,6 +307,7 @@ Workshopper.prototype.getData = function (name) {
   } catch (e) {}
   return null
 }
+
 
 Workshopper.prototype.updateData = function (id, fn) {
   var json = {}
@@ -173,228 +321,136 @@ Workshopper.prototype.updateData = function (id, fn) {
   fs.writeFileSync(file, JSON.stringify(fn(json)))
 }
 
+
 Workshopper.prototype.dirFromName = function (name) {
-  return path.join(
-      this.appDir
-    , 'problems'
-    , name.toLowerCase()
-        .replace(/\s/g, '_')
-        .replace(/[^a-z_]/gi, '')
-  )
-}
-Workshopper.prototype.runSolution = function (setup, dir, current, run) {
-  console.log(
-    bold(yellow((run ? 'Running' : 'Verifying') + ' "' + current + '"...')) + '\n'
-  )
-
-  var a   = submissionCmd(setup)
-    , b   = solutionCmd(dir, setup)
-    , v   = verify(a, b, {
-          a      : setup.a
-        , b      : setup.b
-        , long   : setup.long
-        , run    : run
-        , custom : setup.verify
-      })
-
-  v.on('pass', onpass.bind(this, setup, dir, current))
-  v.on('fail', onfail.bind(this, setup, dir, current))
-
-  if (run && setup.close)
-    v.on('end', setup.close)
-
-  if (setup.stdin) {
-    setup.stdin.pipe(v)
-    setup.stdin.resume()
-  }
-
-  if (setup.a && (!setup.a._readableState || !setup.a._readableState.flowing))
-    setup.a.resume()
-  if (setup.b && (!setup.a._readableState || !setup.a._readableState.flowing))
-    setup.b.resume()
+  return util.dirFromName(this.exerciseDir, name)
 }
 
-function solutionCmd (dir, setup) {
-  var args = setup.args || setup.solutionArgs || []
-    , exec
-
-  if (setup.solutionExecWrap) {
-    exec = [ require.resolve('./exec-wrapper') ]
-    exec = exec.concat(setup.solutionExecWrap)
-    exec = exec.concat(dir + '/solution.js')
-  } else {
-    exec = [ dir + '/solution.js' ]
-  }
-
-  return exec.concat(args)
-}
-
-function submissionCmd (setup) {
-  var args = setup.args || setup.submissionArgs || []
-    , exec
-
-  if (setup.modUseTrack) {
-    // deprecated
-    exec = [
-        require.resolve('./exec-wrapper')
-      , require.resolve('./module-use-tracker')
-      , setup.modUseTrack.trackFile
-      , setup.modUseTrack.modules.join(',')
-      , argv._[1]
-    ]
-  } else if (setup.execWrap) {
-    exec = [ require.resolve('./exec-wrapper') ]
-    exec = exec.concat(setup.execWrap)
-    exec = exec.concat(argv._[1])
-  } else {
-    exec = [ argv._[1] ]
-  }
-
-  return exec.concat(args)
-}
 
 Workshopper.prototype._printHelp = function () {
   this._printUsage()
 
   if (this.helpFile)
-    printText(this.name, this.appDir, this.helpFile)
+    print.file(this.appName, this.appDir, this.helpFile)
 }
 
-Workshopper.prototype._printCredits = function () {
-  if (this.creditsFile)
-    printText(this.name, this.appDir, this.creditsFile)
-}
-
-Workshopper.prototype._printPrerequisites = function () {
-  if (this.prerequisitesFile)
-    printText(this.name, this.appDir, this.prerequisitesFile)
-}
 
 Workshopper.prototype._printUsage = function () {
-  printText(this.name, this.appDir, path.join(__dirname, './usage.txt'))
+  print.file(this.appName, this.appDir, path.join(__dirname, './usage.txt'))
 }
 
-function onpass (setup, dir, current) {
-  console.log(bold(green('# PASS')))
-  console.log('\nYour solution to ' + current + ' passed!')
 
-  if (setup.hideSolutions)
-    return
+function printExercise (type, exerciseText) {
+  print.text(this.appName, this.appDir, type, exerciseText)
 
-  console.log('\nHere\'s what the official solution is if you want to compare notes:\n')
-
-  var solutions = fs.readdirSync(dir).filter(function (file) {
-        return (/^solution.*\.js/).test(file)
-      }).map(function (file) {
-        return {
-            name: file
-          , content: fs.readFileSync(path.join(dir, file), 'utf8')
-              .toString()
-              .replace(/^/gm, '  ')
-        }
-      })
-    , completed
-    , remaining
-
-  map(
-      solutions
-    , function (file, i, callback) {
-        // code fencing is necessary for msee to render the solution as code
-        file.content = msee.parse('```js\n' + file.content + '\n```')
-        callback(null, file)
-      }
-    , function (err, solutions) {
-        if (err)
-          throw err
-
-        solutions.forEach(function (file, i) {
-          console.log(repeat('-', this.width) + '\n')
-          if (solutions.length > 1)
-            console.log(bold(file.name) + ':\n')
-          console.log(file.content)
-          if (i == solutions.length - 1)
-            console.log(repeat('-', this.width) + '\n')
-        }.bind(this))
-        
-        this.updateData('completed', function (xs) {
-          if (!xs) xs = []
-          var ix = xs.indexOf(current)
-          return ix >= 0 ? xs : xs.concat(current)
-        })
-        
-        completed = this.getData('completed') || []
-        
-        remaining = this.problems().length - completed.length
-        if (remaining === 0) {
-          console.log('You\'ve finished all the challenges! Hooray!\n')
-        } else {
-          console.log(
-              'You have '
-            + remaining
-            + ' challenge'
-            + (remaining != 1 ? 's' : '')
-            + ' left.'
-          )
-          console.log('Type `' + this.name + '` to show the menu.\n')
-        }
-        
-        if (setup.close)
-          setup.close()
-      }.bind(this)
+  console.log(
+      chalk.bold(' »')
+    + ' To print these instructions again, run: '
+    + chalk.italic(this.appName + ' print')
   )
+  console.log(
+      chalk.bold(' »')
+    + ' To execute your program in a test environment, run: '
+    + chalk.italic(this.appName + ' run program.js')
+  )
+  console.log(
+      chalk.bold(' »')
+    + ' To verify your program, run: '
+    + chalk.italic(this.appName + ' verify program.js')
+  )
+
+  if (this.helpFile) {
+    console.log(
+        chalk.bold(' »')
+      + ' For help with this exercise or with '
+      + this.appName
+      + ', run: '
+      + chalk.italic(this.appName + ' help')
+      )
+  }
+
+  console.log()
 }
 
-function onfail (setup, dir, current) {
-  if (setup.close) setup.close()
-  
-  console.log(bold(red('# FAIL')))
-  if (typeof setup.verify == 'function')
-    console.log('\nYour solution to ' + current + ' didn\'t pass. Try again!')
-  else
-    console.log('\nYour solution to ' + current + ' didn\'t match the expected output.\nTry again!')
-}
 
-function onselect (name) {
-  console.log('\n  ' + repeat('#', 69))
-  console.log(center(this.width, '~~  ' + name + '  ~~'))
-  console.log('  ' + repeat('#', 69) + '\n')
-  
-  var dir  = this.dirFromName(name)
-    , txt  = path.resolve(dir, 'problem.txt')
-    , md   = path.resolve(dir, 'problem.md')
-    , file
+Workshopper.prototype.loadExercise = function (name) {
+  name = name.toLowerCase().trim()
 
-  this.updateData('current', function () {
-    return name
+  var number
+    , dir
+    , id
+    , exerciseFile
+    , stat
+    , exercise
+
+  this.exercises.some(function (_name, i) {
+    if (_name.toLowerCase().trim() != name)
+      return false
+
+    number = i + 1
+    name   = _name
+    return true
   })
 
-  // Preferentially render Markdown, fall back to text if it's not present.
-  if (fs.existsSync(md))
-    file = md
-  else
-    file = txt
+  if (number === undefined)
+    return null
 
-  printText(this.name, this.appDir, file, path.extname(file), function () {
-    console.log(
-      bold('\n » To print these instructions again, run: `' + this.name + ' print`.'))
-    console.log(
-      bold(' » To execute your program in a test environment, run:\n   `' + this.name + ' run program.js`.'))
-    console.log(
-      bold(' » To verify your program, run: `' + this.name + ' verify program.js`.'))
-    if (this.helpFile) {
-      console.log(
-        bold(' » For help with this problem or with ' + this.name + ', run:\n   `' + this.name + ' help`.'))
-    }
-    if (this.creditsFile) {
-      console.log(
-        bold(' » For a list of those who contributed to ' + this.name + ', run:\n   `' + this.name + ' credits`.'))
-    }
-    if (this.prerequisitesFile) {
-      console.log(
-        bold(' » For any set up/installion prerequisites for ' + this.name + ', run:\n   `' + this.name + ' prerequisites`.'))
-    }        
-    console.log()
+  dir          = this.dirFromName(name)
+  id           = util.idFromName(name)
+  exerciseFile = path.join(dir, './exercise.js')
+  stat         = fs.statSync(exerciseFile)
+
+  if (!stat || !stat.isFile())
+    return error('ERROR:', exerciseFile, 'does not exist!')
+
+  exercise     = require(exerciseFile)
+
+  if (!exercise || typeof exercise.init != 'function')
+    return error('ERROR:', exerciseFile, 'is not a workshopper exercise')
+
+  exercise.init(this, id, name, dir, number)
+
+  return exercise
+}
+
+
+function onselect (name) {
+  var exercise = this.loadExercise(name)
+
+  if (!exercise)
+    return error('No such exercise: ' + name)
+
+  console.log(
+      '\n ' + chalk.green.bold(this.title)
+    + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2))
+    + '\n ' + chalk.yellow.bold(exercise.name)
+    + '\n ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length)
+    + '\n'
+  )
+
+  this.updateData('current', function () {
+    return exercise.name
+  })
+
+  exercise.prepare(function (err) {
+    if (err)
+      return error('Error preparing exercise:', err.message || err)
+
+    exercise.getExerciseText(function (err, type, exerciseText) {
+      if (err)
+        return error('Error loading exercise text:', err.message || err)
+
+      printExercise.call(this, type, exerciseText)
+    }.bind(this))
   }.bind(this))
 }
+
+
+function error () {
+  var pr = chalk.bold.red
+  console.log(pr.apply(pr, arguments))
+  process.exit(-1)
+}
+
 
 module.exports = Workshopper

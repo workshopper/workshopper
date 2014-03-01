@@ -3,10 +3,10 @@ const tmenu        = require('terminal-menu')
     , fs           = require('fs')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
+    , chalk        = require('chalk')
 
-const repeat    = require('./term-util').repeat
-    , bold      = require('./term-util').bold
-    , italic    = require('./term-util').italic
+const util         = require('./util')
+
 
 function showMenu (opts) {
   var emitter  = new EventEmitter()
@@ -17,48 +17,52 @@ function showMenu (opts) {
       }, opts.menu))
 
   menu.reset()
-  menu.write(bold(opts.title) + '\n')
+  menu.write(chalk.bold(opts.title) + '\n')
   if (typeof opts.subtitle == 'string')
-    menu.write(italic(opts.subtitle) + '\n')
-  menu.write(repeat('-', opts.width) + '\n')
+    menu.write(chalk.italic(opts.subtitle) + '\n')
+  menu.write(util.repeat('\u2500', opts.width) + '\n')
     
-  opts.problems.forEach(function (name) {
+  opts.exercises.forEach(function (name) {
     var isDone = opts.completed.indexOf(name) >= 0
       , m      = '[COMPLETED]'
 
     name = name
 
-    if (isDone)
-      return menu.add(bold('»') + ' ' + name + Array(63 - m.length - name.length + 1).join(' ') + m)
-    else
-      menu.add(bold('»') + ' ' + name)
+    if (isDone) {
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - m.length - name.length - 2) + m)
+    } else {
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - name.length - 2))
+    }
   })
 
-  menu.write(repeat('-', opts.width) + '\n')
-  menu.add(bold('HELP'))
-  if (opts.prerequisites)
-    menu.add(bold('PREREQUISITES'))
-  if (opts.credits)
-    menu.add(bold('CREDITS'))
-  menu.add(bold('EXIT'))
+  menu.write(util.repeat('\u2500', opts.width) + '\n')
+  menu.add(chalk.bold('HELP'))
+
+  if (opts.extras) {
+    opts.extras.forEach(function (extra) {
+      menu.add(chalk.bold(extra.toUpperCase()))
+    })
+  }
+
+  menu.add(chalk.bold('EXIT'))
 
   menu.on('select', function (label) {
-    var name = label.replace(/(^[^»]+»[^\s]+ )|(\s{2}.*)/g, '')
-    
+    var name = chalk.stripColor(label)
+                .replace(/(^»?\s+)|(\s+(\[COMPLETED\])?$)/g, '')
+
+    menu.y = 0
+    menu.reset()
     menu.close()
 
-    if (name === bold('EXIT'))
+    if (name === 'EXIT')
       return emitter.emit('exit')
 
-    if (name === bold('HELP'))
+    if (name === 'HELP')
       return emitter.emit('help')
 
-    if (name === bold('CREDITS'))
-      return emitter.emit('credits')
+    if (opts.extras.indexOf(name.toLowerCase()) != -1)
+      return emitter.emit('extra-' + name.toLowerCase())
 
-    if (name === bold('PREREQUISITES'))
-      return emitter.emit('prerequisites')
-    
     emitter.emit('select', name)
   })
 
@@ -66,5 +70,6 @@ function showMenu (opts) {
   
   return emitter
 }
+
 
 module.exports = showMenu
