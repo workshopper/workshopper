@@ -8,6 +8,8 @@
 
 **Workshopper** is used by **[learnyounode](https://github.com/rvagg/learnyounode)**, and other Node.js command-line workshop applications.
 
+*Documentation is being written for the v1 rewrite right now! Ping @rvagg if you need anything. **learnyounode** is now using this new version, for now you can use it to see how this works.
+
 
 ### Contributors
 
