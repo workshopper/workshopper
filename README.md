@@ -29,7 +29,7 @@ Workshopper({
   , helpFile          : path.join(__dirname, 'help.txt')
   , prerequisitesFile : path.join(__dirname, 'prerequisites.txt')
   , creditsFile       : path.join(__dirname, 'credits.txt')
-}).init()
+})
 ```
 
 Additionally you can supply a `'subtitle'` String option and a `'menu'` object option that will be passed to [terminal-menu](https://github.com/substack/terminal-menu) so you can change the `'bg'` and `'fg'` colours.
