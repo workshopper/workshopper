@@ -157,7 +157,7 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
     if (!files.length)
       return
 
-    console.log('Here\'s the official solution is if you want to compare notes:\n')
+    console.log('Here\'s the official solution in case you want to compare notes:\n')
 
     function processSolutionFile (file, callback) {
       fs.readFile(file, 'utf8', function (err, content) {
