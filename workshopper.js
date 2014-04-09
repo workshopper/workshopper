@@ -19,7 +19,6 @@ function Workshopper (options) {
 
   var stat
     , menuJson
-    , handled = false
 
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
@@ -56,6 +55,8 @@ function Workshopper (options) {
   this.subtitle    = options.subtitle
   // optional
   this.menuOptions = options.menu
+  this.menuItems   = options.menuItems
+
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
                             && fs.existsSync(this.helpFile)
@@ -73,6 +74,10 @@ function Workshopper (options) {
     , '.config'
     , this.appName
   )
+}
+
+Workshopper.prototype.init = function init () {
+  var handled = false
 
   mkdirp.sync(this.dataDir)
 
@@ -82,8 +87,8 @@ function Workshopper (options) {
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
 
-  if (Array.isArray(options.menuItems)) {
-    options.menuItems.forEach(function (item) {
+  if (Array.isArray(this.menuItems)) {
+    this.menuItems.forEach(function (item) {
       if (argv._[0] == item.name || argv[item.name]) {
         handled = true
         return item.handler(this)
@@ -92,8 +97,6 @@ function Workshopper (options) {
 
     if (handled)
       return
-
-    this.menuItems = options.menuItems
   }
 
   if (argv._[0] == 'list') {
