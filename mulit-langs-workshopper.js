@@ -52,13 +52,11 @@ function MultiLangsWorkshopper(config) {
         return true
     })[0]
   }
-  this.currLang = currLang;
 
-  this.show()
+  this.show(currLang)
 }
 
 MultiLangsWorkshopper.prototype.show = function (currLang) {
-  currLang = currLang || this.currLang
   var exerciseDir = path.join(
       this.appDir
     , 'exercises' + (currLang ? '_' + currLang : currLang)
