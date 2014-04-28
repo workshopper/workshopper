@@ -22,7 +22,7 @@ function MultiLangsWorkshopper(config) {
     , '.config'
     , this.name
   )
-  this.dataFile = 'workshopper.json'
+  this.dataFile = 'workshopper'
 
   mkdirp.sync(this.dataDir)
 
@@ -43,16 +43,7 @@ function MultiLangsWorkshopper(config) {
       return true
   })[0] || ''
 
-  var cacheConfig
-  try {
-    cacheConfig = JSON.parse(
-      fs.readFileSync(
-        path.join(
-          this.dataDir
-        , this.dataFile
-      ), 'utf8')
-    )
-  } catch (err) { }
+  var cacheConfig = this.getData(this.dataFile)
 
   currLang = (cacheConfig && cacheConfig.lang) || currLang
   if (!currLang) {
@@ -82,6 +73,16 @@ MultiLangsWorkshopper.prototype.show = function (currLang) {
 
   var w = new Workshopper(localeConfig)
   w.parent = this
+
+  this.updateData(this.dataFile, function (json) {
+    json = json || {}
+    json.lang = currLang
+    return json
+  })
 }
+
+MultiLangsWorkshopper.prototype.getData = Workshopper.prototype.getData
+
+MultiLangsWorkshopper.prototype.updateData = Workshopper.prototype.updateData
 
 module.exports = MultiLangsWorkshopper
