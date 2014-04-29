@@ -1,6 +1,6 @@
 const fs        = require('fs')
-    , showMenu  = require('./menu')
     , path      = require('path')
+    , showMenu  = require('./menu')
 
 function langs(self) {
   var menuItems = (self.menuItems && self.menuItems.slice(0)) || []
@@ -17,6 +17,15 @@ function langs(self) {
   var menuItemsNames = menuItems.map(function (item) {
     return item.name.toLowerCase()
   })
+  var currLang = self.parent.currLang
+  var langs = self.parent.langs.slice(0).map(function (l) {
+    var o = l
+    if (l === "")
+      l = 'en (maybe)'
+    if (o === currLang)
+      l += ' √'
+    return l
+  })
 
   var options = {
       name          : self.appName
@@ -24,7 +33,7 @@ function langs(self) {
     , subtitle      : self.langSubtitle || self.subtitle
     , width         : self.width
     , completed     : []
-    , exercises     : self.parent.langs.slice(0)
+    , exercises     : langs
     , extras        : menuItemsNames
     , menu          : self.menuOptions
     , menuItems     : menuItems
@@ -53,7 +62,8 @@ function langs(self) {
 
 function onselect(name) {
   self = null
-  this.show(name)
+  if (/maybe/.test(name)) name = ''
+  this.show(name.replace(/\s+(.*)/, ''))
 }
 
 module.exports = langs

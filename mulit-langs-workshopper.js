@@ -72,6 +72,7 @@ MultiLangsWorkshopper.prototype.show = function (currLang) {
   var w = new Workshopper(localeConfig)
   w.parent = this
 
+  this.currLang = currLang;
   this.updateData(this.dataFile, function (json) {
     json = json || {}
     json.lang = currLang
