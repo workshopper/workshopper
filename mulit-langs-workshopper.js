@@ -3,6 +3,11 @@ const fs         = require('fs')
     , mkdirp     = require('mkdirp')
     , glob       = require('glob')
 
+    , argv       = require('optimist')
+                    .string('l')
+                    .alias('l', 'lang')
+                    .argv
+
     , Workshopper = require('./workshopper')
 
 /**
@@ -43,9 +48,16 @@ function MultiLangsWorkshopper(config) {
       return true
   })[0] || ''
 
-  var cacheConfig = this.getData(this.dataFile)
+  var _lang
+  if (argv.l) {
+    _lang = (argv.l).replace(/(_|\-)(\w+)/, function (m, $1, $2) { return '-' + $2.toUpperCase() })
+    if (_lang === 'en') _lang = ''
+  } else {
+    var cacheConfig = this.getData(this.dataFile)
+    _lang = cacheConfig && cacheConfig.lang
+  }
 
-  currLang = (cacheConfig && cacheConfig.lang) || currLang
+  currLang = _lang || currLang
   if (!currLang) {
     currLang = langs.filter(function (l) {
       if (l.toLowerCase() === 'en' || l === '')
