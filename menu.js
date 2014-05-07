@@ -60,7 +60,7 @@ function showMenu (opts) {
     if (name === 'HELP')
       return emitter.emit('help')
 
-    if (opts.extras.indexOf(name.toLowerCase()) != -1)
+    if (opts.extras && opts.extras.indexOf(name.toLowerCase()) != -1)
       return emitter.emit('extra-' + name.toLowerCase())
 
     emitter.emit('select', name)
