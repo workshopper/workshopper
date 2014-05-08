@@ -326,13 +326,10 @@ Workshopper.prototype.updateData = function (id, fn) {
   fs.writeFileSync(file, JSON.stringify(fn(json)))
 }
 
+
 Workshopper.prototype.reset = function () {
-  this.updateData('completed', function () {
-    return []
-  })
-  this.updateData('current', function () {
-    return null
-  })
+  fs.unlink(path.resolve(this.dataDir, 'completed.json'))
+  fs.unlink(path.resolve(this.dataDir, 'current.json'))
 }
 
 
