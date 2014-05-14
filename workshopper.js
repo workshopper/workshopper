@@ -118,6 +118,11 @@ function Workshopper (options) {
     return this.execute(argv._[0], argv._.slice(1))
   }
 
+  if (argv._[0] == 'reset') {
+    this.reset()
+    return console.log(this.title + ' progress reset')
+  }
+
   this.printMenu()
 }
 
@@ -319,6 +324,12 @@ Workshopper.prototype.updateData = function (id, fn) {
 
   file = path.resolve(this.dataDir, id + '.json')
   fs.writeFileSync(file, JSON.stringify(fn(json)))
+}
+
+
+Workshopper.prototype.reset = function () {
+  fs.unlink(path.resolve(this.dataDir, 'completed.json'))
+  fs.unlink(path.resolve(this.dataDir, 'current.json'))
 }
 
 
