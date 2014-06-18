@@ -1,0 +1,97 @@
+#Lesson 1: Getting started with Node.js
+
+The Node.js platform is built on the Google Chrome JavaScript runtime for easily building fast, scalable network applications. The platform implements an event-driven, non-blocking I/O model and is lightweight and efficient. This platform is perfect for data-intensive, real-time applications that run across distributed devices.
+
+Using Node.js, you can write JavaScript that executes on the back-end server. Node.js interprets and executes your JavaScript by using Google’s V8 virtual machine, which is the same runtime environment for JavaScript that Google Chrome uses.
+
+##Installing Node.js
+To install Node.js on your computer, download the version for your machine from [http://nodejs.org/download/](http://nodejs.org/download/ "http://nodejs.org/download/") and run the installer.
+For typical Windows-based, 64-bit computers at the time of this writing, this is the node-v0.8.14-x64.msi file.
+The installation requires accepting the licensing agreements.By default, the Node.js files install to the C:\Program Files\nodejs\ folder.
+
+You’ll find the node.exe file in the installation folder, which is the primary
+executable for Node.js. You will also find a folder for node modules, this folder contains npm,the node package manager. You use npm to install modules in Node.js.
+The Node.js installer adds the Node.js and npm folder locations to the path environment setting so you can open the command prompt window easily and run the program.
+
+##Creating Hello World from Node.js
+After the installation completes, you can create your first Node.js website by opening the command prompt and using your favorite text editor. Create a file called HelloWorld.js containing the following.
+    
+    var http = require('http');
+    http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Hello World from Node.js!\n');
+    console.log('Handled request');
+    }).listen(8080, 'localhost');
+    console.log('Server running at http://localhost:8080/');
+
+This is JavaScript! The first line of code states that the http module needs to be loaded. The http module is a core built-in, low-level module that is highly optimized for performance.
+
+The next line uses the http module to create a server object. The createServer function accepts a single parameter that is an anonymous function and has request object and response object parameters. Inside the function, you include all the code to run your website or, better yet, to make calls to other functions that handle your website. This example does nothing with the request object, but it uses the response object to write an HTTP header in which 200 means success, and the content type tells the browser that the content is plain text.
+The next line ends the response with the Hello World message and, finally, a message is sent to the console window, stating that a request was handled.
+
+When the createServer function is executed, a server object is returned. The server object calls the listen function, in which port 8080 is specified as the port to listen on, and the IP address is set to localhost, which is 127.0.0.1. As long as you have an operating network adapter installed on your computer, this web server should start listening for incoming web requests.
+
+The last statement uses the console object to write a message to the screen to let you know that the server is waiting for requests.
+
+After you save this file, run the following from the command prompt to start running your web server.
+
+    Node HelloWorld.js
+
+Leave the command prompt open and open the browser. Navigate to the following URL.
+
+    http://localhost:8080/
+
+When the request is received, a response is sent, and a message is logged to the console
+
+Congratulations! You have installed Node.js and written your first Node.js website. To stop running, you don’t need to close the command prompt window; you can just press Ctrl+C to cancel.
+
+Of course, the next thing you want to do is process the request data to produce a response based on the request. For that, you can require the url module, which provides help for parsing the QueryString. The url object has a parse method that accepts the actual URL, and the second parameter is a flag by which passing a value of true parses the QueryString. The following code reads the name from the QueryString and creates a personalized response.
+
+    var http = require('http');
+    var url = require('url');
+    http.createServer(function (request, response) {
+    var url_parts = url.parse(request.url, true);
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Hello ' + url_parts.query.name + '!\n');
+    console.log('Handled request from ' + url_parts.query.name);
+    }).listen(8080, 'localhost');
+    console.log('Server running at http://localhost:8080/');
+
+This application was saved to hello_lahrach.js. Run the application and then launch the browser. Navigate to the following URL.
+
+    http://localhost:8080/?name=lahrach
+
+When the request is received, a response is sent, and a message is logged to the console window.
+
+if you want to learn more detailed informaion about node.js real-time application using [socket.io](http://socket.io/), [express.js](expressjs.com) and [mongoDB](www.mongodb.com/) Nosql i advice to take this [course](https://www.udemy.com/nodejs-tutorial-from-scratch-by-examples) that gives you all the keys to a good start for a complete masteration of node.js by taking all the power of it.
+
+
+##Creating a Node.js module
+In the previous examples, you used the require function to load modules, which provide code reuse when adding functionality to Node.js. You can create your own module by wrapping your code in a function and exporting it so it can be called from other code, as follows.
+
+    var http = require('http');
+    var url = require('url');
+    function start(){
+    http.createServer(function (request, response) {
+    var url_parts = url.parse(request.url, true);
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Hello ' + url_parts.query.name + '!\n');
+    console.log('Handled request from ' + url_parts.query.name);
+    }).listen(8080, 'localhost');
+    console.log('Server running at http://localhost:8080/');
+    }
+    exports.start = start;
+
+In this example, the existing code has been wrapped with a start function. At the bottom of the file, the start function is assigned to a start property on the exports object. The code is saved to a hello.js file, and the module is created.
+
+You use the new module just as you use other modules, by using the require function.Create an index.js file and enter the following code to use your module.
+    
+    var hello = require('./hello.js');
+    hello.start();
+
+In this example, the module name is “./hello.js”. Notice that a relative path to the file is used. The require function returns an object that is assigned to the hello variable, and then the start method is executed.
+
+After saving the file, you can run the code by executing the following at the command prompt.
+
+    node index.js
+This code works the same as the hello_joe.js code except that this code uses your new module.
