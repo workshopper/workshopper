@@ -61,6 +61,7 @@ function Workshopper (options) {
                             && fs.existsSync(this.helpFile)
                             && options.helpFile
   // optional
+  this.footerFile  = fs.existsSync(options.footerFile) ? options.footerFile : path.join(__dirname, './footer.md')
   this.width       = typeof options.width == 'number' ? options.width : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
@@ -418,7 +419,9 @@ function onselect (name) {
         return error('Error loading exercise text:', err.message || err)
 
       print.text(this.appName, this.appDir, type, exerciseText)
-      print.file(this.appName, this.appDir, path.join(__dirname, './footer.md'))
+
+      console.log('footerFile', this.footerFile)
+      print.file(this.appName, this.appDir, this.footerFile)
 
     }.bind(this))
   }.bind(this))
