@@ -350,40 +350,6 @@ Workshopper.prototype._printUsage = function () {
   print.file(this.appName, this.appDir, path.join(__dirname, './usage.txt'))
 }
 
-
-function printExercise (type, exerciseText) {
-  print.text(this.appName, this.appDir, type, exerciseText)
-
-  console.log(
-      chalk.bold(' »')
-    + ' To print these instructions again, run: '
-    + chalk.italic(this.appName + ' print')
-  )
-  console.log(
-      chalk.bold(' »')
-    + ' To execute your program in a test environment, run: '
-    + chalk.italic(this.appName + ' run program.js')
-  )
-  console.log(
-      chalk.bold(' »')
-    + ' To verify your program, run: '
-    + chalk.italic(this.appName + ' verify program.js')
-  )
-
-  if (this.helpFile) {
-    console.log(
-        chalk.bold(' »')
-      + ' For help with this exercise or with '
-      + this.appName
-      + ', run: '
-      + chalk.italic(this.appName + ' help')
-      )
-  }
-
-  console.log()
-}
-
-
 Workshopper.prototype.loadExercise = function (name) {
   name = name.toLowerCase().trim()
 
@@ -451,7 +417,9 @@ function onselect (name) {
       if (err)
         return error('Error loading exercise text:', err.message || err)
 
-      printExercise.call(this, type, exerciseText)
+      print.text(this.appName, this.appDir, type, exerciseText)
+      print.file(this.appName, this.appDir, path.join(__dirname, './footer.md'))
+
     }.bind(this))
   }.bind(this))
 }
