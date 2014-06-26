@@ -20,6 +20,8 @@ function Workshopper (options) {
   var stat
     , menuJson
     , handled = false
+    , current
+    , exercise
 
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
@@ -61,8 +63,12 @@ function Workshopper (options) {
                             && fs.existsSync(this.helpFile)
                             && options.helpFile
   // optional
-  this.footerFile  = fs.existsSync(options.footerFile) ? options.footerFile : path.join(__dirname, './footer.md')
-  this.width       = typeof options.width == 'number' ? options.width : defaultWidth
+  this.footerFile  = fs.existsSync(options.footerFile)
+      ? options.footerFile
+      : path.join(__dirname, './footer.md')
+  this.width       = typeof options.width == 'number'
+      ? options.width
+      : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
   this.exercises   = require(menuJson).filter(function (e) {
@@ -78,7 +84,11 @@ function Workshopper (options) {
   mkdirp.sync(this.dataDir)
 
   if (argv.v || argv.version || argv._[0] == 'version')
-    return console.log(this.appName + '@' + require(path.join(this.appDir, 'package.json')).version)
+    return console.log(
+        this.appName
+      + '@'
+      + require(path.join(this.appDir, 'package.json')).version
+    )
 
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
@@ -114,9 +124,19 @@ function Workshopper (options) {
   }
 
   if (argv._[0] == 'verify' || argv._[0] == 'run') {
-    if (argv._.length == 1)
+    current  = this.getData('current')
+    exercise = current && this.loadExercise(current)
+
+    if (!current)
+      return error('No active exercise. Select one from the menu.')
+
+    if (!exercise)
+      return error('No such exercise: ' + name)
+
+    if (exercise.requireSubmission !== false && argv._.length == 1)
       return error('Usage:', this.appName, argv._[0], 'mysubmission.js')
-    return this.execute(argv._[0], argv._.slice(1))
+
+    return this.execute(exercise, argv._[0], argv._.slice(1))
   }
 
   if (argv._[0] == 'reset') {
@@ -241,16 +261,7 @@ function onfail (msg) {
 }
 
 
-Workshopper.prototype.execute = function (mode, args) {
-  var current  = this.getData('current')
-    , exercise = current && this.loadExercise(current)
-
-  if (!current)
-    return error('No active exercise. Select one from the menu.')
-
-  if (!exercise)
-    return error('No such exercise: ' + name)
-
+Workshopper.prototype.execute = function (exercise, mode, args) {
   // individual validation events
   exercise.on('pass', onpass)
   exercise.on('fail', onfail)
