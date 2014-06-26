@@ -2,7 +2,7 @@
   "name": "workshopper",
   "version": "1.0.0-alpha07",
   "description": "A terminal workshop runner framework",
-  "main": "./workshopper.js",
+  "main": "./index.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
     "xtend": "~2.1.2",
     "terminal-menu": "~0.2.0",
     "msee": "~0.1.1",
-    "optimist": "~0.6.1"
+    "optimist": "~0.6.1",
+    "glob": "~3.2.9"
   }
 }
