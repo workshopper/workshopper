@@ -63,9 +63,11 @@ function Workshopper (options) {
                             && fs.existsSync(this.helpFile)
                             && options.helpFile
   // optional
-  this.footerFile  = fs.existsSync(options.footerFile)
-      ? options.footerFile
-      : path.join(__dirname, './footer.md')
+  this.footerFile  = options.footerFile === false
+      ? null
+      : fs.existsSync(options.footerFile)
+          ? options.footerFile
+          : path.join(__dirname, './footer.md')
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
@@ -431,7 +433,8 @@ function onselect (name) {
 
       print.text(this.appName, this.appDir, type, exerciseText)
 
-      print.file(this.appName, this.appDir, this.footerFile)
+      if (this.footerFile)
+        print.file(this.appName, this.appDir, this.footerFile)
 
     }.bind(this))
   }.bind(this))
