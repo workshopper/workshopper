@@ -10,13 +10,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "chalk": "~0.4.0",
+    "colors-tmpl": "~0.1.0",
     "map-async": "~0.1.1",
     "mkdirp": "~0.3.5",
-    "colors-tmpl": "~0.1.0",
-    "chalk": "~0.4.0",
-    "xtend": "~2.1.2",
-    "terminal-menu": "~0.2.0",
     "msee": "~0.1.1",
-    "optimist": "~0.6.1"
+    "optimist": "~0.6.1",
+    "terminal-menu": "~0.3.2",
+    "xtend": "~3.0.0"
   }
 }
