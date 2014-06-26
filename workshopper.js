@@ -31,7 +31,7 @@ function Workshopper (options) {
     throw new TypeError('need to provide a `title` String option')
 
   if (typeof options.exerciseDir != 'string')
-    options.exerciseDir = path.join(options.appDir, 'problems')
+    options.exerciseDir = path.join(options.appDir, 'exercises')
 
   stat = fs.statSync(options.exerciseDir)
   if (!stat || !stat.isDirectory())
