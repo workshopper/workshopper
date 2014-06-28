@@ -176,14 +176,45 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# PASS') + '\n')
   console.log(chalk.bold('Your solution to ' + exercise.name + ' passed!') + '\n')
 
+  var done = function done () {
+    var completed = this.getData('completed') || []
+      , remaining
+
+    this.updateData('completed', function (xs) {
+      if (!xs)
+        xs = []
+
+      return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
+    })
+
+    completed = this.getData('completed') || []
+
+    remaining = this.exercises.length - completed.length
+
+    if (remaining === 0) {
+      console.log('You\'ve finished all the challenges! Hooray!\n')
+    } else {
+      console.log(
+          'You have '
+        + remaining
+        + ' challenge'
+        + (remaining != 1 ? 's' : '')
+        + ' left.'
+      )
+      console.log('Type `' + this.appName + '` to show the menu.\n')
+    }
+
+    this.end(mode, true, exercise)
+  }.bind(this)
+
   if (exercise.hideSolutions)
-    return
+    return done()
 
   exercise.getSolutionFiles(function (err, files) {
     if (err)
       return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
     if (!files.length)
-      return
+      return done()
 
     console.log('Here\'s the official solution in case you want to compare notes:\n')
 
@@ -204,9 +235,6 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
       if (err)
         return error('ERROR: There was a problem printing the solution files: ' + (err.message || err))
 
-      var completed = this.getData('completed') || []
-        , remaining
-
       solutions.forEach(function (file, i) {
         console.log(chalk.yellow(util.repeat('\u2500', 80)))
 
@@ -219,31 +247,7 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
           console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
       }.bind(this))
 
-      this.updateData('completed', function (xs) {
-        if (!xs)
-          xs = []
-
-        return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
-      })
-
-      completed = this.getData('completed') || []
-
-      remaining = this.exercises.length - completed.length
-
-      if (remaining === 0) {
-        console.log('You\'ve finished all the challenges! Hooray!\n')
-      } else {
-        console.log(
-            'You have '
-          + remaining
-          + ' challenge'
-          + (remaining != 1 ? 's' : '')
-          + ' left.'
-        )
-        console.log('Type `' + this.appName + '` to show the menu.\n')
-      }
-
-      this.end(mode, true, exercise)
+      done()
     }
 
     map(files, processSolutionFile, printSolutions.bind(this))
