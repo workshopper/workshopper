@@ -7,6 +7,7 @@ const argv       = require('optimist').argv
     , chalk      = require('chalk')
 
 const showMenu  = require('./menu')
+    , greet     = require('./ascii')
     , print     = require('./print-text')
     , util      = require('./util')
 
@@ -231,7 +232,12 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
       remaining = this.exercises.length - completed.length
 
       if (remaining === 0) {
+      greet(function(err, ascii) {
+        if (!err && ascii) {
+          console.log(ascii.green)
+        }
         console.log('You\'ve finished all the challenges! Hooray!\n')
+      })
       } else {
         console.log(
             'You have '
