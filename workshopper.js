@@ -75,6 +75,7 @@ function Workshopper (options) {
       : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
+  // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
   this.exercises   = require(menuJson).filter(function (e) {
     return !/^\/\//.test(e)
@@ -196,7 +197,7 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
 
     if (remaining === 0) {
       if (this.onComplete)
-        this.onComplete()
+        return this.onComplete(this.end.bind(this, mode, true, exercise))
       else
         console.log('You\'ve finished all the challenges! Hooray!\n')
     } else {
