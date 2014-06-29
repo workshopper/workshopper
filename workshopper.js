@@ -75,6 +75,7 @@ function Workshopper (options) {
       : defaultWidth
   this.exerciseDir = options.exerciseDir
   this.appDir      = options.appDir
+  this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
   this.exercises   = require(menuJson).filter(function (e) {
     return !/^\/\//.test(e)
   })
@@ -194,7 +195,10 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
     remaining = this.exercises.length - completed.length
 
     if (remaining === 0) {
-      console.log('You\'ve finished all the challenges! Hooray!\n')
+      if (this.onComplete)
+        this.onComplete()
+      else
+        console.log('You\'ve finished all the challenges! Hooray!\n')
     } else {
       console.log(
           'You have '
