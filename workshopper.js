@@ -6,9 +6,11 @@ const argv       = require('optimist').argv
     , msee       = require('msee')
     , chalk      = require('chalk')
 
+
 const showMenu  = require('./menu')
     , print     = require('./print-text')
     , util      = require('./util')
+
 
 const defaultWidth = 65
 
@@ -241,7 +243,7 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
         if (solutions.length > 1)
           console.log(chalk.bold.yellow(file.name + ':') + '\n')
 
-        console.log(file.content.replace(/\n$/m, ''))
+        console.log(file.content.replace(/^\n/m, '').replace(/\n$/m, ''))
 
         if (i == solutions.length - 1)
           console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
