@@ -154,12 +154,12 @@ function Workshopper (options) {
 }
 
 
-Workshopper.prototype.end = function (mode, pass, exercise) {
+Workshopper.prototype.end = function (mode, pass, exercise, callback) {
   exercise.end(mode, pass, function (err) {
     if (err)
       return error('Error cleaning up:' + (err.message || err))
 
-    setImmediate(function () {
+    setImmediate(callback || function () {
       process.exit(pass ? 0 : -1)
     })
   })
@@ -280,11 +280,17 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
   exercise.on('fail', onfail)
 
   function done (err, pass) {
-    if (err)
-      return error('Could not ' + mode + ': ' + (err.message || err))
+    var errback
 
-    if (mode == 'run')
-      return this.end(mode, true, exercise) // clean up
+    if (err) {
+      // if there was an error then we need to do this after cleanup
+      errback = function () {
+        error('Could not ' + mode + ': ' + (err.message || err))
+      }
+    }
+
+    if (mode == 'run' || err)
+      return this.end(mode, true, exercise, errback) // clean up
 
     if (!pass)
       return this.exerciseFail(mode, exercise)
