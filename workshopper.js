@@ -22,7 +22,6 @@ function Workshopper (options) {
   var stat
     , menuJson
     , handled = false
-    , current
     , exercise
 
   if (typeof options != 'object')
@@ -99,18 +98,23 @@ function Workshopper (options) {
   if (argv.h || argv.help || argv._[0] == 'help')
     return this._printHelp()
 
-  if (Array.isArray(options.menuItems)) {
-    options.menuItems.forEach(function (item) {
+  this.current = this.getData('current')
+
+  if (options.menuItems && !options.commands)
+    options.commands = options.menuItems
+
+  if (Array.isArray(options.commands)) {
+    options.commands.forEach(function (item) {
       if (argv._[0] == item.name || argv[item.name]) {
         handled = true
         return item.handler(this)
       }
-    })
+    }.bind(this))
 
     if (handled)
       return
 
-    this.menuItems = options.menuItems
+    this.commands = options.commands
   }
 
   if (argv._[0] == 'list') {
@@ -120,20 +124,19 @@ function Workshopper (options) {
   }
 
   if (argv._[0] == 'current')
-    return console.log(this.getData('current'))
+    return console.log(this.current)
 
   if (argv._[0] == 'select' || argv._[0] == 'print') {
     return onselect.call(this, argv._.length > 1
       ? argv._.slice(1).join(' ')
-      : this.getData('current')
+      : this.current
     )
   }
 
   if (argv._[0] == 'verify' || argv._[0] == 'run') {
-    current  = this.getData('current')
-    exercise = current && this.loadExercise(current)
+    exercise = this.current && this.loadExercise(this.current)
 
-    if (!current)
+    if (!this.current)
       return error('No active exercise. Select one from the menu.')
 
     if (!exercise)
@@ -310,9 +313,13 @@ Workshopper.prototype.printMenu = function () {
     , width         : this.width
     , completed     : this.getData('completed') || []
     , exercises     : this.exercises
-    , extras        : this.menuItems && this.menuItems.map(function (item) {
-                        return item.name.toLowerCase()
-                      })
+    , extras        : this.commands && this.commands
+                        .filter(function (item) {
+                          return item.menu !== false
+                        })
+                        .map(function (item) {
+                          return item.name.toLowerCase()
+                        })
     , menu          : this.menuOptions
   })
 
@@ -326,8 +333,8 @@ Workshopper.prototype.printMenu = function () {
     this._printHelp()
   }.bind(this))
 
-  if (this.menuItems) {
-    this.menuItems.forEach(function (item) {
+  if (this.commands) {
+    this.commands.forEach(function (item) {
       menu.on('extra-' + item.name, function () {
         item.handler(this)
       }.bind(this))
@@ -381,15 +388,11 @@ Workshopper.prototype._printUsage = function () {
   print.file(this.appName, this.appDir, path.join(__dirname, './usage.txt'))
 }
 
-Workshopper.prototype.loadExercise = function (name) {
+Workshopper.prototype.getExerciseMeta = function (name) {
   name = name.toLowerCase().trim()
 
   var number
     , dir
-    , id
-    , exerciseFile
-    , stat
-    , exercise
 
   this.exercises.some(function (_name, i) {
     if (_name.toLowerCase().trim() != name)
@@ -403,22 +406,44 @@ Workshopper.prototype.loadExercise = function (name) {
   if (number === undefined)
     return null
 
-  dir          = this.dirFromName(name)
-  id           = util.idFromName(name)
-  exerciseFile = path.join(dir, './exercise.js')
-  stat         = fs.statSync(exerciseFile)
+  dir = this.dirFromName(name)
+
+  return {
+      name         : name
+    , number       : number
+    , dir          : dir
+    , id           : util.idFromName(name)
+    , exerciseFile : path.join(dir, './exercise.js')
+  }
+}
+
+Workshopper.prototype.loadExercise = function (name) {
+  var meta = this.getExerciseMeta(name)
+    , stat
+    , exercise
+
+  if (!meta)
+    return null
+
+  stat = fs.statSync(meta.exerciseFile)
 
   if (!stat || !stat.isFile())
-    return error('ERROR:', exerciseFile, 'does not exist!')
+    return error('ERROR:', meta.exerciseFile, 'does not exist!')
 
-  exercise     = require(exerciseFile)
+  exercise = require(meta.exerciseFile)
 
   if (!exercise || typeof exercise.init != 'function')
-    return error('ERROR:', exerciseFile, 'is not a workshopper exercise')
+    return error('ERROR:', meta.exerciseFile, 'is not a workshopper exercise')
 
-  exercise.init(this, id, name, dir, number)
+  exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
 
   return exercise
+}
+
+function error () {
+  var pr = chalk.bold.red
+  console.log(pr.apply(pr, arguments))
+  process.exit(-1)
 }
 
 
@@ -435,6 +460,8 @@ function onselect (name) {
     + '\n ' + chalk.yellow.italic('Exercise', exercise.number, 'of', this.exercises.length)
     + '\n'
   )
+
+  this.current = exercise.name
 
   this.updateData('current', function () {
     return exercise.name
@@ -458,11 +485,8 @@ function onselect (name) {
 }
 
 
-function error () {
-  var pr = chalk.bold.red
-  console.log(pr.apply(pr, arguments))
-  process.exit(-1)
-}
+Workshopper.prototype.error = error
+Workshopper.prototype.print = print
 
 
 module.exports = Workshopper
