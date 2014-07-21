@@ -105,7 +105,9 @@ function Workshopper (options) {
 
   if (Array.isArray(options.commands)) {
     options.commands.forEach(function (item) {
-      if (argv._[0] == item.name || argv[item.name]) {
+      if (argv._[0] == item.name
+          || argv[item.name]
+          || (item.short && argv[item.short])) {
         handled = true
         return item.handler(this)
       }
