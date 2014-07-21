@@ -61,7 +61,7 @@ function Workshopper (options) {
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-                            && fs.existsSync(this.helpFile)
+                            && fs.existsSync(options.helpFile)
                             && options.helpFile
   // optional
   this.footerFile  = options.footerFile === false
