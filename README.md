@@ -2,7 +2,7 @@
 
 **A terminal workshop runner framework**
 
-[![NPM](https://nodei.co/npm/workshopper.png?downloads=true&stars=true)](https://nodei.co/npm/workshopper/) [![NPM](https://nodei.co/npm-dl/workshopper.png?months=3)](https://nodei.co/npm/workshopper/)
+[![NPM](https://nodei.co/npm/workshopper.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/workshopper/) [![NPM](https://nodei.co/npm-dl/workshopper.png?months=3&height=3)](https://nodei.co/npm/workshopper/)
 
 ![Learn You The Node.js For Much Win!](https://raw.github.com/rvagg/learnyounode/master/learnyounode.png)
 
