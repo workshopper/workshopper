@@ -17,6 +17,7 @@
     "msee": "~0.1.1",
     "optimist": "~0.6.1",
     "terminal-menu": "~0.3.2",
+    "visualwidth": "0.0.1",
     "xtend": "~3.0.0"
   }
 }
