@@ -4,6 +4,7 @@ const tmenu        = require('terminal-menu')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
     , chalk        = require('chalk')
+    , vw           = require('visualwidth')
 
 const util         = require('./util')
 
@@ -29,9 +30,9 @@ function showMenu (opts) {
     name = name
 
     if (isDone) {
-      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - m.length - name.length - 2) + m)
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - m.length - vw.width(name) - 2) + m)
     } else {
-      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - name.length - 2))
+      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - vw.width(name) - 2))
     }
   })
 
