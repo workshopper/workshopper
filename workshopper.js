@@ -427,7 +427,11 @@ Workshopper.prototype.loadExercise = function (name) {
   if (!meta)
     return null
 
-  stat = fs.statSync(meta.exerciseFile)
+  try {
+    stat = fs.statSync(meta.exerciseFile)
+  } catch (err) {
+    return error('ERROR:', meta.exerciseFile, 'does not exist!')
+  }
 
   if (!stat || !stat.isFile())
     return error('ERROR:', meta.exerciseFile, 'does not exist!')
