@@ -14,7 +14,7 @@ function usage (err) {
   if (err)
     console.error(err)
 
-  console.error('Usage: makews.js /path/to/menu.json')
+  console.error('Usage: makews.js /path/to/menu.json [--force]')
 }
 
 if (!process.argv[2])
@@ -49,7 +49,7 @@ function processExercise (name) {
     ;'problem.md exercise.js solution/solution.js'.split(' ').forEach(function (f) {
       f = path.join(dir, f)
       fs.exists(f, function (exists) {
-        if (exists)
+        if (exists && process.argv[3] !== '--force')
           return
 
         fs.writeFile(
