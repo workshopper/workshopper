@@ -23,7 +23,7 @@ function Workshopper (options) {
     , menuJson
     , handled = false
     , exercise
-    , cmd = argv._[0];
+    , mode = argv._[0];
 
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
@@ -89,14 +89,14 @@ function Workshopper (options) {
 
   mkdirp.sync(this.dataDir)
 
-  if (argv.v || argv.version || cmd == 'version')
+  if (argv.v || argv.version || mode == 'version')
     return console.log(
         this.appName
       + '@'
       + require(path.join(this.appDir, 'package.json')).version
     )
 
-  if (argv.h || argv.help || cmd == 'help')
+  if (argv.h || argv.help || mode == 'help')
     return this._printHelp()
 
   this.current = this.getData('current')
@@ -106,7 +106,7 @@ function Workshopper (options) {
 
   if (Array.isArray(options.commands)) {
     options.commands.forEach(function (item) {
-      if (cmd == item.name
+      if (mode == item.name
           || argv[item.name]
           || (item.short && argv[item.short])) {
         handled = true
@@ -120,23 +120,23 @@ function Workshopper (options) {
     this.commands = options.commands
   }
 
-  if (cmd == 'list') {
+  if (mode == 'list') {
     return this.exercises.forEach(function (name) {
       console.log(name)
     })
   }
 
-  if (cmd == 'current')
+  if (mode == 'current')
     return console.log(this.current)
 
-  if (cmd == 'select' || cmd == 'print') {
+  if (mode == 'select' || mode == 'print') {
     return onselect.call(this, argv._.length > 1
       ? argv._.slice(1).join(' ')
       : this.current
     )
   }
 
-  if (cmd == 'verify' || cmd == 'run') {
+  if (mode == 'verify' || mode == 'run') {
     exercise = this.current && this.loadExercise(this.current)
 
     if (!this.current)
@@ -151,7 +151,7 @@ function Workshopper (options) {
     return this.execute(exercise, argv._[0], argv._.slice(1))
   }
 
-  if (cmd == 'reset') {
+  if (mode == 'reset') {
     this.reset()
     return console.log(this.title + ' progress reset')
   }
