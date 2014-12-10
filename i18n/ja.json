@@ -1,8 +1,8 @@
 {
 	"menu": {
-		  "help": "HELP"
-		, "exit": "EXIT"
-		, "completed": "COMPLETED"
+		  "exit": "閉じる"
+		, "help": "ヘルプ"
+		, "completed": "できた"
 	},
 	"error": {
 		"exercise": {
@@ -35,12 +35,12 @@
 	},
 	"ui": {
 		  "return": "Type '{{appName}}' to show the menu.\n"
-		, "usage": "Usage: {{appName}} {{mode}} mysubmission.js"
+		, "usage": "使い方: {{appName}} {{mode}} マイファイル.js"
 	},
 	"progress": {
 		  "reset": "{{title}} progress reset"
 		, "finished": "You've finished all the challenges! Hooray!\n"
-		, "state": "Exercise {{count}} of {{amount}}"
+		, "state": "{{amount}}問中{{count}}問目"
 		, "remaining": {
 			  "one": "You have one challenge left"
 			, "other": "You have {{count}} challenges left."

@@ -70,7 +70,7 @@ function Workshopper (options) {
     , menuJson
     , handled = false
     , exercise
-    , lang = 'en'
+    , lang = 'ja'
     , mode = argv._[0]
 
   if (typeof options != 'object')
@@ -109,7 +109,7 @@ function Workshopper (options) {
   // optional
   this.footerFile  = options.footerFile === false
       ? null
-      : fs.existsSync(options.footerFile = options.footerFile.replace(/\{lang\}/g, lang))
+      : options.footerFile && fs.existsSync(options.footerFile = options.footerFile.replace(/\{lang\}/g, lang))
           ? options.footerFile
           : path.join(__dirname, './footer.' + lang + '.md')
   this.width       = typeof options.width == 'number'
@@ -521,7 +521,7 @@ function onselect (name) {
   console.log(
       '\n ' + chalk.green.bold(this.title)
     + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2))
-    + '\n ' + chalk.yellow.bold(exercise.name)
+    + '\n ' + chalk.yellow.bold(this.__('exercise.' + exercise.name))
     + '\n ' + chalk.yellow.italic(this.__('progress.state', {count: exercise.number, amount: this.exercises.length}))
     + '\n'
   )
