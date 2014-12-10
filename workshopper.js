@@ -19,10 +19,10 @@ const defaultWidth = 65
 
 function i18nChain() {
   var linked = {
-      handler: arguments[0],
-      next: null
-    },
-    current = linked
+        handler: arguments[0]
+      , next: null
+    }
+    , current = linked
   for (var i = 1; i<arguments.length; i++) {
     var next = {
       handler: arguments[i]
@@ -32,15 +32,15 @@ function i18nChain() {
   }
   return {
     get: function (key) {
-      var current = linked,
-          result;
+      var current = linked
+        , result
       while (!result && current) {
         result = current.handler.get(key)
         current = current.next
       }
-      if (!result) {
+      if (!result)
         return "?" + key + "?"
-      }
+      
       return result
     }
   }
@@ -49,9 +49,9 @@ function i18nChain() {
 function createDefaultLookup(options, exercises) {
   var result = {
     en: {
-      title: options.title,
-      subtitle: options.subtitle,
-      exercise: {}
+        title: options.title
+      , subtitle: options.subtitle
+      , exercise: {}
     }
   }
 
@@ -97,7 +97,7 @@ function Workshopper (options) {
   menuJson = path.join(options.exerciseDir, 'menu.json')
   stat = fs.statSync(menuJson)
   if (!stat || !stat.isFile())
-    throw new Error('"menuJson" [' + menuJson +'] does not exist or is not a file')
+    throw new Error('"menuJson" [' + menuJson + '] does not exist or is not a file')
 
   this.lang        = lang
   // optional
@@ -516,7 +516,7 @@ function onselect (name) {
   var exercise = this.loadExercise(name)
 
   if (!exercise)
-    return error('No such exercise: ' + name)
+    return error(__('error.exercise.missing', {name: name}))
 
   console.log(
       '\n ' + chalk.green.bold(this.title)
