@@ -70,7 +70,7 @@ function Workshopper (options) {
     , menuJson
     , handled = false
     , exercise
-    , lang = 'ja'
+    , lang = 'en'
     , mode = argv._[0]
 
   if (typeof options != 'object')
