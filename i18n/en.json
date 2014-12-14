@@ -3,6 +3,13 @@
 		  "help": "HELP"
 		, "exit": "EXIT"
 		, "completed": "COMPLETED"
+		, "language": "CHOOSE LANGUAGE"
+		, "cancel": "CANCEL"
+	},
+	"language": {
+		  "_current": "CURRENT"
+		, "en": "English"
+		, "ja": "Japanese (日本語)"
 	},
 	"error": {
 		"exercise": {

@@ -3,6 +3,13 @@
 		  "exit": "閉じる"
 		, "help": "ヘルプ"
 		, "completed": "できた"
+		, "language": "言語セレクト (CHOOSE LANGUAGE)"
+		, "cancel": "キャンセル"
+	},
+	"language": {
+		  "_current": "選んでいる言語"
+		, "en": "英語 (English)"
+		, "ja": "日本語"
 	},
 	"error": {
 		"exercise": {

@@ -10,9 +10,10 @@ const argv       = require('optimist').argv
     , i18nObject = require('i18n-core/lookup/object')
 
 
-const showMenu  = require('./menu')
-    , print     = require('./print-text')
-    , util      = require('./util')
+const showMenu         = require('./menu')
+    , showLanguageMenu = require('./languageMenu')
+    , print            = require('./print-text')
+    , util             = require('./util')
 
 
 const defaultWidth = 65
@@ -131,19 +132,21 @@ function Workshopper (options) {
         i18nObject(createDefaultLookup(options, this.exercises))
       )
     )
-    , i18n = i18n_base.lang(lang)
+    , i18n = i18n_base.lang(lang, true)
     , __ = i18n.__
     , __n = i18n.__n
 
-  options.title = __('title')
-  options.subtitle = __('subtitle')
-
-  this.title       = options.title
-  this.subtitle    = options.subtitle
+  this.__defineGetter__('title', function () {
+    return __('title');
+  });
+  this.__defineGetter__('subtitle', function () {
+    return __('subtitle');
+  });
   this.appName     = options.name
   this.__          = __
   this.__n         = __n
   this.i18n        = i18n
+  this.languages   = ['en', 'ja']
 
   this.dataDir     = path.join(
       process.env.HOME || process.env.USERPROFILE
@@ -217,7 +220,7 @@ function Workshopper (options) {
 
   if (mode == 'reset') {
     this.reset()
-    return console.log(__('progress.reset', {title: this.title}))
+    return console.log(__('progress.reset', {title: this.__('title')}))
   }
 
   this.printMenu()
@@ -365,12 +368,33 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
   exercise[mode](args, done.bind(this))
 }
 
+Workshopper.prototype.selectLanguage = function (lang) {
+  this.i18n.changeLang(lang);
+  this.lang = lang;
+  this.printMenu();
+}
+
+Workshopper.prototype.printLanguageMenu = function () {
+  var menu = showLanguageMenu({
+      name      : this.appName
+    , languages : this.languages
+    , lang      : this.lang
+    , width     : this.width
+    , menu      : this.menuOptions
+  }, this.i18n)
+
+  menu.on('select', this.selectLanguage.bind(this))
+  menu.on('cancel', this.printMenu.bind(this))
+  menu.on('exit', function () {
+    console.log()
+    process.exit(0)
+  })
+}
 
 Workshopper.prototype.printMenu = function () {
   var menu = showMenu({
       name          : this.appName
-    , title         : this.title
-    , subtitle      : this.subtitle
+    , languages     : this.languages
     , width         : this.width
     , completed     : this.getData('completed') || []
     , exercises     : this.exercises
@@ -389,6 +413,7 @@ Workshopper.prototype.printMenu = function () {
     console.log()
     process.exit(0)
   })
+  menu.on('language', this.printLanguageMenu.bind(this))
   menu.on('help', function () {
     console.log()
     this._printHelp()
@@ -519,8 +544,8 @@ function onselect (name) {
     return error(__('error.exercise.missing', {name: name}))
 
   console.log(
-      '\n ' + chalk.green.bold(this.title)
-    + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.title).length + 2))
+      '\n ' + chalk.green.bold(this.__('title'))
+    + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.__('title')).length + 2))
     + '\n ' + chalk.yellow.bold(this.__('exercise.' + exercise.name))
     + '\n ' + chalk.yellow.italic(this.__('progress.state', {count: exercise.number, amount: this.exercises.length}))
     + '\n'

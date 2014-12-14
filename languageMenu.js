@@ -19,8 +19,7 @@ function showMenu (opts, i18n) {
       }, opts.menu))
     , __              = i18n.__
     , __n             = i18n.__n
-    , extraMapping    = {}
-    , exerciseMapping = {}
+    , languageMapping = {}
 
   menu.reset()
   menu.write(chalk.bold(__('title')) + '\n')
@@ -28,13 +27,14 @@ function showMenu (opts, i18n) {
     menu.write(chalk.italic(__('subtitle')) + '\n')
   menu.write(util.repeat('\u2500', opts.width) + '\n')
     
-  opts.exercises.forEach(function (exercise) {
-    var name   = __("exercise." + exercise)
-      , marker = (opts.completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed')  + ']' : ''
+  opts.languages.forEach(function (lang) {
+    console.log(opts.lang, lang)
+    var name   = __("language." + lang)
       , entry  = chalk.bold('»') + ' ' + name
+      , marker = (opts.lang === lang) ? '[' + __('language._current')  + ']' : ''
       , empty  = opts.width - vw.width(entry) - 2 - vw.width(marker)
 
-    exerciseMapping[name] = exercise
+    languageMapping[name] = lang
 
     if (empty < 0) {
       entry = entry.substr(0, entry.length + empty - 1) + "..."
@@ -45,19 +45,7 @@ function showMenu (opts, i18n) {
   })
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
-  menu.add(chalk.bold(__('menu.help')))
-
-  if (opts.extras) {
-    opts.extras.forEach(function (extra) {
-      var name = __("menu." + extra)
-      extraMapping[name] = extra
-      menu.add(chalk.bold(name))
-    })
-  }
-
-  if (opts.languages) {
-    menu.add(chalk.bold(__('menu.language'))) 
-  }
+  menu.add(chalk.bold(__('menu.cancel')))
   menu.add(chalk.bold(__('menu.exit')))
 
   function regexpEncode(str) {
@@ -65,7 +53,7 @@ function showMenu (opts, i18n) {
   }
 
   menu.on('select', function (label) {
-    var pattern = new RegExp('(^»?\\s+)|(\\s+(\\[' + regexpEncode(__('menu.completed')) + '\\])?$)', 'g'),
+    var pattern = new RegExp('(^»?\\s+)|(\\s+(\\[' + regexpEncode(__('language._current')) + '\\])?$)', 'g'),
         name = chalk.stripColor(label).replace(pattern, '')
 
     menu.y = 0
@@ -75,17 +63,10 @@ function showMenu (opts, i18n) {
     if (name === __('menu.exit'))
       return emitter.emit('exit')
 
-    if (name === __('menu.language'))
-      return emitter.emit('language')
+    if (name === __('menu.cancel'))
+      return emitter.emit('cancel')
 
-    if (name === __('menu.help'))
-      return emitter.emit('help')
-
-    if (extraMapping[name]) {
-      return emitter.emit('extra-' + extraMapping[name])
-    }
-
-    emitter.emit('select', exerciseMapping[name])
+    emitter.emit('select', languageMapping[name])
   })
 
   menu.createStream().pipe(process.stdout)
