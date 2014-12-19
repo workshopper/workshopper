@@ -39,7 +39,7 @@ function assertFs (type, options, field, base, fallback) {
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
-    , repeat: repeat
-    , assertDir: assertFs.bind(null, "dir")
-    , assertFile: assertFs.bind(null, "file")
+  , repeat: repeat
+  , assertDir: assertFs.bind(null, "dir")
+  , assertFile: assertFs.bind(null, "file")
 }
