@@ -33,6 +33,8 @@ function assertFs (type, options, field, base, fallback) {
 
   if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
     throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a ' + type)
+
+  return target
 }
 
 

@@ -29,11 +29,12 @@ function Workshopper (options) {
   if (typeof options.name != 'string')
     throw new TypeError('need to provide a `name` String option')
 
-  util.assertDir(options, 'appDir')
-  util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  this.appName     = options.name
+  this.appDir      = util.assertDir(options, 'appDir')
+  this.exerciseDir = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
-  this.appName     = options.name
   this.lang        = "en"
   // optional
   this.menuOptions = options.menu
@@ -50,8 +51,6 @@ function Workshopper (options) {
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
-  this.exerciseDir = options.exerciseDir
-  this.appDir      = options.appDir
   // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
   this.exercises   = require(options.menuJson).filter(function (e) {
