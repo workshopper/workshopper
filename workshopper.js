@@ -23,7 +23,6 @@ function Workshopper (options) {
   var menuJson
     , handled = false
     , exercise
-    , lang = 'en'
     , mode = argv._[0]
 
   if (typeof options != 'object')
@@ -37,20 +36,19 @@ function Workshopper (options) {
   util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
-
-  this.lang        = lang
+  this.lang        = "en"
   // optional
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-                            && fs.existsSync(options.helpFile = options.helpFile.replace(/\{lang\}/g, lang))
+                            && fs.existsSync(options.helpFile = options.helpFile.replace(/\{lang\}/g, this.lang))
                             && options.helpFile
   // optional
   this.footerFile  = options.footerFile === false
       ? null
-      : options.footerFile && fs.existsSync(options.footerFile = options.footerFile.replace(/\{lang\}/g, lang))
+      : options.footerFile && fs.existsSync(options.footerFile = options.footerFile.replace(/\{lang\}/g, this.lang))
           ? options.footerFile
-          : path.join(__dirname, './footer.' + lang + '.md')
+          : path.join(__dirname, './footer.' + this.lang + '.md')
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
@@ -70,7 +68,7 @@ function Workshopper (options) {
   });
 
   this.appName     = options.name
-  this.i18n        = i18n.init(options, this.exercises, lang)
+  this.i18n        = i18n.init(options, this.exercises, this.lang)
   this.__          = this.i18n.__
   this.__n         = this.i18n.__n
   this.languages   = this.i18n.languages
