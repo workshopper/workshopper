@@ -1,0 +1,18 @@
+{bold}{yellow}使い方{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    ワークショッパーが選べるメニューを表示します。
+  {bold}{green}{appname}{/green} list{/bold}
+    あるワークショップのリストを出力します。
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    ワークショップを選びます。
+  {bold}{green}{appname}{/green} current{/bold}
+    今選んであるワークショップを表示します。
+  {bold}{green}{appname}{/green} print{/bold}
+    今選んであるワークショップのヒントを出力します。
+  {bold}{green}{appname}{/green} reset{/bold}
+    ワークショップの進捗をリセットします。
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    選んであるワークショップの入力を使ってアプリのファイルを動かします。
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    選んであるワークショップの入力を使ってアプリのファイルを確認します。
