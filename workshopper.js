@@ -20,8 +20,7 @@ function Workshopper (options) {
   if (!(this instanceof Workshopper))
     return new Workshopper(options)
 
-  var stat
-    , menuJson
+  var menuJson
     , handled = false
     , exercise
     , lang = 'en'
@@ -34,24 +33,10 @@ function Workshopper (options) {
   if (typeof options.name != 'string')
     throw new TypeError('need to provide a `name` String option')
 
-  if (typeof options.exerciseDir != 'string')
-    options.exerciseDir = path.join(options.appDir, 'exercises')
+  util.assertDir(options, 'appDir')
+  util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
-  stat = fs.statSync(options.exerciseDir)
-  if (!stat || !stat.isDirectory())
-    throw new Error('"exerciseDir" [' + options.exerciseDir + '] does not exist or is not a directory')
-
-  if (typeof options.appDir != 'string')
-    throw new TypeError('need to provide an "appDir" String option')
-
-  stat = fs.statSync(options.appDir)
-  if (!stat || !stat.isDirectory())
-    throw new Error('"appDir" [' + options.appDir + '] does not exist or is not a directory')
-
-  menuJson = path.join(options.exerciseDir, 'menu.json')
-  stat = fs.statSync(menuJson)
-  if (!stat || !stat.isFile())
-    throw new Error('"menuJson" [' + menuJson + '] does not exist or is not a file')
 
   this.lang        = lang
   // optional
@@ -73,7 +58,7 @@ function Workshopper (options) {
   this.appDir      = options.appDir
   // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
-  this.exercises   = require(menuJson).filter(function (e) {
+  this.exercises   = require(options.menuJson).filter(function (e) {
     return !/^\/\//.test(e)
   })
 
