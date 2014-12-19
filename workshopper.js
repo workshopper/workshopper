@@ -31,6 +31,8 @@ function Workshopper (options) {
   this.appName     = options.name
   this.appDir      = util.assertDir(options, 'appDir')
   this.exerciseDir = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  this.globalDataDir = util.userDir('.config', 'workshopper')
+  this.dataDir       = util.userDir('.config', this.appName)
 
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
@@ -64,8 +66,6 @@ function Workshopper (options) {
     return this.__('subtitle');
   });
 
-  this.globalDataDir = util.userDir('.config', 'workshopper')
-  this.dataDir       = util.userDir('.config', this.appName)
   this.i18n          = i18n.init(options, this.exercises, this.lang)
   this.__            = this.i18n.__
   this.__n           = this.i18n.__n
