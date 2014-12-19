@@ -60,11 +60,12 @@ function Workshopper (options) {
     return !/^\/\//.test(e)
   })
 
+  // backwards compatibility
   this.__defineGetter__('title', function () {
-    return __('title');
+    return this.__('title');
   });
   this.__defineGetter__('subtitle', function () {
-    return __('subtitle');
+    return this.__('subtitle');
   });
 
   this.appName     = options.name
