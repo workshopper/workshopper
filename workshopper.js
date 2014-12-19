@@ -65,11 +65,11 @@ function Workshopper (options) {
   });
 
   this.globalDataDir = util.userDir('.config', 'workshopper')
-  this.dataDir     = util.userDir('.config', this.appName)
-  this.i18n        = i18n.init(options, this.exercises, this.lang)
-  this.__          = this.i18n.__
-  this.__n         = this.i18n.__n
-  this.languages   = this.i18n.languages
+  this.dataDir       = util.userDir('.config', this.appName)
+  this.i18n          = i18n.init(options, this.exercises, this.lang)
+  this.__            = this.i18n.__
+  this.__n           = this.i18n.__n
+  this.languages     = this.i18n.languages
 
   if (argv.v || argv.version || mode == 'version')
     return console.log(
