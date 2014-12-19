@@ -1,5 +1,6 @@
 const path = require('path')
     , fs   = require('fs')
+    , mkdirp     = require('mkdirp')
 
 
 function repeat (ch, sz) {
@@ -38,10 +39,18 @@ function assertFs (type, options, field, base, fallback) {
 }
 
 
+function userDir () {
+  var folders = [process.env.HOME || process.env.USERPROFILE].concat(Array.prototype.slice.apply(arguments))
+  var dir = path.join.apply(path, folders)
+  mkdirp.sync(dir)
+  return dir
+}
+
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
   , repeat: repeat
   , assertDir: assertFs.bind(null, "dir")
   , assertFile: assertFs.bind(null, "file")
+  , userDir: userDir
 }

@@ -1,7 +1,6 @@
 const argv       = require('optimist').argv
     , fs         = require('fs')
     , path       = require('path')
-    , mkdirp     = require('mkdirp')
     , map        = require('map-async')
     , msee       = require('msee')
     , chalk      = require('chalk')
@@ -32,7 +31,7 @@ function Workshopper (options) {
   this.appName     = options.name
   this.appDir      = util.assertDir(options, 'appDir')
   this.exerciseDir = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
-  
+
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
   this.lang        = "en"
@@ -65,18 +64,12 @@ function Workshopper (options) {
     return this.__('subtitle');
   });
 
+  this.globalDataDir = util.userDir('.config', 'workshopper')
+  this.dataDir     = util.userDir('.config', this.appName)
   this.i18n        = i18n.init(options, this.exercises, this.lang)
   this.__          = this.i18n.__
   this.__n         = this.i18n.__n
   this.languages   = this.i18n.languages
-
-  this.dataDir     = path.join(
-      process.env.HOME || process.env.USERPROFILE
-    , '.config'
-    , this.appName
-  )
-
-  mkdirp.sync(this.dataDir)
 
   if (argv.v || argv.version || mode == 'version')
     return console.log(
