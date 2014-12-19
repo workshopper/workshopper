@@ -6,13 +6,11 @@ const argv       = require('optimist').argv
     , msee       = require('msee')
     , chalk      = require('chalk')
 
-
 const showMenu         = require('./menu')
     , showLanguageMenu = require('./languageMenu')
     , print            = require('./print-text')
     , util             = require('./util')
     , i18n             = require('./i18n')
-
 
 const defaultWidth = 65
 
@@ -28,7 +26,6 @@ function Workshopper (options) {
   if (typeof options != 'object')
     throw new TypeError('need to provide an options object')
 
-
   if (typeof options.name != 'string')
     throw new TypeError('need to provide a `name` String option')
 
@@ -36,6 +33,7 @@ function Workshopper (options) {
   util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
+  this.appName     = options.name
   this.lang        = "en"
   // optional
   this.menuOptions = options.menu
@@ -68,7 +66,6 @@ function Workshopper (options) {
     return this.__('subtitle');
   });
 
-  this.appName     = options.name
   this.i18n        = i18n.init(options, this.exercises, this.lang)
   this.__          = this.i18n.__
   this.__n         = this.i18n.__n
