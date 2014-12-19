@@ -17,8 +17,7 @@ function Workshopper (options) {
   if (!(this instanceof Workshopper))
     return new Workshopper(options)
 
-  var menuJson
-    , handled = false
+  var handled = false
     , exercise
     , mode = argv._[0]
 
