@@ -48,12 +48,16 @@ function createDefaultLookup(options, exercises) {
   return result
 }
 
-module.exports = function(options, exercises) {
-  return i18nCore(
+module.exports = {
+  init: function(options, exercises, lang) {
+    var result = i18nCore(
     i18nChain(
         i18nFs(options.appDir)
       , i18nFs(path.resolve(__dirname, './i18n'))
       , i18nObject(createDefaultLookup(options, exercises))
     )
-  )
+    ).lang(lang, true)
+    result.languages = ['en', 'ja']
+    return result
+  }
 }

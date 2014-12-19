@@ -11,6 +11,7 @@ const showMenu         = require('./menu')
     , showLanguageMenu = require('./languageMenu')
     , print            = require('./print-text')
     , util             = require('./util')
+    , i18n             = require('./i18n')
 
 
 const defaultWidth = 65
@@ -76,23 +77,18 @@ function Workshopper (options) {
     return !/^\/\//.test(e)
   })
 
-
-  var i18n_base = require("./i18n")(options, this.exercises)
-    , i18n = i18n_base.lang(lang, true)
-    , __ = i18n.__
-    , __n = i18n.__n
-
   this.__defineGetter__('title', function () {
     return __('title');
   });
   this.__defineGetter__('subtitle', function () {
     return __('subtitle');
   });
+
   this.appName     = options.name
-  this.__          = __
-  this.__n         = __n
-  this.i18n        = i18n
-  this.languages   = ['en', 'ja']
+  this.i18n        = i18n.init(options, this.exercises, lang)
+  this.__          = this.i18n.__
+  this.__n         = this.i18n.__n
+  this.languages   = this.i18n.languages
 
   this.dataDir     = path.join(
       process.env.HOME || process.env.USERPROFILE
@@ -153,20 +149,20 @@ function Workshopper (options) {
     exercise = this.current && this.loadExercise(this.current)
 
     if (!this.current)
-      return error(__('error.exercise.none_active'))
+      return error(this.__('error.exercise.none_active'))
 
     if (!exercise)
-      return error(__('error.exercise.missing', {name: name}))
+      return error(this.__('error.exercise.missing', {name: name}))
 
     if (exercise.requireSubmission !== false && argv._.length == 1)
-      return error(__('ui.usage', {appName: this.appName, mode: mode}))
+      return error(this.__('ui.usage', {appName: this.appName, mode: mode}))
 
     return this.execute(exercise, mode, argv._.slice(1))
   }
 
   if (mode == 'reset') {
     this.reset()
-    return console.log(__('progress.reset', {title: this.__('title')}))
+    return console.log(this.__('progress.reset', {title: this.__('title')}))
   }
 
   this.printMenu()
@@ -323,7 +319,7 @@ Workshopper.prototype.selectLanguage = function (lang) {
 Workshopper.prototype.printLanguageMenu = function () {
   var menu = showLanguageMenu({
       name      : this.appName
-    , languages : this.languages
+    , languages : this.i18n.languages
     , lang      : this.lang
     , width     : this.width
     , menu      : this.menuOptions
@@ -340,7 +336,7 @@ Workshopper.prototype.printLanguageMenu = function () {
 Workshopper.prototype.printMenu = function () {
   var menu = showMenu({
       name          : this.appName
-    , languages     : this.languages
+    , languages     : this.i18n.languages
     , width         : this.width
     , completed     : this.getData('completed') || []
     , exercises     : this.exercises
