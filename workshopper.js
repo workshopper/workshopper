@@ -36,7 +36,7 @@ function Workshopper (options) {
 
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
-  this.lang        = "en"
+  this.lang        = i18n.chooseLang(this.globalDataDir, argv.l || argv.lang, 'en')
   // optional
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
@@ -66,7 +66,7 @@ function Workshopper (options) {
     return this.__('subtitle');
   });
 
-  this.i18n          = i18n.init(options, this.exercises, this.lang)
+  this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
   this.__            = this.i18n.__
   this.__n           = this.i18n.__n
   this.languages     = this.i18n.languages
@@ -284,7 +284,7 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
 }
 
 Workshopper.prototype.selectLanguage = function (lang) {
-  this.i18n.changeLang(lang);
+  this.i18n.change(this.globalDataDir, lang);
   this.lang = lang;
   this.printMenu();
 }
