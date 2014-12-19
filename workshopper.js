@@ -27,9 +27,9 @@ function Workshopper (options) {
   if (typeof options.name != 'string')
     throw new TypeError('need to provide a `name` String option')
 
-  this.appName     = options.name
-  this.appDir      = util.assertDir(options, 'appDir')
-  this.exerciseDir = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  this.appName       = options.name
+  this.appDir        = util.assertDir(options, 'appDir')
+  this.exerciseDir   = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
   this.globalDataDir = util.userDir('.config', 'workshopper')
   this.dataDir       = util.userDir('.config', this.appName)
 
@@ -66,9 +66,9 @@ function Workshopper (options) {
   });
 
   this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
-  this.__            = this.i18n.__
-  this.__n           = this.i18n.__n
-  this.languages     = this.i18n.languages
+  this.__        = this.i18n.__
+  this.__n       = this.i18n.__n
+  this.languages = this.i18n.languages
 
   if (argv.v || argv.version || mode == 'version')
     return console.log(
