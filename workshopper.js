@@ -41,14 +41,8 @@ function Workshopper (options) {
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-                            && fs.existsSync(options.helpFile = options.helpFile.replace(/\{lang\}/g, this.lang))
-                            && options.helpFile
   // optional
-  this.footerFile  = options.footerFile === false
-      ? null
-      : options.footerFile && fs.existsSync(options.footerFile = options.footerFile.replace(/\{lang\}/g, this.lang))
-          ? options.footerFile
-          : path.join(__dirname, './footer.' + this.lang + '.md')
+  this.footerFile  = options.footerFile === false ? [] : [options.footerFile, path.join(__dirname, './footer.{lang}.md')]
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
@@ -60,10 +54,10 @@ function Workshopper (options) {
 
   // backwards compatibility
   this.__defineGetter__('title', function () {
-    return this.__('title');
+    return this.__('title')
   });
   this.__defineGetter__('subtitle', function () {
-    return this.__('subtitle');
+    return this.__('subtitle')
   });
 
   this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
@@ -284,9 +278,9 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
 }
 
 Workshopper.prototype.selectLanguage = function (lang) {
-  this.i18n.change(this.globalDataDir, lang);
-  this.lang = lang;
-  this.printMenu();
+  this.i18n.change(this.globalDataDir, lang)
+  this.lang = lang
+  this.printMenu()
 }
 
 Workshopper.prototype.printLanguageMenu = function () {
@@ -380,8 +374,7 @@ Workshopper.prototype.dirFromName = function (name) {
 Workshopper.prototype._printHelp = function () {
   this._printUsage()
 
-  if (this.helpFile)
-    print.file(this.appName, this.appDir, this.helpFile)
+  printLocalisedFile(this.appName, this.appDir, this.helpFile, this.lang)
 }
 
 
@@ -451,6 +444,26 @@ function error () {
   process.exit(-1)
 }
 
+function printLocalisedFile (appName, appDir, file, lang) {
+  if (!file)
+    return false
+
+  file = file.replace(/\{lang\}/g, lang)
+  if (fs.existsSync(file)) {
+    var stat = fs.statSync(file)
+    if (stat && stat.isFile()) {
+      print.file(appName, appDir, file)
+      return true
+    }
+  }
+  return false
+}
+
+function printLocalisedFirstFile (appName, appDir, files, lang) {
+  files.every(function (file) {
+    return !printLocalisedFile(appName, appDir, file, lang)
+  })
+}
 
 function onselect (name) {
   var exercise = this.loadExercise(name)
@@ -482,8 +495,7 @@ function onselect (name) {
 
       print.text(this.appName, this.appDir, type, exerciseText)
 
-      if (this.footerFile)
-        print.file(this.appName, this.appDir, this.footerFile)
+      printLocalisedFirstFile(this.appName, this.appDir, this.footerFile, this.lang)
 
     }.bind(this))
   }.bind(this))
