@@ -35,7 +35,8 @@ function Workshopper (options) {
 
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
-  this.lang        = i18n.chooseLang(this.globalDataDir, argv.l || argv.lang, 'en')
+  this.defaultLang = 'en'
+  this.lang        = i18n.chooseLang(this.globalDataDir, argv.l || argv.lang, this.defaultLang)
   // optional
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
