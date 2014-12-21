@@ -40,7 +40,7 @@ function Workshopper (options) {
   }
 
   this.defaultLang = options.languages[0]
-  this.lang        = i18n.chooseLang(this.globalDataDir, this.appDir, argv.l || argv.lang, this.defaultLang, options.languages)
+  this.lang        = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   // optional
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
@@ -282,7 +282,7 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
 }
 
 Workshopper.prototype.selectLanguage = function (lang) {
-  this.i18n.change(this.globalDataDir, this.appDir, lang, this.defaultLang, this.i18n.languages)
+  this.i18n.change(this.globalDataDir, this.dataDir, lang, this.defaultLang, this.i18n.languages)
   this.lang = lang
   this.printMenu()
 }
