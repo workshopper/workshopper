@@ -58,7 +58,7 @@ function showMenu (opts, i18n) {
     })
   }
 
-  if (opts.languages) {
+  if (opts.languages && opts.languages.length > 1) {
     menu.add(chalk.bold(__('menu.language')), emit('language')) 
   }
   menu.add(chalk.bold(__('menu.exit')), emit('exit'))

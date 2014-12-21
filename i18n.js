@@ -49,23 +49,43 @@ function createDefaultLookup(options, exercises) {
   return result
 }
 
-function chooseLang (dataDir, lang, defaultLang) {
-  var dataPath = path.resolve(dataDir, "lang.json")
+function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLangs) {
+  var globalPath = path.resolve(globalDataDir, 'lang.json')
+    , appPath = path.resolve(appDataDir, 'lang.json')
     , data
   try {
-    data = require(dataPath)
+    // Lets see if we find some stored language in the app's config
+    data = require(appPath)
   } catch (e) {
-    data = {}
     // Without a file an error will occur here, but thats okay
   }
-  
-  data.selected = lang || data.selected || defaultLang
+  if (!data) {
+    // Lets see if some other workshopper stored language settings
+    try {
+      data = require(globalPath)
+    } catch (e) {
+      data = {}
+      // Without a file an error will occur here, but thats okay
+    }
+  }
+
+  if (availableLangs.indexOf(defaultLang) === -1)
+    throw new TypeError('The default language "' + defaultLang + ' of this workshopper is not within the set of allowed languages???! (' + availableLangs + ')')
+
+  if (lang && availableLangs.indexOf(lang) === -1)
+    throw new TypeError('The language "' + lang + '" is not available. You can choose ' + availableLangs)
+
+  if (availableLangs.indexOf(data.selected) === -1) {
+    // The stored data is not available so lets use one of the other languages
+    data.selected = lang || defaultLang
+  } else {
+    data.selected = lang || data.selected || defaultLang
+  }
 
   try {
-    fs.writeFileSync(dataPath, JSON.stringify(data))
+    fs.writeFileSync(globalPath, JSON.stringify(data))
+    fs.writeFileSync(appPath, JSON.stringify(data))
   } catch(e) {
-    console.log(e)
-    process.exit(1)
     // It is not good if an error occurs but it shouldn't really matter
   }
   return data.selected
@@ -81,10 +101,10 @@ module.exports = {
             , i18nObject(createDefaultLookup(options, exercises))
           )
         ).lang(lang, true)
-    result.languages = ['en', 'ja']
-    result.change = function (dataDir, lang, defaultLang) {
+    result.languages = options.languages || ['en']
+    result.change = function (globalDataDir, appDataDir, lang, defaultLang, availableLangs) {
       result.changeLang(lang)
-      chooseLang(dataDir, lang)
+      chooseLang(globalDataDir, appDataDir, lang, defaultLang, availableLangs)
     }
     return result
   }
