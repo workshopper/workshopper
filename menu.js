@@ -49,7 +49,7 @@ function showMenu (opts, i18n) {
   })
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
-  menu.add(chalk.bold(__('menu.help')), emit('exit'))
+  menu.add(chalk.bold(__('menu.help')), emit('help'))
 
   if (opts.extras) {
     opts.extras.forEach(function (extra) {
