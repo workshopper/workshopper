@@ -1,7 +1,7 @@
 {
 	"menu": {
-		  "help": "HELP"
-		, "exit": "EXIT"
+		  "exit": "EXIT"
+		, "help": "HELP"
 		, "completed": "COMPLETED"
 		, "language": "CHOOSE LANGUAGE"
 		, "cancel": "CANCEL"

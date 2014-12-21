@@ -65,7 +65,7 @@ function chooseLang (dataDir, lang, defaultLang) {
     fs.writeFileSync(dataPath, JSON.stringify(data))
   } catch(e) {
     console.log(e)
-    process.exit()
+    process.exit(1)
     // It is not good if an error occurs but it shouldn't really matter
   }
   return data.selected
@@ -76,7 +76,7 @@ module.exports = {
   init: function(options, exercises, lang) {
     var result = i18nCore(
           i18nChain(
-              i18nFs(options.appDir)
+              i18nFs(path.resolve(options.appDir, './i18n'))
             , i18nFs(path.resolve(__dirname, './i18n'))
             , i18nObject(createDefaultLookup(options, exercises))
           )
