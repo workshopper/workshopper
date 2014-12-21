@@ -19,73 +19,58 @@ function showMenu (opts, i18n) {
       }, opts.menu))
     , __              = i18n.__
     , __n             = i18n.__n
-    , extraMapping    = {}
-    , exerciseMapping = {}
 
   menu.reset()
   menu.write(chalk.bold(__('title')) + '\n')
   //if (typeof i18n.has('subtitle') == 'string') <-- TODO
     menu.write(chalk.italic(__('subtitle')) + '\n')
   menu.write(util.repeat('\u2500', opts.width) + '\n')
-    
+  
+  function emit(event, value) {
+    return function() {
+      process.nextTick(function () {
+        emitter.emit(event, value)
+      })
+    }
+  }
+
   opts.exercises.forEach(function (exercise) {
     var name   = __("exercise." + exercise)
       , marker = (opts.completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed')  + ']' : ''
       , entry  = chalk.bold('»') + ' ' + name
       , empty  = opts.width - vw.width(entry) - 2 - vw.width(marker)
 
-    exerciseMapping[name] = exercise
-
     if (empty < 0) {
       entry = entry.substr(0, entry.length + empty - 1) + "..."
       empty = 0
     }
 
-    menu.add(entry + util.repeat(' ', empty) + marker)
+    menu.add(entry + util.repeat(' ', empty) + marker, emit('select', exercise))
   })
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
-  menu.add(chalk.bold(__('menu.help')))
+  menu.add(chalk.bold(__('menu.help')), emit('exit'))
 
   if (opts.extras) {
     opts.extras.forEach(function (extra) {
       var name = __("menu." + extra)
-      extraMapping[name] = extra
-      menu.add(chalk.bold(name))
+      menu.add(chalk.bold(name), emit('extra-' + extra))
     })
   }
 
   if (opts.languages) {
-    menu.add(chalk.bold(__('menu.language'))) 
+    menu.add(chalk.bold(__('menu.language')), emit('language')) 
   }
-  menu.add(chalk.bold(__('menu.exit')))
+  menu.add(chalk.bold(__('menu.exit')), emit('exit'))
 
   function regexpEncode(str) {
     return str.replace(/([\.\*\+\?\{\}\[\]\- \(\)\|\^\$\\])/g, "\\$1")
   }
 
   menu.on('select', function (label) {
-    var pattern = new RegExp('(^»?\\s+)|(\\s+(\\[' + regexpEncode(__('menu.completed')) + '\\])?$)', 'g'),
-        name = chalk.stripColor(label).replace(pattern, '')
-
     menu.y = 0
     menu.reset()
     menu.close()
-
-    if (name === __('menu.exit'))
-      return emitter.emit('exit')
-
-    if (name === __('menu.language'))
-      return emitter.emit('language')
-
-    if (name === __('menu.help'))
-      return emitter.emit('help')
-
-    if (extraMapping[name]) {
-      return emitter.emit('extra-' + extraMapping[name])
-    }
-
-    emitter.emit('select', exerciseMapping[name])
   })
 
   menu.createStream().pipe(process.stdout)
