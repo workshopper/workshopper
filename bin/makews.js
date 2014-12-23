@@ -14,7 +14,7 @@ function usage (err) {
   if (err)
     console.error(err)
 
-  console.error('Usage: makews.js /path/to/menu.json')
+  console.error('Usage: makews.js /path/to/menu.json [--force]')
 }
 
 if (!process.argv[2])
@@ -39,6 +39,11 @@ menu.forEach(processExercise)
 
 function processExercise (name) {
   var dir = util.dirFromName(exDir, name)
+    , files = {
+          'problem.md'           : '# Write stuff about ' + name + ' here'
+        , 'exercise.js'          : 'const Exercise = require(\'workshopper-exercise\'); module.exports = new Exercise()'
+        , 'solution/solution.js' : '// solution stuff here'
+      }
 
   console.log('Making', name, '...')
 
@@ -46,17 +51,16 @@ function processExercise (name) {
     if (err)
       return console.error('Error making', dir + ':', err)
 
-    ;'problem.md exercise.js solution/solution.js'.split(' ').forEach(function (f) {
-      f = path.join(dir, f)
-      fs.exists(f, function (exists) {
-        if (exists)
+    Object.keys(files).forEach(function (f) {
+      var filePath = path.join(dir, f)
+
+      fs.exists(filePath, function (exists) {
+        if (exists && process.argv[3] !== '--force')
           return
 
         fs.writeFile(
-            f
-          , path.extname(f) == '.js'
-              ? '// code stuff here'
-              : '# Write stuff about ' + name + ' here'
+            filePath
+          , files[f]
           , 'utf8'
           , function () {}
         )
