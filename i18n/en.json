@@ -28,7 +28,7 @@
 		"cleanup": "Error cleaning up: {{err}}"
 	},
 	"solution": {
-		"error": {
+		"fail": {
 			  "title": "FAIL"
 			, "message": "Your solution to {{name}} didn't pass. Try again!\n"
 		},
