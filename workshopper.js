@@ -152,7 +152,7 @@ Workshopper.prototype.end = function (mode, pass, exercise, callback) {
 // overall exercise fail
 Workshopper.prototype.exerciseFail = function (mode, exercise) {
   console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
-  console.log(this.__('solution.fail.message', {name: exercise.name}))
+  console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.name)}))
 
   this.end(mode, false, exercise)
 }
@@ -161,7 +161,7 @@ Workshopper.prototype.exerciseFail = function (mode, exercise) {
 // overall exercise pass
 Workshopper.prototype.exercisePass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# ' + this.__('solution.pass.title')) + '\n')
-  console.log(chalk.bold(this.__('solution.pass.message', {name: exercise.name})) + '\n')
+  console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.name)})) + '\n')
 
   var done = function done () {
     var completed = this.getData('completed') || []
