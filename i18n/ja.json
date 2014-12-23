@@ -14,44 +14,44 @@
 	},
 	"error": {
 		"exercise": {
-			  "none_active": "No active exercise. Select one from the menu."
-			, "missing": "No such exercise: {{name}}"
-			, "unexpected_error": "Could not {{mode}}: {{err}}"
-			, "missing_file": "ERROR: {{exerciseFile}} does not exist!"
-			, "not_a_workshopper": "ERROR: {{exerciseFile}} is not a workshopper exercise"
-			, "preparing": "Error preparing exercise: {{err}}"
-			, "loading": "Error loading exercise text: {{err}}"
-			, "missing_problem": "Could not find problem.txt or problem.md for [{{name}}] {{err}}"
-			, "submission_no_file": "No such file: {{submission}}"
-			, "submission_not_regular": "Not a regular file: {{submission}}"
+			  "none_active": "問題が選んでいません。メニューに一つを選んでください。"
+			, "missing": "{{name}}という問題がありません。"
+			, "unexpected_error": "{{mode}}の問題がありました：{{err}}"
+			, "missing_file": "エラー：{{exerciseFile}} は見つかりません。"
+			, "not_a_workshopper": "エラー：{{exerciseFile}} はワークショッパーのファイルではありません。"
+			, "preparing": "問題準備途中のエラー：{{err}}"
+			, "loading": "問題テキストを読むエラー：{{err}}"
+			, "missing_problem": "「{{name}}」のために「problem.txt」か 「problem.md」が見つかりませんでした： {{err}}"
+			, "submission_no_file": "ファイルが見つかりません：{{submission}}"
+			, "submission_not_regular": "普通のファイルではありません：{{submission}}"
 		},
-		"cleanup": "Error cleaning up: {{err}}"
+		"cleanup": "クリーンアップのエラー: {{err}}"
 	},
 	"solution": {
 		"error": {
-			  "title": "FAIL"
-			, "message": "Your solution to {{name}} didn't pass. Try again!\n"
+			  "title": "残念！"
+			, "message": "「{{name}}」のためにこのソルーションはまだうまくできていません。頑張って下さい！\n"
 		},
 		"pass": {
-			  "title": "PASS"
-			, "message": "Your solution to {{name}} passed!"
+			  "title": "おめでとう！"
+			, "message": "「{{name}}」のチャレンジできました！"
 		},
 		"notes": {
-			  "compare": "Here's the official solution in case you want to compare notes:\n"
-			, "load_error": "ERROR: There was a problem printing the solution files: {{err}}"
+			  "compare": "比べたいなら、これは公式のソルーションです：\n"
+			, "load_error": "エラー: ソルーションのファイルを表示できませんでした： {{err}}"
 		}
 	},
 	"ui": {
-		  "return": "Type '{{appName}}' to show the menu.\n"
+		  "return": "メニューを表示するために '{{appName}}' を入力してください。\n"
 		, "usage": "使い方: {{appName}} {{mode}} マイファイル.js"
 	},
 	"progress": {
-		  "reset": "{{title}} progress reset"
-		, "finished": "You've finished all the challenges! Hooray!\n"
+		  "reset": "{{title}} の進捗リセットされました。"
+		, "finished": "全てのチャンレジできました！すごいです！おめでとうございました！\n"
 		, "state": "{{amount}}問中{{count}}問目"
 		, "remaining": {
-			  "one": "You have one challenge left"
-			, "other": "You have {{count}} challenges left."
+			  "one": "一つのチャンレジが残っています！"
+			, "other": "まだ{{count}}のチャンレンジが残っています。"
 		}
 	}
 }
