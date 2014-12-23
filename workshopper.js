@@ -55,19 +55,16 @@ function Workshopper (options) {
     return !/^\/\//.test(e)
   })
 
-  // backwards compatibility
-  this.__defineGetter__('title', function () {
-    return this.__('title')
-  });
-  this.__defineGetter__('subtitle', function () {
-    return this.__('subtitle')
-  });
 
   this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
   this.__        = this.i18n.__
   this.__n       = this.i18n.__n
   this.languages = this.i18n.languages
+
+  // backwards compatibility
+  this.__defineGetter__('title', this.__.bind(this, 'title'));
+  this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'));
 
   if (argv.v || argv.version || mode == 'version')
     return console.log(
@@ -298,10 +295,11 @@ Workshopper.prototype.printLanguageMenu = function () {
 
   menu.on('select', this.selectLanguage.bind(this))
   menu.on('cancel', this.printMenu.bind(this))
-  menu.on('exit', function () {
-    console.log()
-    process.exit(0)
-  })
+  menu.on('exit', this._exit.bind(this))
+}
+
+Workshopper.prototype._exit = function () {
+  process.exit(0)
 }
 
 Workshopper.prototype.printMenu = function () {
@@ -322,15 +320,9 @@ Workshopper.prototype.printMenu = function () {
   }, this.i18n)
 
   menu.on('select', onselect.bind(this))
-  menu.on('exit', function () {
-    console.log()
-    process.exit(0)
-  })
+  menu.on('exit', this._exit.bind(this))
   menu.on('language', this.printLanguageMenu.bind(this))
-  menu.on('help', function () {
-    console.log()
-    this._printHelp()
-  }.bind(this))
+  menu.on('help', this._printHelp.bind(this))
 
   if (this.commands) {
     this.commands.forEach(function (item) {
