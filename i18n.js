@@ -1,4 +1,4 @@
-const i18nCore   = require('i18n-core')
+const i18n       = require('i18n-core')
     , i18nFs     = require('i18n-core/lookup/fs')
     , i18nObject = require('i18n-core/lookup/object')
     , path       = require('path')
@@ -25,8 +25,6 @@ function i18nChain() {
         result = current.handler.get(key)
         current = current.next
       }
-      if (!result)
-        return "?" + key + "?"
       
       return result
     }
@@ -94,13 +92,20 @@ function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLang
 module.exports = {
   chooseLang: chooseLang,
   init: function(options, exercises, lang) {
-    var result = i18nCore(
+    var translator = i18n(
           i18nChain(
               i18nFs(path.resolve(options.appDir, './i18n'))
             , i18nFs(path.resolve(__dirname, './i18n'))
             , i18nObject(createDefaultLookup(options, exercises))
           )
-        ).lang(lang, true)
+        )
+      , result = translator.lang(lang, true)
+    translator.fallback = function (key) {
+      if (!key)
+        return "(???)"
+
+      return "?" + key + "?"
+    }
     result.languages = options.languages || ['en']
     result.change = function (globalDataDir, appDataDir, lang, defaultLang, availableLangs) {
       result.changeLang(lang)
