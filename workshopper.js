@@ -40,7 +40,6 @@ function Workshopper (options) {
   }
 
   this.defaultLang = options.languages[0]
-  this.lang        = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   // optional
   this.menuOptions = options.menu
   // helpFile is additional to the usage in usage.txt
@@ -64,6 +63,7 @@ function Workshopper (options) {
     return this.__('subtitle')
   });
 
+  this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
   this.__        = this.i18n.__
   this.__n       = this.i18n.__n
