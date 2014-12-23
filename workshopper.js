@@ -383,7 +383,10 @@ Workshopper.prototype._printHelp = function () {
 
 
 Workshopper.prototype._printUsage = function () {
-  print.file(this.appName, this.appDir, path.join(__dirname, './usage.' + this.lang + '.txt'))
+  printLocalisedFirstFile(this.appName, this.appDir, [
+    path.join(__dirname, './i18n/usage/{lang}.txt'),
+    path.join(__dirname, './i18n/usage/en.txt')
+  ], this.lang)
 }
 
 Workshopper.prototype.getExerciseMeta = function (name) {

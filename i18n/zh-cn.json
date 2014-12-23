@@ -1,16 +1,16 @@
 {
 	"menu": {
-		  "exit": "閉じる"
-		, "help": "ヘルプ"
-		, "completed": "できた"
-		, "language": "言語セレクト (CHOOSE LANGUAGE)"
-		, "cancel": "キャンセル"
+		  "exit": "EXIT"
+		, "help": "HELP"
+		, "completed": "COMPLETED"
+		, "language": "CHOOSE LANGUAGE"
+		, "cancel": "CANCEL"
 	},
 	"language": {
-		  "_current": "選んでいる言語"
-		, "en": "英語 (English)"
-		, "ja": "日本語"
-		, "zh-cn": "中国語 (中文)"
+		  "_current": "CURRENT"
+		, "en": "英语 (English)"
+		, "ja": "日语 (日本語)"
+		, "zh-cn": "中文"
 	},
 	"error": {
 		"exercise": {
@@ -43,12 +43,12 @@
 	},
 	"ui": {
 		  "return": "Type '{{appName}}' to show the menu.\n"
-		, "usage": "使い方: {{appName}} {{mode}} マイファイル.js"
+		, "usage": "Usage: {{appName}} {{mode}} mysubmission.js"
 	},
 	"progress": {
 		  "reset": "{{title}} progress reset"
 		, "finished": "You've finished all the challenges! Hooray!\n"
-		, "state": "{{amount}}問中{{count}}問目"
+		, "state": "Exercise {{count}} of {{amount}}"
 		, "remaining": {
 			  "one": "You have one challenge left"
 			, "other": "You have {{count}} challenges left."
