@@ -104,7 +104,7 @@ function Workshopper (options) {
   }
 
   if (mode == 'current')
-    return console.log(this.current)
+    return console.log(this.__('exercise.' + this.current))
 
   if (mode == 'select' || mode == 'print') {
     var selected = argv._.length > 1 ? argv._.slice(1).join(' ') : this.current
