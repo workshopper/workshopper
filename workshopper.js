@@ -99,18 +99,24 @@ function Workshopper (options) {
 
   if (mode == 'list') {
     return this.exercises.forEach(function (name) {
-      console.log(name)
-    })
+      console.log(this.__('exercise.' + name))
+    }.bind(this))
   }
 
   if (mode == 'current')
     return console.log(this.current)
 
   if (mode == 'select' || mode == 'print') {
-    return onselect.call(this, argv._.length > 1
-      ? argv._.slice(1).join(' ')
-      : this.current
-    )
+    var selected = argv._.length > 1 ? argv._.slice(1).join(' ') : this.current
+    if (/[0-9]+/.test(selected)) {
+      selected = this.exercises[parseInt(selected-1, 10)] || selected
+    } else {
+      selected = this.exercises.filter(function (exercise) {
+        return selected === this.__('exercise.' + exercise)
+      }.bind(this))[0] || selected; 
+    }
+    onselect.call(this, selected)
+    return
   }
 
   if (mode == 'verify' || mode == 'run') {
@@ -382,6 +388,9 @@ Workshopper.prototype._printUsage = function (callback) {
 }
 
 Workshopper.prototype.getExerciseMeta = function (name) {
+  if (typeof name !== "string")
+    return null
+
   name = name.toLowerCase().trim()
 
   var number
@@ -485,7 +494,7 @@ function onselect (name) {
   var exercise = this.loadExercise(name)
 
   if (!exercise)
-    return error(__('error.exercise.missing', {name: name}))
+    return error(this.__('error.exercise.missing', {name: name}))
 
   console.log(
       '\n ' + chalk.green.bold(this.__('title'))
