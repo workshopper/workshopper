@@ -368,17 +368,17 @@ Workshopper.prototype.dirFromName = function (name) {
 
 
 Workshopper.prototype._printHelp = function () {
-  this._printUsage()
-
+  this._printUsage(function () {
   printLocalisedFile(this.appName, this.appDir, this.helpFile, this.lang)
+  }.bind(this))
 }
 
 
-Workshopper.prototype._printUsage = function () {
+Workshopper.prototype._printUsage = function (callback) {
   printLocalisedFirstFile(this.appName, this.appDir, [
     path.join(__dirname, './i18n/usage/{lang}.txt'),
     path.join(__dirname, './i18n/usage/en.txt')
-  ], this.lang)
+  ], this.lang, callback)
 }
 
 Workshopper.prototype.getExerciseMeta = function (name) {
@@ -443,25 +443,42 @@ function error () {
   process.exit(-1)
 }
 
-function printLocalisedFile (appName, appDir, file, lang) {
+function fileExists(file, lang) {
   if (!file)
     return false
 
   file = file.replace(/\{lang\}/g, lang)
   if (fs.existsSync(file)) {
     var stat = fs.statSync(file)
-    if (stat && stat.isFile()) {
-      print.file(appName, appDir, file)
-      return true
-    }
+    if (stat && stat.isFile())
+      return file
   }
+  return null
+    }
+
+function printLocalisedFile (appName, appDir, file, lang, callback) {
+  if (file = fileExists(file, lang)) {
+    print.file(appName, appDir, file, callback)
+    return true
+  }
+
+  if (callback)
+    process.nextTick(callback)
+
   return false
 }
 
-function printLocalisedFirstFile (appName, appDir, files, lang) {
+function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
+  var consumed = false
   files.every(function (file) {
-    return !printLocalisedFile(appName, appDir, file, lang)
+    if (!consumed && (file = fileExists(file, lang))) {
+      consumed = true
+      print.file(appName, appDir, file, callback)
+    }
   })
+  if (!consumed && callback)
+    process.nextTick(callback)
+  return consumed
 }
 
 function onselect (name) {

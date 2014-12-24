@@ -39,7 +39,8 @@ function printFile (appName, appDir, file, callback) {
     if (err)
       throw err
 
-    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents, callback)
+    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents)
+    callback && callback();
   })
 }
 
