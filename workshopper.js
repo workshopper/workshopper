@@ -363,8 +363,8 @@ Workshopper.prototype.updateData = function (id, fn) {
 
 
 Workshopper.prototype.reset = function () {
-  fs.unlink(path.resolve(this.dataDir, 'completed.json'))
-  fs.unlink(path.resolve(this.dataDir, 'current.json'))
+  fs.unlink(path.resolve(this.dataDir, 'completed.json'), function () {})
+  fs.unlink(path.resolve(this.dataDir, 'current.json'), function () {})
 }
 
 
