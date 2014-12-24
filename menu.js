@@ -27,11 +27,7 @@ function showMenu (opts, i18n) {
   menu.write(util.repeat('\u2500', opts.width) + '\n')
   
   function emit(event, value) {
-    return function() {
-      process.nextTick(function () {
-        emitter.emit(event, value)
-      })
-    }
+    return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
   }
 
   opts.exercises.forEach(function (exercise) {
