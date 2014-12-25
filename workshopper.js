@@ -45,7 +45,7 @@ function Workshopper (options) {
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
   // optional
-  this.footerFile  = options.footerFile === false ? [] : [options.footerFile, path.join(__dirname, './footer.{lang}.md')]
+  this.footerFile  = options.footerFile === false ? [] : [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
@@ -479,7 +479,9 @@ function printLocalisedFile (appName, appDir, file, lang, callback) {
 
 function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
   var consumed = false
-  files.every(function (file) {
+  files.filter(function (file) {
+    return file !== undefined && file !== null
+  }).every(function (file) {
     if (!consumed && (file = fileExists(file, lang))) {
       consumed = true
       print.file(appName, appDir, file, callback)
