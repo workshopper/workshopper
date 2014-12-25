@@ -8,12 +8,12 @@
 	},
 	"common": {
 		"exercise": {
-	"compare": {
-		  "title": "Your submission results compared to the expected:"
-		, "actual": "ACTUAL"
-		, "expected": "EXPECTED"
-		, "pass": "Submission results match expected"
-		, "fail": "Submission results did not match expected!"
+			"compare": {
+				  "title": "Your submission results compared to the expected:"
+				, "actual": "ACTUAL"
+				, "expected": "EXPECTED"
+				, "pass": "Submission results match expected"
+				, "fail": "Submission results did not match expected!"
 			}
 		}
 	},
@@ -26,13 +26,13 @@
 	"error": {
 		"exercise": {
 			  "none_active": "問題が選んでいません。メニューに一つを選んでください。"
-			, "missing": "{{name}}という問題がありません。"
+			, "missing": "{{{name}}}という問題がありません。"
 			, "unexpected_error": "{{mode}}の問題がありました：{{{err}}}"
 			, "missing_file": "エラー：{{exerciseFile}} は見つかりません。"
 			, "not_a_workshopper": "エラー：{{exerciseFile}} はワークショッパーのファイルではありません。"
 			, "preparing": "問題準備途中のエラー：{{{err}}}"
 			, "loading": "問題テキストを読むエラー：{{{err}}}"
-			, "missing_problem": "「{{name}}」のために「problem.txt」か 「problem.md」が見つかりませんでした： {{{err}}}"
+			, "missing_problem": "「{{{name}}}」のために「problem.txt」か 「problem.md」が見つかりませんでした： {{{err}}}"
 			, "submission_no_file": "ファイルが見つかりません：{{{submission}}}"
 			, "submission_not_regular": "普通のファイルではありません：{{{submission}}}"
 		},
@@ -41,11 +41,11 @@
 	"solution": {
 		"fail": {
 			  "title": "残念！"
-			, "message": "「{{name}}」のためにこのソルーションはまだうまくできていません。頑張って下さい！\n"
+			, "message": "「{{{name}}}」のためにこのソルーションはまだうまくできていません。頑張って下さい！\n"
 		},
 		"pass": {
 			  "title": "おめでとう！"
-			, "message": "「{{name}}」のチャレンジできました！"
+			, "message": "「{{{name}}}」のチャレンジできました！"
 		},
 		"notes": {
 			  "compare": "比べたいなら、これは公式のソルーションです：\n"
