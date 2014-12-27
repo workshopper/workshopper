@@ -149,6 +149,10 @@ function Workshopper (options) {
 
     return this.execute(exercise, argv._[0], argv._.slice(1))
   }
+  
+  if (argv._[0] == 'next') {
+    return onselect.call(this, this.exercises[this.getData('completed').length])
+  }
 
   if (argv._[0] == 'reset') {
     this.reset()
