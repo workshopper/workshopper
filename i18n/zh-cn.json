@@ -17,7 +17,9 @@
 			"compare": {
 				  "title": "Your submission results compared to the expected:"
 				, "actual": "ACTUAL"
+				, "actual_long": "  ACTUAL:  "
 				, "expected": "EXPECTED"
+				, "expected_long": "  ACTUAL:  "
 				, "pass": "Submission results match expected"
 				, "fail": "Submission results did not match expected!"
 			}
