@@ -151,7 +151,7 @@ Workshopper.prototype.end = function (mode, pass, exercise, callback) {
     setImmediate(callback || function () {
       process.exit(pass ? 0 : -1)
     })
-  })
+  }.bind(this))
 }
 
 
