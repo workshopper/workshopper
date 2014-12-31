@@ -67,18 +67,20 @@ function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLang
     }
   }
 
+  if (lang)
+    lang = lang.replace(/_/g, '-').toLowerCase()
+
   if (availableLangs.indexOf(defaultLang) === -1)
-    throw new TypeError('The default language "' + defaultLang + ' of this workshopper is not within the set of allowed languages???! (' + availableLangs + ')')
+    throw new TypeError('The default language "' + defaultLang + ' is not one of the available languages?! Available languages are: ' + availableLangs.join(', '))
 
   if (lang && availableLangs.indexOf(lang) === -1)
-    throw new TypeError('The language "' + lang + '" is not available. You can choose ' + availableLangs)
+    throw new TypeError('The language "' + lang + '" is not available.\nAvailable languages are ' + availableLangs.join(', ') + '.\n\nNote: the language is not case-sensitive ("en", "EN", "eN", "En" will become "en") and you can use "_" instead of "-" for seperators.')
 
-  if (availableLangs.indexOf(data.selected) === -1) {
+  if (availableLangs.indexOf(data.selected) === -1)
     // The stored data is not available so lets use one of the other languages
     data.selected = lang || defaultLang
-  } else {
+  else
     data.selected = lang || data.selected || defaultLang
-  }
 
   try {
     fs.writeFileSync(globalPath, JSON.stringify(data))
