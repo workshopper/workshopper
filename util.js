@@ -1,6 +1,7 @@
 const path = require('path')
     , fs   = require('fs')
     , mkdirp     = require('mkdirp')
+    , vw   = require('visualwidth')
 
 
 function repeat (ch, sz) {
@@ -38,7 +39,6 @@ function assertFs (type, options, field, base, fallback) {
   return target
 }
 
-
 function userDir () {
   var folders = [process.env.HOME || process.env.USERPROFILE].concat(Array.prototype.slice.apply(arguments))
   var dir = path.join.apply(path, folders)
@@ -46,10 +46,19 @@ function userDir () {
   return dir
 }
 
+function applyTextMarker (text, marker, size) {
+  var availableSpace = size - vw.width(marker)
+
+  text = vw.truncate(text, availableSpace, '...')
+
+  return text + repeat(' ', availableSpace - vw.width(text)) + marker
+}
+
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
   , repeat: repeat
+  , applyTextMarker: applyTextMarker
   , assertDir: assertFs.bind(null, "dir")
   , assertFile: assertFs.bind(null, "file")
   , userDir: userDir

@@ -4,7 +4,6 @@ const tmenu        = require('terminal-menu')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
     , chalk        = require('chalk')
-    , vw           = require('visualwidth')
 
 const util         = require('./util')
 
@@ -31,17 +30,11 @@ function showMenu (opts, i18n) {
   }
 
   opts.exercises.forEach(function (exercise) {
-    var name   = __("exercise." + exercise)
-      , marker = (opts.completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed')  + ']' : ''
-      , entry  = chalk.bold('»') + ' ' + name
-      , empty  = opts.width - vw.width(entry) - 2 - vw.width(marker)
-
-    if (empty < 0) {
-      entry = entry.substr(0, entry.length + empty - 1) + "..."
-      empty = 0
-    }
-
-    menu.add(entry + util.repeat(' ', empty) + marker, emit('select', exercise))
+    var marker = (opts.completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed')  + ']' : ''
+      , size = opts.width - 2
+      , prefix = chalk.bold('»') + ' '
+      , entry = util.applyTextMarker(prefix + __("exercise." + exercise), marker, size)
+    menu.add(entry, emit('select', exercise))
   })
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
