@@ -62,7 +62,7 @@ function printLocalisedFile (appName, appDir, file, lang, callback) {
   file = getExistingFile(file, lang)
 
   if (file) {
-    print.file(appName, appDir, file, callback)
+    printFile(appName, appDir, file, callback)
     return true
   }
 
@@ -83,7 +83,7 @@ function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
       return
     if (file = getExistingFile(file, lang)) {
       consumed = true
-      print.file(appName, appDir, file, callback)
+      printFile(appName, appDir, file, callback)
     }
   })
   if (!consumed && callback)
