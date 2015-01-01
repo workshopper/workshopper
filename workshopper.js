@@ -36,6 +36,7 @@ function Workshopper (options) {
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
   if (!options.languages) {
+    // In case a workshopper didn't define a special language
     options.languages = ['en']
   }
 
@@ -59,6 +60,7 @@ function Workshopper (options) {
   try {
     this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   } catch (e) {
+    // In case the language couldn't be selected
     console.error(e.message)
     process.exit(1)
   }
@@ -67,7 +69,7 @@ function Workshopper (options) {
   this.__n       = this.i18n.__n
   this.languages = this.i18n.languages
 
-  // backwards compatibility
+  // backwards compatibility for title and subtitle
   this.__defineGetter__('title', this.__.bind(this, 'title'));
   this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'));
 
