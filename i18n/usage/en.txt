@@ -16,3 +16,5 @@
     Run your program against the selected input.
   {bold}{green}{appname}{/green} verify program.js{/bold}
     Verify your program against the expected output.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Change the system to the specified language.

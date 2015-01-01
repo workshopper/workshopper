@@ -16,3 +16,5 @@
     選んであるワークショップの入力を使ってアプリのファイルを動かします。
   {bold}{green}{appname}{/green} verify program.js{/bold}
     選んであるワークショップの入力を使ってアプリのファイルを確認します。
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    システムを選んでいる言語に変更します。
