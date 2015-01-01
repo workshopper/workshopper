@@ -57,7 +57,7 @@ function Workshopper (options) {
 
 
   try {
-  this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
+    this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
   } catch (e) {
     console.error(e.message)
     process.exit(1)
@@ -379,14 +379,12 @@ Workshopper.prototype.dirFromName = function (name) {
 
 
 Workshopper.prototype._printHelp = function () {
-  this._printUsage(function () {
-  printLocalisedFile(this.appName, this.appDir, this.helpFile, this.lang)
-  }.bind(this))
+  this._printUsage(print.localisedFile.bind(print, this.appName, this.appDir, this.helpFile, this.lang))
 }
 
 
 Workshopper.prototype._printUsage = function (callback) {
-  printLocalisedFirstFile(this.appName, this.appDir, [
+  print.localisedFirstFile(this.appName, this.appDir, [
     path.join(__dirname, './i18n/usage/{lang}.txt'),
     path.join(__dirname, './i18n/usage/en.txt')
   ], this.lang, callback)
@@ -457,46 +455,6 @@ function error () {
   process.exit(-1)
 }
 
-function fileExists(file, lang) {
-  if (!file)
-    return false
-
-  file = file.replace(/\{lang\}/g, lang)
-  if (fs.existsSync(file)) {
-    var stat = fs.statSync(file)
-    if (stat && stat.isFile())
-      return file
-  }
-  return null
-    }
-
-function printLocalisedFile (appName, appDir, file, lang, callback) {
-  if (file = fileExists(file, lang)) {
-    print.file(appName, appDir, file, callback)
-    return true
-  }
-
-  if (callback)
-    process.nextTick(callback)
-
-  return false
-}
-
-function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
-  var consumed = false
-  files.filter(function (file) {
-    return file !== undefined && file !== null
-  }).every(function (file) {
-    if (!consumed && (file = fileExists(file, lang))) {
-      consumed = true
-      print.file(appName, appDir, file, callback)
-    }
-  })
-  if (!consumed && callback)
-    process.nextTick(callback)
-  return consumed
-}
-
 function onselect (name) {
   var exercise = this.loadExercise(name)
 
@@ -527,7 +485,7 @@ function onselect (name) {
 
       print.text(this.appName, this.appDir, type, exerciseText)
 
-      printLocalisedFirstFile(this.appName, this.appDir, this.footerFile, this.lang)
+      print.localisedFirstFile(this.appName, this.appDir, this.footerFile, this.lang)
 
     }.bind(this))
   }.bind(this))
