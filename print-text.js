@@ -45,7 +45,7 @@ function printFile (appName, appDir, file, callback) {
 }
 
 
-function fileExists(file, lang) {
+function getExistingFile (file, lang) {
   if (!file)
     return false
 
@@ -59,7 +59,9 @@ function fileExists(file, lang) {
 }
 
 function printLocalisedFile (appName, appDir, file, lang, callback) {
-  if (file = fileExists(file, lang)) {
+  file = getExistingFile(file, lang)
+
+  if (file) {
     print.file(appName, appDir, file, callback)
     return true
   }
@@ -73,9 +75,13 @@ function printLocalisedFile (appName, appDir, file, lang, callback) {
 function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
   var consumed = false
   files.filter(function (file) {
+    // Since the files that will be printed are subject to user manipulation
+    // a null can happen here, checking for it just in case.
     return file !== undefined && file !== null
-  }).every(function (file) {
-    if (!consumed && (file = fileExists(file, lang))) {
+  }).forEach(function (file) {
+    if (consumed)
+      return
+    if (file = getExistingFile(file, lang)) {
       consumed = true
       print.file(appName, appDir, file, callback)
     }
