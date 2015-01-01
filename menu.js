@@ -7,6 +7,9 @@ const tmenu        = require('terminal-menu')
 
 const util         = require('./util')
 
+function writeLine(menu, width) {
+  menu.write(util.repeat('\u2500', width) + '\n')
+}
 
 function showMenu (opts, i18n) {
 
@@ -23,7 +26,8 @@ function showMenu (opts, i18n) {
   menu.write(chalk.bold(__('title')) + '\n')
   if (i18n.has('subtitle'))
     menu.write(chalk.italic(__('subtitle')) + '\n')
-  menu.write(util.repeat('\u2500', opts.width) + '\n')
+
+  writeLine(menu, opts.width)
   
   function emit(event, value) {
     return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
@@ -35,7 +39,7 @@ function showMenu (opts, i18n) {
     menu.add(util.applyTextMarker(prefix + entry.name, entry.marker, size), emit('select', entry.id))
   })
 
-  menu.write(util.repeat('\u2500', opts.width) + '\n')
+  writeLine(menu, opts.width)
 
   opts.secondaries.forEach(function (entry) {
     menu.add(chalk.bold(entry.name), emit(entry.command))
