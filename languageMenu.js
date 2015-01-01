@@ -22,7 +22,7 @@ function showMenu (opts, i18n) {
 
   menu.reset()
   menu.write(chalk.bold(__('title')) + '\n')
-  //if (typeof i18n.has('subtitle') == 'string') <-- TODO
+  if (i18n.has('subtitle'))
     menu.write(chalk.italic(__('subtitle')) + '\n')
   menu.write(util.repeat('\u2500', opts.width) + '\n')
 
