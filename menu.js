@@ -29,28 +29,17 @@ function showMenu (opts, i18n) {
     return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
   }
 
-  opts.exercises.forEach(function (exercise) {
-    var marker = (opts.completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed')  + ']' : ''
+  opts.primaries.forEach(function (entry) {
+    var prefix = chalk.bold('»') + ' '
       , size = opts.width - 2
-      , prefix = chalk.bold('»') + ' '
-      , entry = util.applyTextMarker(prefix + __("exercise." + exercise), marker, size)
-    menu.add(entry, emit('select', exercise))
+    menu.add(util.applyTextMarker(prefix + entry.name, entry.marker, size), emit('select', entry.id))
   })
 
   menu.write(util.repeat('\u2500', opts.width) + '\n')
-  menu.add(chalk.bold(__('menu.help')), emit('help'))
 
-  if (opts.extras) {
-    opts.extras.forEach(function (extra) {
-      var name = __("menu." + extra)
-      menu.add(chalk.bold(name), emit('extra-' + extra))
-    })
-  }
-
-  if (opts.languages && opts.languages.length > 1) {
-    menu.add(chalk.bold(__('menu.language')), emit('language')) 
-  }
-  menu.add(chalk.bold(__('menu.exit')), emit('exit'))
+  opts.secondaries.forEach(function (entry) {
+    menu.add(chalk.bold(entry.name), emit(entry.command))
+  })
 
   function regexpEncode(str) {
     return str.replace(/([\.\*\+\?\{\}\[\]\- \(\)\|\^\$\\])/g, "\\$1")

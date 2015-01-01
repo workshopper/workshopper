@@ -5,7 +5,7 @@ const argv       = require('optimist').argv
     , msee       = require('msee')
     , chalk      = require('chalk')
 
-const showMenu         = require('./menu')
+const showMenu         = require('./exerciseMenu')
     , showLanguageMenu = require('./languageMenu')
     , print            = require('./print-text')
     , util             = require('./util')
