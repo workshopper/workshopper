@@ -391,6 +391,9 @@ Workshopper.prototype._printUsage = function () {
 }
 
 Workshopper.prototype.getExerciseMeta = function (name) {
+  if (!name)
+    return false
+
   name = name.toLowerCase().trim()
 
   var number
