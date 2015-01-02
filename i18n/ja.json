@@ -1,56 +1,56 @@
 {
-	"menu": {
-		  "exit": "閉じる"
-		, "help": "ヘルプ"
-		, "completed": "できた"
-		, "language": "言語セレクト (CHOOSE LANGUAGE)"
-		, "cancel": "キャンセル"
-	},
-	"language": {
-		  "_current": "選んでいる言語"
-		, "en": "英語 (English)"
-		, "ja": "日本語"
-		, "zh-cn": "中国語 (中文)"
-		, "zh-tw": "国語 (國語)"
-		, "es": "スペイン語 (Español)"
-	},
-	"error": {
-		"exercise": {
-			  "none_active": "問題が選んでいません。メニューに一つを選んでください。"
-			, "missing": "{{{name}}}という問題がありません。"
-			, "unexpected_error": "{{mode}}の問題がありました：{{{err}}}"
-			, "missing_file": "エラー：{{exerciseFile}} は見つかりません。"
-			, "not_a_workshopper": "エラー：{{exerciseFile}} はワークショッパーのファイルではありません。"
-			, "preparing": "問題準備途中のエラー：{{{err}}}"
-			, "loading": "問題テキストを読むエラー：{{{err}}}"
-		},
-		"cleanup": "クリーンアップのエラー: {{{err}}}"
-	},
-	"solution": {
-		"fail": {
-			  "title": "残念！"
-			, "message": "「{{{name}}}」のためにこのソルーションはまだうまくできていません。頑張って下さい！\n"
-		},
-		"pass": {
-			  "title": "おめでとう！"
-			, "message": "「{{{name}}}」のチャレンジできました！"
-		},
-		"notes": {
-			  "compare": "比べたいなら、これは公式のソルーションです：\n"
-			, "load_error": "エラー: ソルーションのファイルを表示できませんでした： {{{err}}}"
-		}
-	},
-	"ui": {
-		  "return": "メニューを表示するために '{{appName}}' を入力してください。\n"
-		, "usage": "使い方: {{appName}} {{mode}} マイファイル.js"
-	},
-	"progress": {
-		  "reset": "{{title}} の進捗リセットされました。"
-		, "finished": "全てのチャンレジできました！すごいです！おめでとうございました！\n"
-		, "state": "{{amount}}問中{{count}}問目"
-		, "remaining": {
-			  "one": "一つのチャンレジが残っています！"
-			, "other": "まだ{{count}}のチャンレンジが残っています。"
-		}
-	}
+  "menu": {
+      "exit": "閉じる"
+    , "help": "ヘルプ"
+    , "completed": "できた"
+    , "language": "言語セレクト (CHOOSE LANGUAGE)"
+    , "cancel": "キャンセル"
+  }
+, "language": {
+      "_current": "選んでいる言語"
+    , "en": "英語 (English)"
+    , "ja": "日本語"
+    , "zh-cn": "中国語 (中文)"
+    , "zh-tw": "国語 (國語)"
+    , "es": "スペイン語 (Español)"
+  }
+, "error": {
+      "exercise": {
+          "none_active": "問題が選んでいません。メニューに一つを選んでください。"
+        , "missing": "{{{name}}}という問題がありません。"
+        , "unexpected_error": "{{mode}}の問題がありました：{{{err}}}"
+        , "missing_file": "エラー：{{exerciseFile}} は見つかりません。"
+        , "not_a_workshopper": "エラー：{{exerciseFile}} はワークショッパーのファイルではありません。"
+        , "preparing": "問題準備途中のエラー：{{{err}}}"
+        , "loading": "問題テキストを読むエラー：{{{err}}}"
+      }
+    , "cleanup": "クリーンアップのエラー: {{{err}}}"
+  }
+, "solution": {
+      "fail": {
+          "title": "残念！"
+        , "message": "「{{{name}}}」のためにこのソルーションはまだうまくできていません。頑張って下さい！\n"
+      }
+    , "pass": {
+          "title": "おめでとう！"
+        , "message": "「{{{name}}}」のチャレンジできました！"
+      }
+    , "notes": {
+          "compare": "比べたいなら、これは公式のソルーションです：\n"
+        , "load_error": "エラー: ソルーションのファイルを表示できませんでした： {{{err}}}"
+      }
+  }
+, "ui": {
+      "return": "メニューを表示するために '{{appName}}' を入力してください。\n"
+    , "usage": "使い方: {{appName}} {{mode}} マイファイル.js"
+  }
+, "progress": {
+      "reset": "{{title}} の進捗リセットされました。"
+    , "finished": "全てのチャンレジできました！すごいです！おめでとうございました！\n"
+    , "state": "{{amount}}問中{{count}}問目"
+    , "remaining": {
+          "one": "一つのチャンレジが残っています！"
+        , "other": "まだ{{count}}のチャンレンジが残っています。"
+      }
+  }
 }
