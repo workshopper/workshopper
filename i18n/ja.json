@@ -19,8 +19,8 @@
           "none_active": "問題が選んでいません。メニューに一つを選んでください。"
         , "missing": "{{{name}}}という問題がありません。"
         , "unexpected_error": "{{mode}}の問題がありました：{{{err}}}"
-        , "missing_file": "エラー：{{exerciseFile}} は見つかりません。"
-        , "not_a_workshopper": "エラー：{{exerciseFile}} はワークショッパーのファイルではありません。"
+        , "missing_file": "エラー：{{{exerciseFile}}} は見つかりません。"
+        , "not_a_workshopper": "エラー：{{{exerciseFile}}} はワークショッパーのファイルではありません。"
         , "preparing": "問題準備途中のエラー：{{{err}}}"
         , "loading": "問題テキストを読むエラー：{{{err}}}"
       }
