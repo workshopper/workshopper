@@ -4,12 +4,11 @@ const tmenu        = require('terminal-menu')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
     , chalk        = require('chalk')
+    , util         = require('util')
 
-const util         = require('./util')
+const repeat          = require('./util').repeat
+    , applyTextMarker = require('./util').applyTextMarker
 
-function writeLine(menu, width) {
-  menu.write(util.repeat('\u2500', width) + '\n')
-}
 
 function showMenu (opts, i18n) {
 
@@ -22,28 +21,42 @@ function showMenu (opts, i18n) {
     , __              = i18n.__
     , __n             = i18n.__n
 
-  menu.reset()
-  menu.write(chalk.bold(__('title')) + '\n')
-  if (i18n.has('subtitle'))
-    menu.write(chalk.italic(__('subtitle')) + '\n')
+  function writeLine() {
+    menu.write(repeat('\u2500', opts.width) + '\n')
+  }
 
-  writeLine(menu, opts.width)
-  
   function emit(event, value) {
     return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
   }
+  
+  function addEntry(entry) {
+    var width = opts.width - 2
+    menu.add(applyTextMarker(entry.name, entry.marker || "", width), emit(entry.event, entry.payload))
+  }
 
-  opts.primaries.forEach(function (entry) {
-    var prefix = chalk.bold('»') + ' '
-      , size = opts.width - 2
-    menu.add(util.applyTextMarker(prefix + entry.name, entry.marker, size), emit('select', entry.id))
-  })
+  function addVariableEntry(variableEntry) {
+    if (!variableEntry)
+      return
 
-  writeLine(menu, opts.width)
+    if (util.isArray(variableEntry))
+      return variableEntry.forEach(addVariableEntry)
 
-  opts.secondaries.forEach(function (entry) {
-    menu.add(chalk.bold(entry.name), emit(entry.command))
-  })
+    if (variableEntry.separator)
+      return writeLine()
+
+    addEntry(variableEntry)
+  }
+
+  menu.reset()
+
+  menu.write(chalk.bold(__('title')) + '\n')
+
+  if (i18n.has('subtitle'))
+    menu.write(chalk.italic(__('subtitle')) + '\n')
+
+  writeLine()
+
+  opts.entries.forEach(addVariableEntry)
 
   function regexpEncode(str) {
     return str.replace(/([\.\*\+\?\{\}\[\]\- \(\)\|\^\$\\])/g, "\\$1")
