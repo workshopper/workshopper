@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 
-const menu         = require('./menu')
+const menu = require('./menu')
 
 function showMenu (opts, i18n) {
     
