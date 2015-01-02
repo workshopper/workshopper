@@ -158,9 +158,8 @@ function Workshopper (options) {
       return completed.indexOf(elem) < 0
     })
     
-    if (incompleteAfterCurrent.length === 0) {
+    if (incompleteAfterCurrent.length === 0)
       return console.log('There are no incomplete exercises after the current exercise\n')
-    }
     
     return onselect.call(this, incompleteAfterCurrent[0])
   }
