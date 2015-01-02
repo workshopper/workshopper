@@ -36,7 +36,7 @@ function Workshopper (options) {
   util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
 
   if (!options.languages) {
-    // In case a workshopper didn't define a special language
+    // In case a workshopper didn't define a any language
     options.languages = ['en']
   }
 
