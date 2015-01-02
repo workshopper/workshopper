@@ -70,8 +70,8 @@ function Workshopper (options) {
   this.languages = this.i18n.languages
 
   // backwards compatibility for title and subtitle
-  this.__defineGetter__('title', this.__.bind(this, 'title'));
-  this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'));
+  this.__defineGetter__('title', this.__.bind(this, 'title'))
+  this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'))
 
   if (argv.v || argv.version || mode == 'version')
     return console.log(
@@ -435,16 +435,16 @@ Workshopper.prototype.loadExercise = function (name) {
   try {
     stat = fs.statSync(meta.exerciseFile)
   } catch (err) {
-    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}));
+    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
   }
 
   if (!stat || !stat.isFile())
-    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}));
+    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
 
   exercise = require(meta.exerciseFile)
 
   if (!exercise || typeof exercise.init != 'function')
-    return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}));
+    return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
 
   exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
 

@@ -9,8 +9,8 @@ function showMenu (opts, i18n) {
   opts.entries = [
       opts.languages.map(function (lang) {
         return {
-            name: chalk.bold('»') + ' ' + __("language." + lang)
-          , marker: (opts.lang === lang) ? '[' + __('language._current')  + ']' : ''
+            name: chalk.bold('»') + ' ' + __('language.' + lang)
+          , marker: (opts.lang === lang) ? '[' + __('language._current') + ']' : ''
           , event: 'select'
           , payload: lang
         }

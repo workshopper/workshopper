@@ -104,9 +104,9 @@ module.exports = {
       , result = translator.lang(lang, true)
     translator.fallback = function (key) {
       if (!key)
-        return "(???)"
+        return '(???)'
 
-      return "?" + key + "?"
+      return '?' + key + '?'
     }
     result.languages = options.languages || ['en']
     result.change = function (globalDataDir, appDataDir, lang, defaultLang, availableLangs) {

@@ -1,7 +1,7 @@
-const path = require('path')
-    , fs   = require('fs')
-    , mkdirp     = require('mkdirp')
-    , vw   = require('visualwidth')
+const path   = require('path')
+    , fs     = require('fs')
+    , mkdirp = require('mkdirp')
+    , vw     = require('visualwidth')
 
 
 function repeat (ch, sz) {
@@ -59,7 +59,7 @@ module.exports = {
 	, dirFromName: dirFromName
   , repeat: repeat
   , applyTextMarker: applyTextMarker
-  , assertDir: assertFs.bind(null, "dir")
-  , assertFile: assertFs.bind(null, "file")
+  , assertDir: assertFs.bind(null, 'dir')
+  , assertFile: assertFs.bind(null, 'file')
   , userDir: userDir
 }
