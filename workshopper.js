@@ -151,7 +151,18 @@ function Workshopper (options) {
   }
   
   if (argv._[0] == 'next') {
-    return onselect.call(this, this.exercises[this.getData('completed').length])
+    var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
+    
+    var completed = this.getData('completed')    
+    var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
+      return completed.indexOf(elem) < 0
+    })
+    
+    if (incompleteAfterCurrent.length === 0) {
+      return console.log('There are no incomplete exercises after the current exercise\n')
+    }
+    
+    return onselect.call(this, incompleteAfterCurrent[0])
   }
 
   if (argv._[0] == 'reset') {
