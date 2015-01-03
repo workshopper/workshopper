@@ -1,10 +1,12 @@
-const argv       = require('optimist').argv
-    , fs         = require('fs')
-    , path       = require('path')
-    , mkdirp     = require('mkdirp')
-    , map        = require('map-async')
-    , msee       = require('msee')
-    , chalk      = require('chalk')
+const argv         = require('optimist').argv
+    , fs           = require('fs')
+    , path         = require('path')
+    , inherits     = require('util').inherits
+    , EventEmitter = require('events').EventEmitter
+    , mkdirp       = require('mkdirp')
+    , map          = require('map-async')
+    , msee         = require('msee')
+    , chalk        = require('chalk')
 
 
 const showMenu  = require('./menu')
@@ -18,6 +20,8 @@ const defaultWidth = 65
 function Workshopper (options) {
   if (!(this instanceof Workshopper))
     return new Workshopper(options)
+
+  EventEmitter.call(this)
 
   var stat
     , menuJson
@@ -172,6 +176,8 @@ function Workshopper (options) {
   this.printMenu()
 }
 
+inherits(Workshopper, EventEmitter)
+
 
 Workshopper.prototype.end = function (mode, pass, exercise, callback) {
   exercise.end(mode, pass, function (err) {
@@ -281,22 +287,15 @@ Workshopper.prototype.exercisePass = function (mode, exercise) {
 }
 
 
-// single 'pass' event for a validation
-function onpass (msg) {
-  console.log(chalk.green.bold('\u2713 ') + msg)
-}
-
-
-// single 'fail' event for validation
-function onfail (msg) {
-  console.log(chalk.red.bold('\u2717 ') + msg)
-}
-
-
 Workshopper.prototype.execute = function (exercise, mode, args) {
   // individual validation events
-  exercise.on('pass', onpass)
-  exercise.on('fail', onfail)
+  exercise.on('pass', function () {
+    this.emit('pass', exercise, mode)
+  }.bind(this))
+  
+  exercise.on('fail', function () {
+    this.emit('fail', exercise, mode)
+  }.bind(this))
 
   function done (err, pass) {
     var errback
