@@ -10,6 +10,8 @@
     Show the currently selected workshop.
   {bold}{green}{appname}{/green} print{/bold}
     Print the instructions for the currently selected workshop.
+  {bold}{green}{appname}{/green} next{/bold}
+    Print the instructions for the next incomplete workshop after the currently selected workshop.
   {bold}{green}{appname}{/green} reset{/bold}
     Reset completed workshop progress.
   {bold}{green}{appname}{/green} run program.js{/bold}
