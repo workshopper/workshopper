@@ -24,6 +24,7 @@
 		, "preparing": "Error preparing exercise: {{{err}}}"
 		, "loading": "Error loading exercise text: {{{err}}}"
 	  }
+    , "no_uncomplete_left": "There are no incomplete exercises after the current exercise"
 	, "cleanup": "Error cleaning up: {{{err}}}"
   }
 , "solution": {

@@ -10,6 +10,8 @@
     今選んであるワークショップを表示します。
   {bold}{green}{appname}{/green} print{/bold}
     今選んであるワークショップのヒントを出力します。
+  {bold}{green}{appname}{/green} next{/bold}
+    次のまだできていない問題を選んでい、説明を書き出しています。
   {bold}{green}{appname}{/green} reset{/bold}
     ワークショップの進捗をリセットします。
   {bold}{green}{appname}{/green} run program.js{/bold}

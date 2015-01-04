@@ -24,6 +24,7 @@
         , "preparing": "問題準備途中のエラー：{{{err}}}"
         , "loading": "問題テキストを読むエラー：{{{err}}}"
       }
+    , "no_uncomplete_left": "今の問題の後はできていない問題がありません。"
     , "cleanup": "クリーンアップのエラー: {{{err}}}"
   }
 , "solution": {

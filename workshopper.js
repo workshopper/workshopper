@@ -140,6 +140,20 @@ function Workshopper (options) {
 
     return this.execute(exercise, mode, argv._.slice(1))
   }
+  
+  if (argv._[0] == 'next') {
+    var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
+    
+    var completed = this.getData('completed')    
+    var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
+      return completed.indexOf(elem) < 0
+    })
+    
+    if (incompleteAfterCurrent.length === 0)
+      return console.log(this.__('error.no_uncomplete_left') + '\n')
+    
+    return onselect.call(this, incompleteAfterCurrent[0])
+  }
 
   if (mode == 'reset') {
     this.reset()
@@ -393,8 +407,8 @@ Workshopper.prototype._printUsage = function (callback) {
 }
 
 Workshopper.prototype.getExerciseMeta = function (name) {
-  if (typeof name !== "string")
-    return null
+  if (!name)
+    return false
 
   name = name.toLowerCase().trim()
 
