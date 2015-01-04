@@ -30,8 +30,7 @@ function showMenu (opts, i18n) {
   }
   
   function addEntry(entry) {
-    var width = opts.width
-    menu.add(applyTextMarker(entry.name, entry.marker || '', width), emit(entry.event, entry.payload))
+    menu.add(applyTextMarker(entry.name, entry.marker || '', opts.width), emit(entry.event, entry.payload))
   }
 
   function addVariableEntry(variableEntry) {
