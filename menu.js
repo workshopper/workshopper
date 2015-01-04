@@ -1,4 +1,4 @@
-const tmenu        = require('terminal-menu')
+const tmenu        = require('extended-terminal-menu')
     , path         = require('path')
     , fs           = require('fs')
     , xtend        = require('xtend')
