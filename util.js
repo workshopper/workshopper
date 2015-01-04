@@ -47,11 +47,11 @@ function userDir () {
 }
 
 function applyTextMarker (text, marker, size) {
-  var availableSpace = size - vw.width(marker)
+  var availableSpace = size - vw.width(marker, true)
 
-  text = vw.truncate(text, availableSpace, '...')
+  text = vw.truncate(text, availableSpace, '...', true)
 
-  return text + repeat(' ', availableSpace - vw.width(text)) + marker
+  return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
 }
 
 module.exports = {
