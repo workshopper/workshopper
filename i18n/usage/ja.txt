@@ -1,22 +1,22 @@
 {bold}{yellow}使い方{/yellow}{/bold}
 
   {bold}{green}{appname}{/green}{/bold}
-    ワークショッパーが選べるメニューを表示します。
+    ワークショップを選択する対話的メニューを表示します。
   {bold}{green}{appname}{/green} list{/bold}
-    あるワークショップのリストを出力します。
+    登録されているすべてのワークショップの名称一覧を表示します。
   {bold}{green}{appname}{/green} select NAME{/bold}
-    ワークショップを選びます。
+    ワークショップを選択します。
   {bold}{green}{appname}{/green} current{/bold}
-    今選んであるワークショップを表示します。
+    現在選択されているワークショップの名称を表示します。
   {bold}{green}{appname}{/green} print{/bold}
-    今選んであるワークショップのヒントを出力します。
+    現在選択されているワークショップのガイドを表示します。
   {bold}{green}{appname}{/green} next{/bold}
-    次のまだできていない問題を選んでい、説明を書き出しています。
+    現在選択されているワークショップの次の未修了のワークショップのガイドを表示します。
   {bold}{green}{appname}{/green} reset{/bold}
-    ワークショップの進捗をリセットします。
+    ワークショップの進捗状況をリセットします。
   {bold}{green}{appname}{/green} run program.js{/bold}
-    選んであるワークショップの入力を使ってアプリのファイルを動かします。
+    あなたが作成したプログラムを実行します。
   {bold}{green}{appname}{/green} verify program.js{/bold}
-    選んであるワークショップの入力を使ってアプリのファイルを確認します。
+    あなたが作成したプログラムが正しいかを検証します。
   {bold}{green}{appname}{/green} -l <language>{/bold}
-    システムを選んでいる言語に変更します。
+    システムで使用する言語を指定されたものに変更します。
