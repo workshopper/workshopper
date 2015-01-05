@@ -3,7 +3,7 @@
       "exit": "終了する"
     , "help": "ヘルプを表示する"
     , "completed": "完了済み"
-    , "language": "言語を選択する"
+    , "language": "言語を選択する (CHOOSE LANGUAGE)"
     , "cancel": "キャンセル"
   }
 , "language": {
