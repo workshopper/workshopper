@@ -67,6 +67,9 @@ function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLang
     }
   }
 
+  if (!!lang && typeof lang != 'string')
+    throw new TypeError('Please supply a language. Available languages are: ' + availableLangs.join(', '))
+
   if (lang)
     lang = lang.replace(/_/g, '-').toLowerCase()
 

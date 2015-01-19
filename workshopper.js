@@ -62,12 +62,21 @@ function Workshopper (options) {
 
 
   try {
-    this.lang      = i18n.chooseLang(this.globalDataDir, this.dataDir, argv.l || argv.lang, this.defaultLang, options.languages)
+    this.lang = i18n.chooseLang(
+        this.globalDataDir
+      , this.dataDir
+      , argv.l || argv.lang
+      , this.defaultLang
+      , options.languages
+    )
   } catch (e) {
-    // In case the language couldn't be selected
-    console.error(e.message)
+    if (e instanceof TypeError)  // In case the language couldn't be selected
+      console.log(e.message)
+    else
+      console.error(e.stack)
     process.exit(1)
   }
+
   this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
   this.__        = this.i18n.__
   this.__n       = this.i18n.__n
