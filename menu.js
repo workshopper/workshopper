@@ -4,67 +4,67 @@ const tmenu        = require('terminal-menu')
     , xtend        = require('xtend')
     , EventEmitter = require('events').EventEmitter
     , chalk        = require('chalk')
-    , vw           = require('visualwidth')
+    , util         = require('util')
 
-const util         = require('./util')
+const repeat          = require('./util').repeat
+    , applyTextMarker = require('./util').applyTextMarker
 
 
-function showMenu (opts) {
-  var emitter  = new EventEmitter()
-    , menu     = tmenu(xtend({
+function showMenu (opts, i18n) {
+
+  var emitter         = new EventEmitter()
+    , menu            = tmenu(xtend({
           width : opts.width
         , x     : 3
         , y     : 2
       }, opts.menu))
+    , __              = i18n.__
+    , __n             = i18n.__n
 
-  menu.reset()
-  menu.write(chalk.bold(opts.title) + '\n')
-  if (typeof opts.subtitle == 'string')
-    menu.write(chalk.italic(opts.subtitle) + '\n')
-  menu.write(util.repeat('\u2500', opts.width) + '\n')
-    
-  opts.exercises.forEach(function (name) {
-    var isDone = opts.completed.indexOf(name) >= 0
-      , m      = '[COMPLETED]'
-
-    name = name
-
-    if (isDone) {
-      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - m.length - vw.width(name) - 2) + m)
-    } else {
-      menu.add(chalk.bold('»') + ' ' + name + util.repeat(' ', opts.width - vw.width(name) - 2))
-    }
-  })
-
-  menu.write(util.repeat('\u2500', opts.width) + '\n')
-  menu.add(chalk.bold('HELP'))
-
-  if (opts.extras) {
-    opts.extras.forEach(function (extra) {
-      menu.add(chalk.bold(extra.toUpperCase()))
-    })
+  function writeLine() {
+    menu.write(repeat('\u2500', opts.width) + '\n')
   }
 
-  menu.add(chalk.bold('EXIT'))
+  function emit(event, value) {
+    return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
+  }
+  
+  function addEntry(entry) {
+    menu.add(applyTextMarker(entry.name, entry.marker || '', opts.width), emit(entry.event, entry.payload))
+  }
+
+  function addVariableEntry(variableEntry) {
+    if (!variableEntry)
+      return
+
+    if (util.isArray(variableEntry))
+      return variableEntry.forEach(addVariableEntry)
+
+    if (variableEntry.separator)
+      return writeLine()
+
+    addEntry(variableEntry)
+  }
+
+  menu.reset()
+
+  menu.write(chalk.bold(__('title')) + '\n')
+
+  if (i18n.has('subtitle'))
+    menu.write(chalk.italic(__('subtitle')) + '\n')
+
+  writeLine()
+
+  opts.entries.forEach(addVariableEntry)
+
+  function regexpEncode(str) {
+    return str.replace(/([\.\*\+\?\{\}\[\]\- \(\)\|\^\$\\])/g, "\\$1")
+  }
 
   menu.on('select', function (label) {
-    var name = chalk.stripColor(label)
-                .replace(/(^»?\s+)|(\s+(\[COMPLETED\])?$)/g, '')
-
     menu.y = 0
     menu.reset()
     menu.close()
-
-    if (name === 'EXIT')
-      return emitter.emit('exit')
-
-    if (name === 'HELP')
-      return emitter.emit('help')
-
-    if (opts.extras && opts.extras.indexOf(name.toLowerCase()) != -1)
-      return emitter.emit('extra-' + name.toLowerCase())
-
-    emitter.emit('select', name)
   })
 
   menu.createStream().pipe(process.stdout)

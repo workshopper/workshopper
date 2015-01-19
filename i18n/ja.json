@@ -1,0 +1,57 @@
+{
+  "menu": {
+      "exit": "終了する"
+    , "help": "ヘルプを表示する"
+    , "completed": "完了済み"
+    , "language": "言語を選択する (CHOOSE LANGUAGE)"
+    , "cancel": "キャンセル"
+  }
+, "language": {
+      "_current": "現在の言語"
+    , "en": "英語 (English)"
+    , "ja": "日本語"
+    , "zh-cn": "中国語 (中文)"
+    , "zh-tw": "国語 (國語)"
+    , "es": "スペイン語 (Español)"
+  }
+, "error": {
+      "exercise": {
+          "none_active": "演習課題が選ばれていません。メニューから一つ選んでください。"
+        , "missing": "{{{name}}}という演習課題はありません。"
+        , "unexpected_error": "{{mode}}できませんでした：{{{err}}}"
+        , "missing_file": "エラー：{{{exerciseFile}}} は見つかりません。"
+        , "not_a_workshopper": "エラー：{{{exerciseFile}}} はワークショップの演習課題ではありません。"
+        , "preparing": "演習課題の準備中に問題が発生しました：{{{err}}}"
+        , "loading": "演習課題のテキスト読み込み中に問題が発生しました：{{{err}}}"
+      }
+    , "no_uncomplete_left": "現在の演習課題の後に未完了の演習課題はありません。"
+    , "cleanup": "クリーンアップ中に問題が発生しました: {{{err}}}"
+  }
+, "solution": {
+      "fail": {
+          "title": "残念！"
+        , "message": "「{{{name}}}」に対するあなたの回答は不合格でした。再度挑戦してみて下さい！\n"
+      }
+    , "pass": {
+          "title": "おめでとう！"
+        , "message": "「{{{name}}}」に対するあなたの回答は合格です！"
+      }
+    , "notes": {
+          "compare": "これが正式な回答です（もしあなたの回答と比較してみたいならどうぞ）：\n"
+        , "load_error": "エラー: 回答の表示の際に問題が発生しました： {{{err}}}"
+      }
+  }
+, "ui": {
+      "return": "メニューを表示するには '{{appName}}' と入力してください。\n"
+    , "usage": "使い方: {{appName}} {{mode}} mysubmission.js"
+  }
+, "progress": {
+      "reset": "{{title}} の進捗状況がリセットされました。"
+    , "finished": "なんとあなたは全問クリア済みです！すばらしい！\n"
+    , "state": "{{amount}}問中{{count}}問目"
+    , "remaining": {
+          "one": "一つのチャンレジが残っています！"
+        , "other": "あと{{count}}個のチャンレンジが残っています。"
+      }
+  }
+}

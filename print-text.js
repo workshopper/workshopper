@@ -39,10 +39,60 @@ function printFile (appName, appDir, file, callback) {
     if (err)
       throw err
 
-    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents, callback)
+    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents)
+    callback && callback();
   })
+}
+
+
+function getExistingFile (file, lang) {
+  if (!file)
+    return false
+
+  file = file.replace(/\{lang\}/g, lang)
+  if (fs.existsSync(file)) {
+    var stat = fs.statSync(file)
+    if (stat && stat.isFile())
+      return file
+  }
+  return null
+}
+
+function printLocalisedFile (appName, appDir, file, lang, callback) {
+  file = getExistingFile(file, lang)
+
+  if (file) {
+    printFile(appName, appDir, file, callback)
+    return true
+  }
+
+  if (callback)
+    process.nextTick(callback)
+
+  return false
+}
+
+function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
+  var consumed = false
+  files.filter(function (file) {
+    // Since the files that will be printed are subject to user manipulation
+    // a null can happen here, checking for it just in case.
+    return file !== undefined && file !== null
+  }).forEach(function (file) {
+    if (consumed)
+      return
+    if (file = getExistingFile(file, lang)) {
+      consumed = true
+      printFile(appName, appDir, file, callback)
+    }
+  })
+  if (!consumed && callback)
+    process.nextTick(callback)
+  return consumed
 }
 
 
 module.exports.text = printText
 module.exports.file = printFile
+module.exports.localisedFile = printLocalisedFile
+module.exports.localisedFirstFile = printLocalisedFirstFile
