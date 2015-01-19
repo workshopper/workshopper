@@ -1,11 +1,11 @@
 {bold}{yellow}Usage{/yellow}{/bold}
 
   {bold}{green}{appname}{/green}{/bold}
-    显示一个互动菜单来选择一个习题。
+    显示一个互动菜单来选择习题。
   {bold}{green}{appname}{/green} list{/bold}
     将所有习题逐行列举显示出来。
   {bold}{green}{appname}{/green} select NAME{/bold}
-    选择一个习题。
+    选择所指定的习题。
   {bold}{green}{appname}{/green} current{/bold}
     显示当前选择的习题。
   {bold}{green}{appname}{/green} print{/bold}
@@ -15,8 +15,8 @@
   {bold}{green}{appname}{/green} reset{/bold}
     重置已完成的习题。
   {bold}{green}{appname}{/green} run program.js{/bold}
-    运行你的程序来比较所选的输入。
+    运行你的程序来比较输入输出。
   {bold}{green}{appname}{/green} verify program.js{/bold}
     验证你的程序是否符合期望的结果。
   {bold}{green}{appname}{/green} -l <language>{/bold}
-    将系统语言切换至所选的语言。
+    将本程序语言切换至所选的语言。

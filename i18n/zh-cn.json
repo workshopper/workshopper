@@ -3,7 +3,7 @@
       "exit": "退出"
     , "help": "帮助"
     , "completed": "完成"
-    , "language": "选择语言(CHOOSE LANGUAGE)"
+    , "language": "选择语言 (CHOOSE LANGUAGE)"
     , "cancel": "取消"
   }
 , "language": {
@@ -18,32 +18,32 @@
       "exercise": {
           "none_active": "当前没有选择任何习题，请从菜单选择一个。"
         , "missing": "没有这个练习题： {{{name}}}"
-        , "unexpected_error": "无法执行： {{mode}}: {{{err}}}"
-        , "missing_file": "错误: {{{exerciseFile}}} 不存在!"
-        , "not_a_workshopper": "错误: {{{exerciseFile}}} 不是一个练习题"
-        , "preparing": "准备练习题时出错: {{{err}}}"
-        , "loading": "载入习题文本时候出错: {{{err}}}"
+        , "unexpected_error": "无法执行 {{mode}}： {{{err}}}"
+        , "missing_file": "错误： {{{exerciseFile}}} 不存在!"
+        , "not_a_workshopper": "错误： {{{exerciseFile}}} 不是一个练习题"
+        , "preparing": "准备练习题时出错： {{{err}}}"
+        , "loading": "载入习题文本时候出错： {{{err}}}"
       }
     , "no_uncomplete_left": "当前习题之后没有未完成的习题了。"
-    , "cleanup": "清理过程出错: {{{err}}}"
+    , "cleanup": "清理过程出错： {{{err}}}"
   }
 , "solution": {
       "fail": {
           "title": "失败"
-        , "message": "你所作的 {{{name}}} 答案未通过， 请再试一次！\n"
+        , "message": "你对 {{{name}}} 所作的答案未通过验证， 请再试一次！\n"
       }
     , "pass": {
           "title": "通过"
-        , "message": "你所作的 {{{name}}} 答案已通过！"
+        , "message": "你对 {{{name}}} 所作的答案已通过验证！"
       }
     , "notes": {
           "compare": "以下是官方给出的参考答案，以备你做比较参考:\n"
-        , "load_error": "错误: 显示答案的时候发生错误: {{{err}}}"
+        , "load_error": "错误： 显示答案的时候发生错误： {{{err}}}"
       }
   }
 , "ui": {
-      "return": "输入运行 '{{appName}}' 以显示菜单.\n"
-    , "usage": "用法: {{appName}} {{mode}} mysubmission.js"
+      "return": "输入运行 '{{appName}}' 命令以显示菜单.\n"
+    , "usage": "用法： {{appName}} {{mode}} mysubmission.js"
   }
 , "progress": {
       "reset": "{{title}} 进度重置"
