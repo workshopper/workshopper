@@ -1,4 +1,7 @@
-const path = require('path')
+const path   = require('path')
+    , fs     = require('fs')
+    , mkdirp = require('mkdirp')
+    , vw     = require('visualwidth')
 
 
 function repeat (ch, sz) {
@@ -17,7 +20,46 @@ function dirFromName (exerciseDir, name) {
   return path.join(exerciseDir, idFromName(name))
 }
 
+function assertFs (type, options, field, base, fallback) {
+  var target = options[field]
+    , stat
+  if (typeof target != 'string')
+    if (fallback)
+      options[field] = target = path.join(base, fallback)
+    else
+      throw new TypeError('need to provide an "' + field + '" String option')
 
-module.exports.idFromName  = idFromName
-module.exports.dirFromName = dirFromName
-module.exports.repeat      = repeat
+  try {
+    stat = fs.statSync(target) 
+  } catch (e) {}
+
+  if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
+    throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a ' + type)
+
+  return target
+}
+
+function userDir () {
+  var folders = [process.env.HOME || process.env.USERPROFILE].concat(Array.prototype.slice.apply(arguments))
+  var dir = path.join.apply(path, folders)
+  mkdirp.sync(dir)
+  return dir
+}
+
+function applyTextMarker (text, marker, size) {
+  var availableSpace = size - vw.width(marker, true)
+
+  text = vw.truncate(text, availableSpace, '...', true)
+
+  return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
+}
+
+module.exports = {
+	  idFromName: idFromName
+	, dirFromName: dirFromName
+  , repeat: repeat
+  , applyTextMarker: applyTextMarker
+  , assertDir: assertFs.bind(null, 'dir')
+  , assertFile: assertFs.bind(null, 'file')
+  , userDir: userDir
+}

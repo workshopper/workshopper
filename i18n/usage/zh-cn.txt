@@ -1,0 +1,22 @@
+{bold}{yellow}Usage{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Show a menu to interactively select a workshop.
+  {bold}{green}{appname}{/green} list{/bold}
+    Show a newline-separated list of all the workshops.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Select a workshop.
+  {bold}{green}{appname}{/green} current{/bold}
+    Show the currently selected workshop.
+  {bold}{green}{appname}{/green} print{/bold}
+    Print the instructions for the currently selected workshop.
+  {bold}{green}{appname}{/green} next{/bold}
+    Print the instructions for the next incomplete workshop after the currently selected workshop.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Reset completed workshop progress.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Run your program against the selected input.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Verify your program against the expected output.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Change the system to the specified language.

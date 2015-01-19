@@ -1,0 +1,57 @@
+{
+  "menu": {
+      "exit": "EXIT"
+    , "help": "HELP"
+    , "completed": "COMPLETED"
+    , "language": "CHOOSE LANGUAGE"
+    , "cancel": "CANCEL"
+  }
+, "language": {
+      "_current": "CURRENT"
+    , "en": "English"
+    , "ja": "Japanese (日本語)"
+    , "zh-cn": "Chinese (中文)"
+    , "zh-tw": "Taiwanese (國語)"
+    , "es": "Spanish (Español)"
+  }
+, "error": {
+      "exercise": {
+          "none_active": "No active exercise. Select one from the menu."
+        , "missing": "No such exercise: {{{name}}}"
+        , "unexpected_error": "Could not {{mode}}: {{{err}}}"
+        , "missing_file": "ERROR: {{{exerciseFile}}} does not exist!"
+        , "not_a_workshopper": "ERROR: {{{exerciseFile}}} is not a workshopper exercise"
+        , "preparing": "Error preparing exercise: {{{err}}}"
+        , "loading": "Error loading exercise text: {{{err}}}"
+      }
+    , "no_uncomplete_left": "There are no incomplete exercises after the current exercise"
+    , "cleanup": "Error cleaning up: {{{err}}}"
+  }
+, "solution": {
+      "fail": {
+          "title": "FAIL"
+        , "message": "Your solution to {{{name}}} didn't pass. Try again!\n"
+      }
+    , "pass": {
+          "title": "PASS"
+        , "message": "Your solution to {{{name}}} passed!"
+      }
+    , "notes": {
+          "compare": "Here's the official solution in case you want to compare notes:\n"
+        , "load_error": "ERROR: There was a problem printing the solution files: {{{err}}}"
+      }
+  }
+, "ui": {
+      "return": "Type '{{appName}}' to show the menu.\n"
+    , "usage": "Usage: {{appName}} {{mode}} mysubmission.js"
+  }
+, "progress": {
+      "reset": "{{title}} progress reset"
+    , "finished": "You've finished all the challenges! Hooray!\n"
+    , "state": "Exercise {{count}} of {{amount}}"
+    , "remaining": {
+          "one": "You have one challenge left"
+        , "other": "You have {{count}} challenges left."
+      }
+  }
+}
