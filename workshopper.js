@@ -1,9 +1,11 @@
-const argv       = require('optimist').argv
-    , fs         = require('fs')
-    , path       = require('path')
-    , map        = require('map-async')
-    , msee       = require('msee')
-    , chalk      = require('chalk')
+const argv         = require('optimist').argv
+    , fs           = require('fs')
+    , path         = require('path')
+    , map          = require('map-async')
+    , msee         = require('msee')
+    , chalk        = require('chalk')
+    , inherits     = require('util').inherits
+    , EventEmitter = require('events').EventEmitter
 
 const showMenu         = require('./exerciseMenu')
     , showLanguageMenu = require('./languageMenu')
@@ -16,6 +18,8 @@ const defaultWidth = 65
 function Workshopper (options) {
   if (!(this instanceof Workshopper))
     return new Workshopper(options)
+
+  EventEmitter.call(this)
 
   var handled = false
     , exercise
@@ -176,6 +180,8 @@ function Workshopper (options) {
 
   this.printMenu()
 }
+
+inherits(Workshopper, EventEmitter)
 
 
 Workshopper.prototype.end = function (mode, pass, exercise, callback) {
