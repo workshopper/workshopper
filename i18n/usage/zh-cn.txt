@@ -1,22 +1,22 @@
 {bold}{yellow}Usage{/yellow}{/bold}
 
   {bold}{green}{appname}{/green}{/bold}
-    Show a menu to interactively select a workshop.
+    显示一个互动菜单来选择一个习题。
   {bold}{green}{appname}{/green} list{/bold}
-    Show a newline-separated list of all the workshops.
+    将所有习题逐行列举显示出来。
   {bold}{green}{appname}{/green} select NAME{/bold}
-    Select a workshop.
+    选择一个习题。
   {bold}{green}{appname}{/green} current{/bold}
-    Show the currently selected workshop.
+    显示当前选择的习题。
   {bold}{green}{appname}{/green} print{/bold}
-    Print the instructions for the currently selected workshop.
+    打印出当前习题的说明文本。
   {bold}{green}{appname}{/green} next{/bold}
-    Print the instructions for the next incomplete workshop after the currently selected workshop.
+    打印出当前所选习题的下一个未完成习题的说明。
   {bold}{green}{appname}{/green} reset{/bold}
-    Reset completed workshop progress.
+    重置已完成的习题。
   {bold}{green}{appname}{/green} run program.js{/bold}
-    Run your program against the selected input.
+    运行你的程序来比较所选的输入。
   {bold}{green}{appname}{/green} verify program.js{/bold}
-    Verify your program against the expected output.
+    验证你的程序是否符合期望的结果。
   {bold}{green}{appname}{/green} -l <language>{/bold}
-    Change the system to the specified language.
+    将系统语言切换至所选的语言。
