@@ -297,6 +297,9 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
   // individual validation events
   exercise.on('pass', onpass)
   exercise.on('fail', onfail)
+  exercise.on('pass', this.emit.bind(this, 'pass', exercise, mode))
+  exercise.on('fail', this.emit.bind(this, 'fail', exercise, mode))
+
 
   function done (err, pass) {
     var errback
