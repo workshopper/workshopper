@@ -1,0 +1,22 @@
+{bold}{yellow}Instruções de Uso{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Mostra um menu para selecionar interativamente um workshop.
+  {bold}{green}{appname}{/green} list{/bold}
+    Mostra uma lista contendo todos os workshops.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Seleciona um workshop.
+  {bold}{green}{appname}{/green} current{/bold}
+    Mostra o workshop selecionado atualmente.
+  {bold}{green}{appname}{/green} print{/bold}
+    Imprime as instruções do workshop selecionado atualmente.
+  {bold}{green}{appname}{/green} next{/bold}
+    Imprime as instruções para o próximo workshop incompleto após o workshop selecionado atualmente.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Zera o progresso completo do workshop.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Roda o seu programa utilizando os critérios citados pelo workshop.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Avalia seu programa utilizando os critérios citados pelo workshop.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    MUda o sistema para a linguagem especificada.
