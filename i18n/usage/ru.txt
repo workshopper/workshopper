@@ -1,0 +1,22 @@
+{bold}{yellow}Справка{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Вызов меню для выбора задачи.
+  {bold}{green}{appname}{/green} list{/bold}
+    Показать список доступных задач.
+  {bold}{green}{appname}{/green} select НАЗВАНИЕ{/bold}
+    Выбор задачи.
+  {bold}{green}{appname}{/green} current{/bold}
+    Показать название текущей задачи.
+  {bold}{green}{appname}{/green} print{/bold}
+    Показать описание текущей задачи.
+  {bold}{green}{appname}{/green} next{/bold}
+    Показать описание следующей задачи.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Сбросить результаты выполненых задач.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Запустить переданное решение.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Проверить переданное решение.
+  {bold}{green}{appname}{/green} -l <язык>{/bold}
+    Изменить язык.
