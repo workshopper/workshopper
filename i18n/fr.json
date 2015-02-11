@@ -1,0 +1,59 @@
+{
+  "menu": {
+      "exit": "QUITTER"
+    , "help": "AIDE"
+    , "completed": "FAIT"
+    , "language": "CHOISIR LA LANGUE"
+    , "cancel": "ANNULER"
+  }
+, "language": {
+      "_current": "ACTUEL"
+    , "en": "Anglais (English)"
+    , "fr": "Français"
+    , "ja": "Japonais (日本語)"
+    , "zh-cn": "Chinois (中文)"
+    , "zh-tw": "Taiwanais (國語)"
+    , "es": "Espagnol (Español)"
+    , "pt-br": "Portugais brésilien (Português)"
+  }
+, "error": {
+      "exercise": {
+          "none_active": "Aucun exercice en cours.  Choisissez-en un dans le menu."
+        , "missing": "L’exercice {{{name}}} est introuvable."
+        , "unexpected_error": "Impossible de {{mode}} : {{{err}}}"
+        , "missing_file": "ERREUR : {{{exerciseFile}}} n’existe pas !"
+        , "not_a_workshopper": "ERREUR : {{{exerciseFile}}} n’est pas un exercice d’atelier"
+        , "preparing": "Erreur à la préparation de l’exercice : {{{err}}}"
+        , "loading": "Erreur au chargement du texte de l’exercice : {{{err}}}"
+      }
+    , "no_uncomplete_left": "Il ne reste aucun exercice à faire après l’exercice actuel."
+    , "cleanup": "Erreur au nettoyage : {{{err}}}"
+  }
+, "solution": {
+      "fail": {
+          "title": "RATÉ"
+        , "message": "Votre solution pour {{{name}}} n’a pas marché. Réessayez !\n"
+      }
+    , "pass": {
+          "title": "RÉUSSI"
+        , "message": "Votre solution pour {{{name}}} a fonctionné !"
+      }
+    , "notes": {
+          "compare": "Voici la solution officielle, si vous voulez comparer :\n"
+        , "load_error": "ERREUR : Un problème est survenu durant l’affichage des fichiers de solution : {{{err}}}"
+      }
+  }
+, "ui": {
+      "return": "Tapez '{{appName}}' pour afficher le menu.\n"
+    , "usage": "Utilisation : {{appName}} {{mode}} ma-tentative.js"
+  }
+, "progress": {
+      "reset": "La progression de {{title}} a été réinitialisée"
+    , "finished": "Vous avez terminé tous les défis ! Bravo !\n"
+    , "state": "Exercice {{count}} sur {{amount}}"
+    , "remaining": {
+          "one": "Il vous reste un défi"
+        , "other": "Il vous reste {{count}} défis."
+      }
+  }
+}

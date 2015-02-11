@@ -8,13 +8,14 @@
   }
 , "language": {
       "_current": "ТЕКУЩИЙ"
-    , "en": "English"
-    , "ja": "Japanese (日本語)"
-    , "zh-cn": "Chinese (中文)"
-    , "zh-tw": "Taiwanese (國語)"
-    , "es": "Spanish (Español)"
-    , "pt-br": "Brazilian Portuguese (Português)"
-    , "ru": "Russian (Русский)"
+    , "en": "Английский (English)"
+    , "fr": "Французский (français)"
+    , "ja": "Японский (日本語)"
+    , "zh-cn": "Китайский (中文)"
+    , "zh-tw": "Тайваньская (國語)"
+    , "es": "Испанский (Español)"
+    , "pt-br": "Бразильский португальский (Português)"
+    , "ru": "Русский"
   }
 , "error": {
       "exercise": {
