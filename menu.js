@@ -28,7 +28,7 @@ function showMenu (opts, i18n) {
   function emit(event, value) {
     return process.nextTick.bind(process, emitter.emit.bind(emitter, event, value))
   }
-  
+
   function addEntry(entry) {
     menu.add(applyTextMarker(entry.name, entry.marker || '', opts.width), emit(entry.event, entry.payload))
   }
@@ -68,7 +68,7 @@ function showMenu (opts, i18n) {
   })
 
   menu.createStream().pipe(process.stdout)
-  
+
   return emitter
 }
 

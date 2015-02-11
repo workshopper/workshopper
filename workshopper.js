@@ -133,7 +133,7 @@ function Workshopper (options) {
     } else {
       selected = this.exercises.filter(function (exercise) {
         return selected === this.__('exercise.' + exercise)
-      }.bind(this))[0] || selected; 
+      }.bind(this))[0] || selected;
     }
     onselect.call(this, selected)
     return
@@ -153,32 +153,32 @@ function Workshopper (options) {
 
     return this.execute(exercise, mode, argv._.slice(1))
   }
-  
+
   if (argv._[0] == 'next') {
     var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
-    
-    var completed = this.getData('completed')    
+
+    var completed = this.getData('completed')
     var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
       return completed.indexOf(elem) < 0
     })
-    
+
     if (incompleteAfterCurrent.length === 0)
       return console.log(this.__('error.no_uncomplete_left') + '\n')
-    
+
     return onselect.call(this, incompleteAfterCurrent[0])
   }
-  
+
   if (argv._[0] == 'next') {
     var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
-    
-    var completed = this.getData('completed')    
+
+    var completed = this.getData('completed')
     var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
       return completed.indexOf(elem) < 0
     })
-    
+
     if (incompleteAfterCurrent.length === 0)
       return console.log('There are no incomplete exercises after the current exercise\n')
-    
+
     return onselect.call(this, incompleteAfterCurrent[0])
   }
 

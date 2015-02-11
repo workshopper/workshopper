@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const menu = require('./menu')
 
 function showMenu (opts, i18n) {
-    
+
   var __ = i18n.__
 
   opts.entries = [
