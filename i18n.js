@@ -25,7 +25,7 @@ function i18nChain() {
         result = current.handler.get(key)
         current = current.next
       }
-      
+
       return result
     }
   }

@@ -1,0 +1,22 @@
+{bold}{yellow}Utilisation{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Affiche un menu pour choisir interactivement un exercice.
+  {bold}{green}{appname}{/green} list{/bold}
+    Affiche une liste des exercices, à raison d’un par ligne.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Sélectionne un exercice.
+  {bold}{green}{appname}{/green} current{/bold}
+    Affiche l’exercice en cours.
+  {bold}{green}{appname}{/green} print{/bold}
+    Affiche les instructions pour l’exercice en cours.
+  {bold}{green}{appname}{/green} next{/bold}
+    Affiche les instructions pour le prochain exercice que vous n’avez pas encore terminé, après l’exercice courant.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Réinitialise votre progression pour cet atelier.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Exécute votre programme dans le contexte décrit par les instructions de l’exercice.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Vérifie que votre programme résoud l’exercice.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Utilise la langue spécifiée pour l’atelier.

@@ -30,7 +30,7 @@ function assertFs (type, options, field, base, fallback) {
       throw new TypeError('need to provide an "' + field + '" String option')
 
   try {
-    stat = fs.statSync(target) 
+    stat = fs.statSync(target)
   } catch (e) {}
 
   if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
