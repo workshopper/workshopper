@@ -1,58 +1,60 @@
 {
   "menu": {
-      "exit": "SAIR"
-    , "help": "AJUDA"
-    , "completed": "COMPLETO"
-    , "language": "SELECIONE O IDIOMA"
-    , "cancel": "CANCELAR"
-  }
-, "language": {
-      "_current": "ATUAL"
-    , "en": "Inglês (English)"
-    , "fr": "Francês (français)"
-    , "ja": "Japonês (日本語)"
-    , "zh-cn": "Chinês (中文)"
-    , "zh-tw": "Taiuanês (國語)"
-    , "es": "Espanhol (Español)"
-  }
-, "error": {
-      "exercise": {
-          "none_active": "Nenhum exercício ativo. Selecione um do menu."
-        , "missing": "Não existe o exercício: {{{name}}}"
-        , "unexpected_error": "Não foi possível {{mode}}: {{{err}}}"
-        , "missing_file": "ERRO: {{{exerciseFile}}} não existe!"
-        , "not_a_workshopper": "ERRO: {{{exerciseFile}}} não é um exercício do workshopper."
-        , "preparing": "Erro ao preparar exercício: {{{err}}}"
-        , "loading": "Erro ao carregar o texto do exercício: {{{err}}}"
-      }
-    , "no_uncomplete_left": "Não existem mais exercícios incompletos após o exercício atual"
-    , "cleanup": "Erro de limpeza: {{{err}}}"
-  }
-, "solution": {
-      "fail": {
-          "title": "FALHA"
-        , "message": "Sua solução para {{{name}}} não foi aprovada. Tente novamente!\n"
-      }
-    , "pass": {
-          "title": "SUCESSO"
-        , "message": "Sua solução para {{{name}}} foi aprovada!"
-      }
-    , "notes": {
-          "compare": "Aqui está a solução original, caso você deseje comparar:\n"
-        , "load_error": "ERRO: Houve um problema ao tentar exibir o arquivo de solução: {{{err}}}"
-      }
-  }
-, "ui": {
-      "return": "Digite '{{appName}}' para mostrar o menu.\n"
-    , "usage": "Uso: {{appName}} {{mode}} minharesposta.js"
-  }
-, "progress": {
-      "reset": "{{title}} progresso resetado"
-    , "finished": "Você terminou todos os desafios! Parabéns!\n"
-    , "state": "Exercício {{count}} de {{amount}}"
-    , "remaining": {
-          "one": "Você tem um desafio restante."
-        , "other": "Você tem {{count}} desafios restantes."
-      }
+    "exit": "SAIR",
+    "help": "AJUDA",
+    "completed": "COMPLETO",
+    "language": "SELECIONE O IDIOMA (CHOOSE LANGUAGE)",
+    "cancel": "CANCELAR"
+  },
+  "language": {
+    "_current": "ATUAL",
+    "en": "Inglês (English)",
+    "fr": "Francês (français)",
+    "ja": "Japonês (日本語)",
+    "zh-cn": "Chinês (中文)",
+    "zh-tw": "Taiuanês (國語)",
+    "es": "Espanhol (Español)",
+    "pt-br": "Português",
+    "ru": "Russo (Русский)"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Nenhum exercício ativo. Selecione um do menu.",
+      "missing": "Não existe o exercício: {{{name}}}",
+      "unexpected_error": "Não foi possível {{mode}}: {{{err}}}",
+      "missing_file": "ERRO: {{{exerciseFile}}} não existe!",
+      "not_a_workshopper": "ERRO: {{{exerciseFile}}} não é um exercício do workshopper.",
+      "preparing": "Erro ao preparar exercício: {{{err}}}",
+      "loading": "Erro ao carregar o texto do exercício: {{{err}}}"
+    },
+    "no_uncomplete_left": "Não existem mais exercícios incompletos após o exercício atual",
+    "cleanup": "Erro de limpeza: {{{err}}}"
+  },
+  "solution": {
+    "fail": {
+      "title": "FALHA",
+      "message": "Sua solução para {{{name}}} não foi aprovada. Tente novamente!\n"
+    },
+    "pass": {
+      "title": "SUCESSO",
+      "message": "Sua solução para {{{name}}} foi aprovada!"
+    },
+    "notes": {
+      "compare": "Aqui está a solução original, caso você deseje comparar:\n",
+      "load_error": "ERRO: Houve um problema ao tentar exibir o arquivo de solução: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Digite '{{appName}}' para mostrar o menu.\n",
+    "usage": "Uso: {{appName}} {{mode}} minharesposta.js"
+  },
+  "progress": {
+    "reset": "{{title}} progresso resetado",
+    "finished": "Você terminou todos os desafios! Parabéns!\n",
+    "state": "Exercício {{count}} de {{amount}}",
+    "remaining": {
+      "one": "Você tem um desafio restante.",
+      "other": "Você tem {{count}} desafios restantes."
+    }
   }
 }

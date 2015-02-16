@@ -1,0 +1,12 @@
+{
+  "title": "ATELIER D’EXEMPLE WORKSHOPPER",
+  "subtitle": "\u001b[23mSélectionnez un exercice et tapez \u001b[3mEnter\u001b[23m pour démarrer",
+  "menu": {
+    "credits": "CRÉDITS"
+  },
+  "exercise": {
+    "foo": "TOTO",
+    "bar": "TITI",
+    "baz": "TATA"
+  }
+}
