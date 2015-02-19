@@ -1,0 +1,61 @@
+{
+  "menu": {
+    "exit": "VERLASSEN",
+    "help": "HILFE",
+    "completed": "ABGESCHLOSSEN",
+    "language": "SPRACHE WÄHLEN",
+    "cancel": "ABBRECHEN"
+  },
+  "language": {
+    "_current": "AKTUELL",
+    "de": "Deutsch",
+    "en": "Englisch (English)",
+    "fr": "Französisch (français)",
+    "ja": "Japanisch (日本語)",
+    "zh-cn": "Chinesisch (中文)",
+    "zh-tw": "Taiwanesisch (國語)",
+    "es": "Spanisch (Español)",
+    "pt-br": "Brasilianisches Portugiesisch (Português)",
+    "ru": "Russisch (Русский)"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Keine aktive Aufgabe. Wähle eine aus dem Menü.",
+      "missing": "Aufgabe {{{name}}} fehlt.",
+      "unexpected_error": "Konnte nicht {{mode}}: {{{err}}}",
+      "missing_file": "FEHLER: {{{exerciseFile}}} existiert nicht!",
+      "not_a_workshopper": "FEHLER: {{{exerciseFile}}} ist keine workshopper Aufgabe",
+      "preparing": "Fehler bei der Vorbereitung der Aufgabe: {{{err}}}",
+      "loading": "Fehler beim Laden der Aufgabe: {{{err}}}"
+    },
+    "no_uncomplete_left": "Es gibt keine unvollständigen Aufgaben nach der aktuellen Aufgabe",
+    "cleanup": "Fehler beim Aufräumen: {{{err}}}"
+  },
+  "solution": {
+    "fail": {
+      "title": "NICHT BESTANDEN",
+      "message": "Deine Lösung für {{{name}}} hat den Test nicht bestanden. Versuche es erneut!\n"
+    },
+    "pass": {
+      "title": "BESTANDEN",
+      "message": "Deine Lösung für {{{name}}} hat den Test bestanden!"
+    },
+    "notes": {
+      "compare": "Hier ist die offizielle Lösung, falls du noch einmal vergleichen möchtest:\n",
+      "load_error": "FEHLER: Es gab einen Fehler bei der Ausgabe der Lösung: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Tippe '{{appName}}' um das Menü zu zeigen.\n",
+    "usage": "Verwendung: {{appName}} {{mode}} meineabgabe.js"
+  },
+  "progress": {
+    "reset": "{{title}} Fortschritt zurückgesetzt",
+    "finished": "Du hast alle Herausforderungen gemeistert! Hurra!\n",
+    "state": "Aufgabe {{count}} von {{amount}}",
+    "remaining": {
+      "one": "Du hast eine Herausforderung übrig.",
+      "other": "Du hast {{count}} Herausforderungen übrig."
+    }
+  }
+}
