@@ -3,7 +3,7 @@
     "exit": "VERLASSEN",
     "help": "HILFE",
     "completed": "ABGESCHLOSSEN",
-    "language": "SPRACHE WÄHLEN",
+    "language": "SPRACHE WÄHLEN (CHOOSE LANGUAGE)",
     "cancel": "ABBRECHEN"
   },
   "language": {
@@ -22,7 +22,7 @@
     "exercise": {
       "none_active": "Keine aktive Aufgabe. Wähle eine aus dem Menü.",
       "missing": "Aufgabe {{{name}}} fehlt.",
-      "unexpected_error": "Konnte nicht {{mode}}: {{{err}}}",
+      "unexpected_error": "{{mode}} konnte nicht ausgeführt werden: {{{err}}}",
       "missing_file": "FEHLER: {{{exerciseFile}}} existiert nicht!",
       "not_a_workshopper": "FEHLER: {{{exerciseFile}}} ist keine workshopper Aufgabe",
       "preparing": "Fehler bei der Vorbereitung der Aufgabe: {{{err}}}",
