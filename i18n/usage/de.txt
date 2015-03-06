@@ -1,0 +1,22 @@
+{bold}{yellow}Verwendung{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Zeige ein Menü, um interaktiv eine Herausforderung auszuwählen.
+  {bold}{green}{appname}{/green} list{/bold}
+    Zeige eine Liste aller Herausforderungen, eine Herausforderung pro Zeile.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Wähle eine Herausforderung.
+  {bold}{green}{appname}{/green} current{/bold}
+    Zeige die aktuell gewählte Herausforderung.
+  {bold}{green}{appname}{/green} print{/bold}
+    Gebe die Anweisungen für die aktuell gewählte Herausforderung aus.
+  {bold}{green}{appname}{/green} next{/bold}
+    Gebe die Anweisungen für die nächsten unvollständige Herausforderung nach der aktuell ausgewählten Herausforderung aus.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Setze den Workshop-Fortschritt zurück.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Führe dein Programm mit dem gewählten Eingaben aus.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Verifiziere dein Programm mit den erwarteten Eingaben.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Ändere das System zur ausgewählten Sprache.
