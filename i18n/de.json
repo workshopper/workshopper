@@ -26,10 +26,11 @@
       "missing_file": "FEHLER: {{{exerciseFile}}} existiert nicht!",
       "not_a_workshopper": "FEHLER: {{{exerciseFile}}} ist keine workshopper Aufgabe",
       "preparing": "Fehler bei der Vorbereitung der Aufgabe: {{{err}}}",
-      "loading": "Fehler beim Laden der Aufgabe: {{{err}}}"
+      "loading": "Fehler beim Laden der Aufgabe: {{{err}}}",
     },
     "no_uncomplete_left": "Es gibt keine unvollständigen Aufgaben nach der aktuellen Aufgabe",
-    "cleanup": "Fehler beim Aufräumen: {{{err}}}"
+    "cleanup": "Fehler beim Aufräumen: {{{err}}}",
+    "notty": "Bitte führe das Programm in einem Terminal (tty) aus." 
   },
   "solution": {
     "fail": {

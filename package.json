@@ -17,7 +17,7 @@
     "mkdirp": "~0.3.5",
     "msee": "~0.1.1",
     "optimist": "~0.6.1",
-    "terminal-menu": "^1.0.2",
+    "terminal-menu": "^2.1.1",
     "visualwidth": "~0.0.1",
     "xtend": "~3.0.0"
   },
