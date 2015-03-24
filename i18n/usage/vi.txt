@@ -1,0 +1,22 @@
+{bold}{yellow}Usage{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Hiển thị menu chọn bài tập.
+  {bold}{green}{appname}{/green} list{/bold}
+    Hiển thị danh sách các bài tập.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Chọn một bài tập.
+  {bold}{green}{appname}{/green} current{/bold}
+    Hiển thị bài tập hiện tại.
+  {bold}{green}{appname}{/green} print{/bold}
+    Xem hướng dẫn cho bài tập hiện tại.
+  {bold}{green}{appname}{/green} next{/bold}
+    Xem hướng dẫn bài tập chưa hoàn thành tiếp sau bài hiện tại..
+  {bold}{green}{appname}{/green} reset{/bold}
+    Reset toàn bộ các bài tập đã hoàn thành.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Chạy chương trình của bạn với môi trường giả lập.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Xác nhận chương trình của bạn.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Thay đổi ngôn ngữ sử dụng.
