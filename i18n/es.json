@@ -46,7 +46,7 @@
     }
   },
   "ui": {
-    "return": "Escriba '{{|appName}}' para mostrar el menu.\n",
+    "return": "Escriba '{{appName}}' para mostrar el menu.\n",
     "usage": "Uso: {{appName}} {{mode}} miprograma.js"
   },
   "progress": {
