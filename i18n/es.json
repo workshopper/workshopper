@@ -1,13 +1,13 @@
 {
   "menu": {
-    "exit": "EXIT",
-    "help": "HELP",
-    "completed": "COMPLETED",
-    "language": "CHOOSE LANGUAGE",
-    "cancel": "CANCEL"
+    "exit": "SALIR",
+    "help": "AYUDA",
+    "completed": "COMPLETADO",
+    "language": "ELIGE IDIOMA",
+    "cancel": "CANCELAR"
   },
   "language": {
-    "_current": "CURRENT",
+    "_current": "ACTUAL",
     "de": "Alemán (Deutsch)",
     "en": "Inglés (English)",
     "fr": "Francés (français)",
@@ -33,12 +33,12 @@
   },
   "solution": {
     "fail": {
-      "title": "FAIL",
-      "message": "Your solution to {{{name}}} didn't pass. Try again!\n"
+      "title": "FALLO",
+      "message": "Su solución a {{{name}}} no pasó. Intentalo de nuevo!\n"
     },
     "pass": {
-      "title": "PASS",
-      "message": "Your solution to {{{name}}} passed!"
+      "title": "PASO",
+      "message": "Su solución a {{{name}}} paso sin problemas!"
     },
     "notes": {
       "compare": "Here's the official solution in case you want to compare notes:\n",
@@ -46,8 +46,8 @@
     }
   },
   "ui": {
-    "return": "Type '{{appName}}' to show the menu.\n",
-    "usage": "Usage: {{appName}} {{mode}} mysubmission.js"
+    "return": "Escriba '{{|appName}}' para mostrar el menu.\n",
+    "usage": "Uso: {{appName}} {{mode}} miprograma.js"
   },
   "progress": {
     "reset": "{{title}} progress reset",
