@@ -42,7 +42,7 @@
     },
     "notes": {
       "compare": "Aqui está la solución oficial si desea comparar notas:\n",
-      "load_error": "ERROR: There was a problem printing the solution files: {{{err}}}"
+      "load_error": "ERROR: Hubo un problema mostrando el archivo de solución: {{{err}}}"
     }
   },
   "ui": {
@@ -50,12 +50,12 @@
     "usage": "Uso: {{appName}} {{mode}} miprograma.js"
   },
   "progress": {
-    "reset": "{{title}} progress reset",
-    "finished": "You've finished all the challenges! Hooray!\n",
+    "reset": "{{title}} progreso reiniciado",
+    "finished": "Has finalizado todos los ejercicios.! URRAA!!!\n",
     "state": "Ejercicio {{count}} de {{amount}}",
     "remaining": {
-      "one": "You have one challenge left",
-      "other": "You have {{count}} challenges left."
+      "one": "Tienes solo un ejercicio por hacer.",
+      "other": "Tienes {{count}} ejercicios por hacer."
     }
   }
 }
