@@ -3,7 +3,7 @@
     "exit": "SALIR",
     "help": "AYUDA",
     "completed": "COMPLETADO",
-    "language": "ELIGE IDIOMA",
+    "language": "ELEGIR IDIOMA",
     "cancel": "CANCELAR"
   },
   "language": {
@@ -21,7 +21,7 @@
   "error": {
     "exercise": {
       "none_active": "No hay un ejercicio activo. Selecciona uno desde el menu.",
-      "missing": "No se encontro el ejercicio: {{{name}}}",
+      "missing": "No se encontró el ejercicio: {{{name}}}",
       "unexpected_error": "No se pudo {{mode}}: {{{err}}}",
       "missing_file": "ERROR: {{{exerciseFile}}} no existe!",
       "not_a_workshopper": "ERROR: {{{exerciseFile}}} no es un ejercicio de workshopper",
@@ -38,7 +38,7 @@
     },
     "pass": {
       "title": "PASO",
-      "message": "Su solución a {{{name}}} paso sin problemas!"
+      "message": "Su solución a {{{name}}} pasÓ sin problemas!"
     },
     "notes": {
       "compare": "Aqui está la solución oficial si desea comparar notas:\n",
