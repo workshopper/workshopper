@@ -38,7 +38,7 @@
     },
     "pass": {
       "title": "PASO",
-      "message": "Su solución a {{{name}}} pasÓ sin problemas!"
+      "message": "Su solución a {{{name}}} pasó sin problemas!"
     },
     "notes": {
       "compare": "Aqui está la solución oficial si desea comparar notas:\n",
