@@ -67,7 +67,22 @@ function showMenu (opts, i18n) {
     menu.close()
   })
 
-  menu.createStream().pipe(process.stdout)
+  process.stdin
+    .pipe(menu.createStream())
+    .pipe(process.stdout)
+
+  if(!process.stdin.isTTY) {
+    menu.reset()
+    console.error(__('error.notty'))
+    process.exit(1)
+  } else {
+    process.stdin.setRawMode(true)  
+  }
+
+  menu.on('close', function () {
+    process.stdin.setRawMode(false)
+    process.stdin.end()
+  })
 
   return emitter
 }

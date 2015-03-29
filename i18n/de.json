@@ -29,7 +29,8 @@
       "loading": "Fehler beim Laden der Aufgabe: {{{err}}}"
     },
     "no_uncomplete_left": "Es gibt keine unvollständigen Aufgaben nach der aktuellen Aufgabe",
-    "cleanup": "Fehler beim Aufräumen: {{{err}}}"
+    "cleanup": "Fehler beim Aufräumen: {{{err}}}",
+    "notty": "Bitte führe das Programm in einem Terminal (tty) aus." 
   },
   "solution": {
     "fail": {

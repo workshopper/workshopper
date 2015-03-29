@@ -29,7 +29,8 @@
       "loading": "Error loading exercise text: {{{err}}}"
     },
     "no_uncomplete_left": "There are no incomplete exercises after the current exercise",
-    "cleanup": "Error cleaning up: {{{err}}}"
+    "cleanup": "Error cleaning up: {{{err}}}",
+    "notty": "Please start this in a tty-compatible terminal program."
   },
   "solution": {
     "fail": {
