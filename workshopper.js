@@ -7,11 +7,13 @@ const argv         = require('optimist').argv
     , inherits     = require('util').inherits
     , EventEmitter = require('events').EventEmitter
 
+/* jshint -W079 */
 const showMenu         = require('./exerciseMenu')
     , showLanguageMenu = require('./languageMenu')
     , print            = require('./print-text')
     , util             = require('./util')
     , i18n             = require('./i18n')
+/* jshint +W079 */
 
 const defaultWidth = 65
 
@@ -50,7 +52,9 @@ function Workshopper (options) {
   // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
   // optional
-  this.footerFile  = options.footerFile === false ? [] : [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
+  this.footerFile  =   options.footerFile === false
+                     ? []
+                     : [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
   this.width       = typeof options.width == 'number'
       ? options.width
       : defaultWidth
@@ -164,20 +168,6 @@ function Workshopper (options) {
 
     if (incompleteAfterCurrent.length === 0)
       return console.log(this.__('error.no_uncomplete_left') + '\n')
-
-    return onselect.call(this, incompleteAfterCurrent[0])
-  }
-
-  if (argv._[0] == 'next') {
-    var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
-
-    var completed = this.getData('completed')
-    var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
-      return completed.indexOf(elem) < 0
-    })
-
-    if (incompleteAfterCurrent.length === 0)
-      return console.log('There are no incomplete exercises after the current exercise\n')
 
     return onselect.call(this, incompleteAfterCurrent[0])
   }
