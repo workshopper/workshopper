@@ -1,4 +1,4 @@
-const argv         = require('optimist').argv
+const minimist     = require('minimist')
     , fs           = require('fs')
     , path         = require('path')
     , map          = require('map-async')
@@ -17,23 +17,26 @@ const showMenu         = require('./exerciseMenu')
 
 const defaultWidth = 65
 
-function Workshopper (options) {
-  if (!(this instanceof Workshopper))
-    return new Workshopper(options)
+function Adventure (options) {
+  if (!(this instanceof Adventure))
+    return new Adventure(options)
 
   EventEmitter.call(this)
 
-  var handled = false
-    , exercise
-    , mode = argv._[0]
+  var exercise
 
-  if (typeof options != 'object')
+  if (typeof options === 'string')
+    options = {name: options}
+
+  if (typeof options !== 'object')
     throw new TypeError('need to provide an options object')
 
-  if (typeof options.name != 'string')
+  if (typeof options.name !== 'string')
     throw new TypeError('need to provide a `name` String option')
 
-  this.appName       = options.name
+  this.name       = options.name
+  this.appName    = options.name
+
   this.appDir        = util.assertDir(options, 'appDir')
   this.exerciseDir   = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
   this.globalDataDir = util.userDir('.config', 'workshopper')
@@ -64,14 +67,38 @@ function Workshopper (options) {
     return !/^\/\//.test(e)
   })
 
+  if (options.menuItems && !options.commands)
+    options.commands = options.menuItems
+
+  if (Array.isArray(options.commands)) {
+    this.commands = options.commands
+  }
+
+  this.options = options
+}
+
+inherits(Adventure, EventEmitter)
+
+Adventure.prototype.execute = function (args) {
+  var mode = args[0]
+    , handled = false
+    , argv = minimist(args, {
+        alias: {
+          h: 'help',
+          l: 'lang',
+          v: 'version',
+          select: 'print',
+          selected: 'current'
+        }
+      })
 
   try {
     this.lang = i18n.chooseLang(
         this.globalDataDir
       , this.dataDir
-      , argv.l || argv.lang
+      , argv.lang
       , this.defaultLang
-      , options.languages
+      , this.options.languages
     )
   } catch (e) {
     if (e instanceof TypeError)  // In case the language couldn't be selected
@@ -81,7 +108,7 @@ function Workshopper (options) {
     process.exit(1)
   }
 
-  this.i18n      = i18n.init(options, this.exercises, this.lang, this.globalDataDir)
+  this.i18n      = i18n.init(this.options, this.exercises, this.lang, this.globalDataDir)
   this.__        = this.i18n.__
   this.__n       = this.i18n.__n
   this.languages = this.i18n.languages
@@ -90,36 +117,30 @@ function Workshopper (options) {
   this.__defineGetter__('title', this.__.bind(this, 'title'))
   this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'))
 
-  if (argv.v || argv.version || mode == 'version')
+  this.current = this.getData('current')
+
+  this.commands.forEach(function (item) {
+    if (mode == item.name
+        || argv[item.name]
+        || (item.short && argv[item.short])) {
+      handled = true
+      return item.handler(this)
+    }
+  }.bind(this))
+
+
+  if (argv.version || mode == 'version')
     return console.log(
         this.appName
       + '@'
       + require(path.join(this.appDir, 'package.json')).version
     )
 
-  if (argv.h || argv.help || mode == 'help')
+  if (handled)
+    return
+
+  if (argv.help || mode == 'help')
     return this._printHelp()
-
-  this.current = this.getData('current')
-
-  if (options.menuItems && !options.commands)
-    options.commands = options.menuItems
-
-  if (Array.isArray(options.commands)) {
-    options.commands.forEach(function (item) {
-      if (mode == item.name
-          || argv[item.name]
-          || (item.short && argv[item.short])) {
-        handled = true
-        return item.handler(this)
-      }
-    }.bind(this))
-
-    if (handled)
-      return
-
-    this.commands = options.commands
-  }
 
   if (mode == 'list') {
     return this.exercises.forEach(function (name) {
@@ -130,7 +151,7 @@ function Workshopper (options) {
   if (mode == 'current')
     return console.log(this.__('exercise.' + this.current))
 
-  if (mode == 'select' || mode == 'print') {
+  if (mode == 'print') {
     var selected = argv._.length > 1 ? argv._.slice(1).join(' ') : this.current
     if (/[0-9]+/.test(selected)) {
       selected = this.exercises[parseInt(selected-1, 10)] || selected
@@ -155,10 +176,10 @@ function Workshopper (options) {
     if (exercise.requireSubmission !== false && argv._.length == 1)
       return error(this.__('ui.usage', {appName: this.appName, mode: mode}))
 
-    return this.execute(exercise, mode, argv._.slice(1))
+    return this.runExercise(exercise, mode, argv._.slice(1))
   }
 
-  if (argv._[0] == 'next') {
+  if (mode == 'next') {
     var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
 
     var completed = this.getData('completed')
@@ -180,10 +201,8 @@ function Workshopper (options) {
   this.printMenu()
 }
 
-inherits(Workshopper, EventEmitter)
 
-
-Workshopper.prototype.end = function (mode, pass, exercise, callback) {
+Adventure.prototype.end = function (mode, pass, exercise, callback) {
   exercise.end(mode, pass, function (err) {
     if (err)
       return error(this.__('error.cleanup', {err: err.message || err}))
@@ -196,7 +215,7 @@ Workshopper.prototype.end = function (mode, pass, exercise, callback) {
 
 
 // overall exercise fail
-Workshopper.prototype.exerciseFail = function (mode, exercise) {
+Adventure.prototype.exerciseFail = function (mode, exercise) {
   console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
   console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.name)}))
 
@@ -205,7 +224,7 @@ Workshopper.prototype.exerciseFail = function (mode, exercise) {
 
 
 // overall exercise pass
-Workshopper.prototype.exercisePass = function (mode, exercise) {
+Adventure.prototype.exercisePass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# ' + this.__('solution.pass.title')) + '\n')
   console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.name)})) + '\n')
 
@@ -297,7 +316,7 @@ function onfail (msg) {
 }
 
 
-Workshopper.prototype.execute = function (exercise, mode, args) {
+Adventure.prototype.runExercise = function (exercise, mode, args) {
   // individual validation events
   exercise.on('pass', onpass)
   exercise.on('fail', onfail)
@@ -327,13 +346,13 @@ Workshopper.prototype.execute = function (exercise, mode, args) {
   exercise[mode](args, done.bind(this))
 }
 
-Workshopper.prototype.selectLanguage = function (lang) {
+Adventure.prototype.selectLanguage = function (lang) {
   this.i18n.change(this.globalDataDir, this.dataDir, lang, this.defaultLang, this.i18n.languages)
   this.lang = lang
   this.printMenu()
 }
 
-Workshopper.prototype.printLanguageMenu = function () {
+Adventure.prototype.printLanguageMenu = function () {
   var menu = showLanguageMenu({
       name      : this.appName
     , languages : this.i18n.languages
@@ -347,11 +366,11 @@ Workshopper.prototype.printLanguageMenu = function () {
   menu.on('exit', this._exit.bind(this))
 }
 
-Workshopper.prototype._exit = function () {
+Adventure.prototype._exit = function () {
   process.exit(0)
 }
 
-Workshopper.prototype.printMenu = function () {
+Adventure.prototype.printMenu = function () {
   var menu = showMenu({
       name          : this.appName
     , languages     : this.i18n.languages
@@ -383,7 +402,7 @@ Workshopper.prototype.printMenu = function () {
 }
 
 
-Workshopper.prototype.getData = function (name) {
+Adventure.prototype.getData = function (name) {
   var file = path.resolve(this.dataDir, name + '.json')
   try {
     return JSON.parse(fs.readFileSync(file, 'utf8'))
@@ -392,7 +411,7 @@ Workshopper.prototype.getData = function (name) {
 }
 
 
-Workshopper.prototype.updateData = function (id, fn) {
+Adventure.prototype.updateData = function (id, fn) {
   var json = {}
     , file
 
@@ -405,30 +424,30 @@ Workshopper.prototype.updateData = function (id, fn) {
 }
 
 
-Workshopper.prototype.reset = function () {
+Adventure.prototype.reset = function () {
   fs.unlink(path.resolve(this.dataDir, 'completed.json'), function () {})
   fs.unlink(path.resolve(this.dataDir, 'current.json'), function () {})
 }
 
 
-Workshopper.prototype.dirFromName = function (name) {
+Adventure.prototype.dirFromName = function (name) {
   return util.dirFromName(this.exerciseDir, name)
 }
 
 
-Workshopper.prototype._printHelp = function () {
+Adventure.prototype._printHelp = function () {
   this._printUsage(print.localisedFile.bind(print, this.appName, this.appDir, this.helpFile, this.lang))
 }
 
 
-Workshopper.prototype._printUsage = function (callback) {
+Adventure.prototype._printUsage = function (callback) {
   print.localisedFirstFile(this.appName, this.appDir, [
     path.join(__dirname, './i18n/usage/{lang}.txt'),
     path.join(__dirname, './i18n/usage/en.txt')
   ], this.lang, callback)
 }
 
-Workshopper.prototype.getExerciseMeta = function (name) {
+Adventure.prototype.getExerciseMeta = function (name) {
   if (!name)
     return false
 
@@ -460,7 +479,7 @@ Workshopper.prototype.getExerciseMeta = function (name) {
   }
 }
 
-Workshopper.prototype.loadExercise = function (name) {
+Adventure.prototype.loadExercise = function (name) {
   var meta = this.getExerciseMeta(name)
     , stat
     , exercise
@@ -530,8 +549,8 @@ function onselect (name) {
 }
 
 
-Workshopper.prototype.error = error
-Workshopper.prototype.print = print
+Adventure.prototype.error = error
+Adventure.prototype.print = print
 
 
-module.exports = Workshopper
+module.exports = Adventure
