@@ -8,6 +8,7 @@ const tmenu        = require('terminal-menu')
 
 const repeat          = require('./util').repeat
     , applyTextMarker = require('./util').applyTextMarker
+    , maxListenersPerEvent = 10
 
 
 function showMenu (opts, i18n) {
@@ -56,6 +57,7 @@ function showMenu (opts, i18n) {
 
   writeLine()
 
+  menu.setMaxListeners(opts.entries.length * maxListenersPerEvent)
   opts.entries.forEach(addVariableEntry)
 
   function regexpEncode(str) {
