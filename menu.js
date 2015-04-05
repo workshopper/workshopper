@@ -20,6 +20,7 @@ function showMenu (opts, i18n) {
       }, opts.menu))
     , __              = i18n.__
     , __n             = i18n.__n
+    , menuStream
 
   function writeLine() {
     menu.write(repeat('\u2500', opts.width) + '\n')
@@ -65,24 +66,26 @@ function showMenu (opts, i18n) {
     menu.y = 0
     menu.reset()
     menu.close()
+    process.stdin.pause()
+    menuStream.unpipe(process.stdout)
+    process.stdin.unpipe(menuStream)
+    process.stdin.setRawMode(false)
   })
 
+  menuStream = menu.createStream()
   process.stdin
-    .pipe(menu.createStream())
-    .pipe(process.stdout)
+    .pipe(menuStream, {end: false})
+    .pipe(process.stdout, {end: false})
 
   if(!process.stdin.isTTY) {
     menu.reset()
     console.error(__('error.notty'))
     process.exit(1)
   } else {
-    process.stdin.setRawMode(true)  
+    process.stdin.setRawMode(true)
   }
-
-  menu.on('close', function () {
-    process.stdin.setRawMode(false)
-    process.stdin.end()
-  })
+    
+  process.stdin.resume()
 
   return emitter
 }
