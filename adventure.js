@@ -23,8 +23,6 @@ function Adventure (options) {
 
   EventEmitter.call(this)
 
-  var exercise
-
   if (typeof options === 'string')
     options = {name: options}
 
@@ -41,9 +39,7 @@ function Adventure (options) {
   this.exerciseDir   = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
   this.globalDataDir = util.userDir('.config', 'workshopper')
   this.dataDir       = util.userDir('.config', this.appName)
-
-  util.assertFile(options, 'menuJson', options.exerciseDir, 'menu.json')
-
+  
   if (!options.languages) {
     // In case a workshopper didn't define a any language
     options.languages = ['en']
@@ -63,21 +59,84 @@ function Adventure (options) {
       : defaultWidth
   // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
-  this.exercises   = require(options.menuJson).filter(function (e) {
-    return !/^\/\//.test(e)
-  })
+
+  this.exercises = []
+  this._adventures = []
+  this._meta = {}
+
+  var menuJson = util.getFile('menuJson', options.menuJson || 'menu.json', options.exerciseDir)
+  if (menuJson) {
+    require(menuJson).forEach((function (entry) {
+      this.add(entry)
+    }).bind(this))
+  }
 
   if (options.menuItems && !options.commands)
     options.commands = options.menuItems
 
-  if (Array.isArray(options.commands)) {
+  if (Array.isArray(options.commands))
     this.commands = options.commands
-  }
 
   this.options = options
 }
 
 inherits(Adventure, EventEmitter)
+
+Adventure.prototype.add = function (name_or_object, fn_or_object) {
+    var meta
+      , dir
+      , stat
+
+    meta = (typeof name_or_object === 'object')
+      ? name_or_object
+      : (typeof fn_or_object === 'object')
+        ? fn_or_object
+        : { name: name_or_object }
+
+    if (typeof name_or_object === 'string')
+      meta.name = name_or_object
+
+    if (/^\/\//.test(meta.name))
+      return
+
+    if (!meta.id)
+      meta.id = util.idFromName(meta.name)
+
+    if (!meta.dir)
+      meta.dir = this.dirFromName(meta.name)
+
+    if (!meta.exerciseFile)
+      meta.exerciseFile = path.join(meta.dir, './exercise.js')
+
+
+    if (typeof fn_or_object === 'function')
+      meta.fn = fn_or_object
+
+    if (!meta.fn && meta.exerciseFile) {
+      try {
+        stat = fs.statSync(meta.exerciseFile)
+      } catch (err) {
+        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
+      }
+
+      if (!stat || !stat.isFile())
+        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
+
+      meta.fn = (function () {
+        return require(meta.exerciseFile)
+      }).bind(meta) 
+    }
+
+    if (!meta.fn)
+      return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
+
+
+    this.exercises.push(meta.name)
+    this._meta[meta.id] = meta
+    this._adventures.push(meta)
+    meta.number = this.exercises.length
+    return this
+}
 
 Adventure.prototype.execute = function (args) {
   var mode = args[0]
@@ -452,60 +511,19 @@ Adventure.prototype._printUsage = function (callback) {
 }
 
 Adventure.prototype.getExerciseMeta = function (name) {
-  if (!name)
-    return false
-
-  name = name.toLowerCase().trim()
-
-  var number
-    , dir
-
-  this.exercises.some(function (_name, i) {
-    if (_name.toLowerCase().trim() != name)
-      return false
-
-    number = i + 1
-    name   = _name
-    return true
-  })
-
-  if (number === undefined)
-    return null
-
-  dir = this.dirFromName(name)
-
-  return {
-      name         : name
-    , number       : number
-    , dir          : dir
-    , id           : util.idFromName(name)
-    , exerciseFile : path.join(dir, './exercise.js')
-  }
+  return this._meta[util.idFromName(name)]
 }
 
 Adventure.prototype.loadExercise = function (name) {
   var meta = this.getExerciseMeta(name)
-    , stat
-    , exercise
-
+  
   if (!meta)
     return null
 
-  try {
-    stat = fs.statSync(meta.exerciseFile)
-  } catch (err) {
-    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-  }
+  exercise = meta.fn()
 
-  if (!stat || !stat.isFile())
-    return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-
-  exercise = require(meta.exerciseFile)
-
-  if (!exercise || typeof exercise.init != 'function')
-    return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
-
-  exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
+  if (typeof exercise.init === 'function')
+    exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
 
   return exercise
 }

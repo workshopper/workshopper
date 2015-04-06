@@ -20,7 +20,7 @@ function dirFromName (exerciseDir, name) {
   return path.join(exerciseDir, idFromName(name))
 }
 
-function assertFs (type, options, field, base, fallback) {
+function assertDir (options, field, base, fallback) {
   var target = options[field]
     , stat
   if (typeof target != 'string')
@@ -33,8 +33,8 @@ function assertFs (type, options, field, base, fallback) {
     stat = fs.statSync(target)
   } catch (e) {}
 
-  if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
-    throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a ' + type)
+  if (!stat || !stat.isDirectory())
+    throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a directory')
 
   return target
 }
@@ -54,12 +54,25 @@ function applyTextMarker (text, marker, size) {
   return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
 }
 
+function getFile(field, file, base) {
+  var stat
+  file = path.relative(base, file)
+  try {
+    stat = fs.statSync(file)
+  } catch(e) {}
+
+  if (!stat || !stat.isFile())
+    return null
+
+  return file
+}
+
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
   , repeat: repeat
   , applyTextMarker: applyTextMarker
-  , assertDir: assertFs.bind(null, 'dir')
-  , assertFile: assertFs.bind(null, 'file')
+  , assertDir: assertDir
+  , getFile: getFile
   , userDir: userDir
 }
