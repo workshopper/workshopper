@@ -229,7 +229,7 @@ Adventure.prototype.add = function (name_or_object, fn_or_object) {
     if (!meta.dir)
       meta.dir = this.dirFromName(meta.name)
 
-    if (!meta.exerciseFile)
+    if (meta.dir && !meta.exerciseFile)
       meta.exerciseFile = path.join(meta.dir, './exercise.js')
 
     if (typeof fn_or_object === 'function')
