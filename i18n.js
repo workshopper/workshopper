@@ -40,6 +40,14 @@ function createDefaultLookup(options, exercises) {
     }
   }
 
+  options.languages.forEach(function (language) {
+    if (!result[language])
+      result[language] = {}
+
+    if (!result[language].title)
+      result[language].title = options.name.toUpperCase()
+  })
+
   exercises.forEach(function (exercise) {
     result.en.exercise[exercise] = exercise
   })
@@ -99,8 +107,8 @@ module.exports = {
   init: function(options, exercises, lang) {
     var generalTranslator = i18nChain(
           i18nFs(path.resolve(__dirname, './i18n'))
-            , i18nObject(createDefaultLookup(options, exercises))
-          )
+        , i18nObject(createDefaultLookup(options, exercises))
+      )
       , translator = i18n(
           options.appDir
             ? i18nChain( i18nFs(path.resolve(options.appDir, './i18n')), generalTranslator)
