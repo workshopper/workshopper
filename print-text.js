@@ -1,6 +1,7 @@
 const fs          = require('fs')
     , path        = require('path')
     , colorsTmpl  = require('colors-tmpl')
+    , through     = require('through')
     , msee        = require('msee')
     , mseeOptions = {
           paragraphStart: ''
@@ -11,13 +12,20 @@ function commandify (s) {
     return String(s).toLowerCase().replace(/\s+/g, '-');
 }
 
-function printText (appName, appDir, filetype, contents) {
+function getText (appName, appDir, filetype, contents) {
+
   var variables = {
       appname : appName
     , rootdir : appDir
     , ADVENTURE_COMMAND : commandify(appName)
     , ADVENTURE_NAME : appName
   }
+
+  if (typeof contents === 'object')
+    contents = contents.toString()
+
+  if (typeof contents !== 'string')
+    contents = ''
 
   contents = colorsTmpl(contents)
 
@@ -36,23 +44,24 @@ function printText (appName, appDir, filetype, contents) {
     })
   }
 
-  if (filetype == 'md') {
+  if (filetype === 'md') {
     // convert Markdown to ANSI
     contents = msee.parse(contents, mseeOptions)
   }
 
-  console.log(contents)
+  return contents
 }
 
+function printText (appName, appDir, filetype, contents) {
+  console.log(getText(appName, appDir, filetype, contents))
+}
 
-function printFile (appName, appDir, file, callback) {
-  fs.readFile(file, 'utf8', function (err, contents) {
-    if (err)
-      throw err
-
-    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents)
-    callback && callback();
-  })
+function createFileStream (appName, appDir, file) {
+  var filetype = path.extname(file).replace(/^\./, '')
+  return fs.createReadStream(file, 'utf8')
+           .pipe(through(function (data) {
+              this.emit('data', getText(appName, appDir, filetype, data))
+           }))
 }
 
 
@@ -69,41 +78,26 @@ function getExistingFile (file, lang) {
   return null
 }
 
-function printLocalisedFile (appName, appDir, file, lang, callback) {
+function localisedFileStream (appName, appDir, file, lang) {
   file = getExistingFile(file, lang)
-
-  if (file) {
-    printFile(appName, appDir, file, callback)
-    return true
-  }
-
-  if (callback)
-    process.nextTick(callback)
-
-  return false
+  return file ? createFileStream(appName, appDir, file) : null
 }
 
-function printLocalisedFirstFile (appName, appDir, files, lang, callback) {
-  var consumed = false
-  files.filter(function (file) {
+function localisedFirstFileStream (appName, appDir, files, lang) {
+  var file = null
+  files.forEach(function (rawFile) {
     // Since the files that will be printed are subject to user manipulation
     // a null can happen here, checking for it just in case.
-    return file !== undefined && file !== null
-  }).forEach(function (file) {
-    if (consumed)
+    if (rawFile === undefined || rawFile === null)
       return
-    if (file = getExistingFile(file, lang)) {
-      consumed = true
-      printFile(appName, appDir, file, callback)
-    }
+
+    if (!file)
+      file = getExistingFile(rawFile, lang)
   })
-  if (!consumed && callback)
-    process.nextTick(callback)
-  return consumed
+  return file ? createFileStream(appName, appDir, file) : null
 }
 
 
 module.exports.text = printText
-module.exports.file = printFile
-module.exports.localisedFile = printLocalisedFile
-module.exports.localisedFirstFile = printLocalisedFirstFile
+module.exports.localisedFileStream = localisedFileStream
+module.exports.localisedFirstFileStream = localisedFirstFileStream

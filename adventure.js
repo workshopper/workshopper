@@ -502,15 +502,23 @@ Adventure.prototype.dirFromName = function (name) {
 
 
 Adventure.prototype._printHelp = function () {
-  this._printUsage(print.localisedFile.bind(print, this.appName, this.appDir, this.helpFile, this.lang))
-}
+  var part
+    , stream = require("combined-stream").create()
 
+  if (this.helpFile)
+    part = print.localisedFileStream(this.appName, this.appDir, this.helpFile, this.lang)
 
-Adventure.prototype._printUsage = function (callback) {
-  print.localisedFirstFile(this.appName, this.appDir, [
-    path.join(__dirname, './i18n/usage/{lang}.txt'),
-    path.join(__dirname, './i18n/usage/en.txt')
-  ], this.lang, callback)
+  if (part)
+    stream.append(part)
+
+  part = print.localisedFirstFileStream(this.appName, this.appDir, [
+          path.join(__dirname, './i18n/usage/{lang}.txt'),
+          path.join(__dirname, './i18n/usage/en.txt')
+        ], this.lang)
+  if (part)
+    stream.append(part)
+
+  stream.pipe(process.stdout)
 }
 
 Adventure.prototype.getExerciseMeta = function (name) {
@@ -566,15 +574,25 @@ function onselect (name) {
       return error(this.__('error.exercise.preparing', {err: err.message || err}))
 
     afterProblem = function() {
+      var stream = require('combined-stream').create()
+        , part
       if (exercise.problem)
         print.text(this.appName, this.appDir, exercise.problemType || 'md', exercise.problem)
-      else
-        print.localisedFile(this.appName, this.appDir,  path.resolve(__dirname, 'i18n/missing_problem/{lang}.md'), this.lang)
+      else {
+        part = print.localisedFileStream(this.appName, this.appDir,  path.resolve(__dirname, 'i18n/missing_problem/{lang}.md'), this.lang)
+        if (part)
+          stream.append(part)
+      }
 
       if (exercise.footer || this.footer)
         print.text(this.appName, this.appDir, exercise.footer || this.footer, this.lang)
-      else if (this.footerFile !== false)
-        print.localisedFirstFile(this.appName, this.appDir, this.footerFile || [], this.lang)
+      else if (this.footerFile !== false) {
+        part = print.localisedFirstFileStream(this.appName, this.appDir, this.footerFile || [], this.lang)
+        if (part)
+          stream.append(part)
+      }
+
+      stream.pipe(process.stdout)
     }.bind(this)
 
     if (!exercise.problem && typeof exercise.getExerciseText === 'function') {
