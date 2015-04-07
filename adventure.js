@@ -85,61 +85,6 @@ function Adventure (options) {
 
 inherits(Adventure, EventEmitter)
 
-Adventure.prototype.add = function (name_or_object, fn_or_object) {
-    var meta
-      , dir
-      , stat
-
-    meta = (typeof name_or_object === 'object')
-      ? name_or_object
-      : (typeof fn_or_object === 'object')
-        ? fn_or_object
-        : { name: name_or_object }
-
-    if (typeof name_or_object === 'string')
-      meta.name = name_or_object
-
-    if (/^\/\//.test(meta.name))
-      return
-
-    if (!meta.id)
-      meta.id = util.idFromName(meta.name)
-
-    if (!meta.dir)
-      meta.dir = this.dirFromName(meta.name)
-
-    if (!meta.exerciseFile)
-      meta.exerciseFile = path.join(meta.dir, './exercise.js')
-
-    if (typeof fn_or_object === 'function')
-      meta.fn = fn_or_object
-
-    if (!meta.fn && meta.exerciseFile) {
-      try {
-        stat = fs.statSync(meta.exerciseFile)
-      } catch (err) {
-        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-      }
-
-      if (!stat || !stat.isFile())
-        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-
-      meta.fn = (function () {
-        return require(meta.exerciseFile)
-      }).bind(meta) 
-    }
-
-    if (!meta.fn)
-      return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
-
-
-    this.exercises.push(meta.name)
-    this._meta[meta.id] = meta
-    this._adventures.push(meta)
-    meta.number = this.exercises.length
-    return this
-}
-
 Adventure.prototype.execute = function (args) {
   var mode = args[0]
     , handled = false
@@ -262,6 +207,59 @@ Adventure.prototype.execute = function (args) {
   this.printMenu()
 }
 
+Adventure.prototype.add = function (name_or_object, fn_or_object) {
+    var meta
+      , dir
+      , stat
+
+    meta = (typeof name_or_object === 'object')
+      ? name_or_object
+      : (typeof fn_or_object === 'object')
+        ? fn_or_object
+        : { name: name_or_object }
+
+    if (typeof name_or_object === 'string')
+      meta.name = name_or_object
+
+    if (/^\/\//.test(meta.name))
+      return
+
+    if (!meta.id)
+      meta.id = util.idFromName(meta.name)
+
+    if (!meta.dir)
+      meta.dir = this.dirFromName(meta.name)
+
+    if (!meta.exerciseFile)
+      meta.exerciseFile = path.join(meta.dir, './exercise.js')
+
+    if (typeof fn_or_object === 'function')
+      meta.fn = fn_or_object
+
+    if (!meta.fn && meta.exerciseFile) {
+      try {
+        stat = fs.statSync(meta.exerciseFile)
+      } catch (err) {
+        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
+      }
+
+      if (!stat || !stat.isFile())
+        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
+
+      meta.fn = (function () {
+        return require(meta.exerciseFile)
+      }).bind(meta) 
+    }
+
+    if (!meta.fn)
+      return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
+
+
+    this.exercises.push(meta.name)
+    this._meta[meta.id] = meta
+    meta.number = this.exercises.length
+    return this
+}
 
 Adventure.prototype.end = function (mode, pass, exercise, callback) {
   exercise.end(mode, pass, function (err) {
