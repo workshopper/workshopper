@@ -49,22 +49,17 @@ function Adventure (options) {
   }
 
   this.defaultLang = options.languages[0]
-  // optional
   this.menuOptions = options.menu
-  // helpFile is additional to the usage in usage.txt
   this.helpFile    = options.helpFile
-  // optional
-  this.footerFile  =   options.footerFile === false
-                     ? []
-                     : [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
-  this.width       = typeof options.width == 'number'
-      ? options.width
-      : defaultWidth
+  this.footer      = options.footer
+  this.showHeader  = options.showHeader || false
+  this.footerFile  = [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
+  this.width       = typeof options.width == 'number' ? options.width : defaultWidth
+  
   // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
 
   this.exercises = []
-  this._adventures = []
   this._meta = {}
 
   var menuJson = util.getFile(options.menuJson || 'menu.json', this.exerciseDir)
