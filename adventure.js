@@ -120,14 +120,15 @@ Adventure.prototype.execute = function (args) {
 
   this.current = this.getData('current')
 
-  this.commands.forEach(function (item) {
-    if (mode == item.name
-        || argv[item.name]
-        || (item.short && argv[item.short])) {
-      handled = true
-      return item.handler(this)
-    }
-  }.bind(this))
+  if (this.commands)
+    this.commands.forEach(function (item) {
+      if (mode == item.name
+          || argv[item.name]
+          || (item.short && argv[item.short])) {
+        handled = true
+        return item.handler(this)
+      }
+    }.bind(this))
 
 
   if (argv.version || mode == 'version')
