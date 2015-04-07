@@ -7,17 +7,26 @@ const fs          = require('fs')
         , paragraphEnd: '\n\n'
       }
 
+function commandify (s) {
+    return String(s).toLowerCase().replace(/\s+/g, '-');
+}
 
 function printText (appName, appDir, filetype, contents) {
   var variables = {
       appname : appName
     , rootdir : appDir
+    , ADVENTURE_COMMAND : commandify(appName)
+    , ADVENTURE_NAME : appName
   }
 
   contents = colorsTmpl(contents)
 
   contents = contents.replace(/\{([^}]+)\}/gi, function (match, k) {
     return variables[k] || ('{' + k + '}')
+  })
+
+  contents = contents.replace(/\$([A-Z_]+)/g, function (match, k) {
+    return variables[k] || ('$' + k)
   })
 
   if (appDir) {
