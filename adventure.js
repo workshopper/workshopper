@@ -262,21 +262,21 @@ Adventure.prototype.add = function (name_or_object, fn_or_object) {
 }
 
 Adventure.prototype.end = function (mode, pass, exercise, callback) {
-  exercise.end(mode, pass, function (err) {
-    if (err)
-      return error(this.__('error.cleanup', {err: err.message || err}))
+    exercise.end(mode, pass, function (err) {
+      if (err)
+        return error(this.__('error.cleanup', {err: err.message || err}))
 
-    setImmediate(callback || function () {
-      process.exit(pass ? 0 : -1)
-    })
-  }.bind(this))
+      setImmediate(callback || function () {
+        process.exit(pass ? 0 : -1)
+      })
+    }.bind(this))
 }
 
 
 // overall exercise fail
 Adventure.prototype.exerciseFail = function (mode, exercise) {
   console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
-  console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.name)}))
+  console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.meta.name)}))
 
   this.end(mode, false, exercise)
 }
@@ -285,7 +285,7 @@ Adventure.prototype.exerciseFail = function (mode, exercise) {
 // overall exercise pass
 Adventure.prototype.exercisePass = function (mode, exercise) {
   console.log('\n' + chalk.bold.green('# ' + this.__('solution.pass.title')) + '\n')
-  console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.name)})) + '\n')
+  console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.meta.name)})) + '\n')
 
   var done = function done () {
     var completed = this.getData('completed') || []
@@ -295,7 +295,7 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
       if (!xs)
         xs = []
 
-      return xs.indexOf(exercise.name) >= 0 ? xs : xs.concat(exercise.name)
+      return xs.indexOf(exercise.meta.name) >= 0 ? xs : xs.concat(exercise.meta.name)
     })
 
     completed = this.getData('completed') || []
@@ -318,48 +318,48 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
   if (exercise.hideSolutions)
     return done()
 
-  exercise.getSolutionFiles(function (err, files) {
-    if (err)
-      return error(this.__('solution.notes.load_error', {err: err.message || err}))
-    if (!files.length)
-      return done()
-
-    console.log(this.__('solution.notes.compare'))
-
-    function processSolutionFile (file, callback) {
-      fs.readFile(file, 'utf8', function (err, content) {
-        if (err)
-          return callback(err)
-
-        var filename = path.basename(file)
-
-        // code fencing is necessary for msee to render the solution as code
-        content = msee.parse('```js\n' + content + '\n```')
-        callback(null, { name: filename, content: content })
-      })
-    }
-
-    function printSolutions (err, solutions) {
+    exercise.getSolutionFiles(function (err, files) {
       if (err)
         return error(this.__('solution.notes.load_error', {err: err.message || err}))
+      if (!files.length)
+        return done()
 
-      solutions.forEach(function (file, i) {
-        console.log(chalk.yellow(util.repeat('\u2500', 80)))
+      console.log(this.__('solution.notes.compare'))
 
-        if (solutions.length > 1)
-          console.log(chalk.bold.yellow(file.name + ':') + '\n')
+      function processSolutionFile (file, callback) {
+        fs.readFile(file, 'utf8', function (err, content) {
+          if (err)
+            return callback(err)
 
-        console.log(file.content.replace(/^\n/m, '').replace(/\n$/m, ''))
+          var filename = path.basename(file)
 
-        if (i == solutions.length - 1)
-          console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
-      }.bind(this))
+          // code fencing is necessary for msee to render the solution as code
+          content = msee.parse('```js\n' + content + '\n```')
+          callback(null, { name: filename, content: content })
+        })
+      }
 
-      done()
-    }
+      function printSolutions (err, solutions) {
+        if (err)
+          return error(this.__('solution.notes.load_error', {err: err.message || err}))
 
-    map(files, processSolutionFile, printSolutions.bind(this))
-  }.bind(this))
+        solutions.forEach(function (file, i) {
+          console.log(chalk.yellow(util.repeat('\u2500', 80)))
+
+          if (solutions.length > 1)
+            console.log(chalk.bold.yellow(file.name + ':') + '\n')
+
+          console.log(file.content.replace(/^\n/m, '').replace(/\n$/m, ''))
+
+          if (i == solutions.length - 1)
+            console.log(chalk.yellow(util.repeat('\u2500', 80)) + '\n')
+        }.bind(this))
+
+        done()
+      }
+
+      map(files, processSolutionFile, printSolutions.bind(this))
+    }.bind(this))
 }
 
 
@@ -520,6 +520,8 @@ Adventure.prototype.loadExercise = function (name) {
 
   if (typeof exercise.init === 'function')
     exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
+  
+  exercise.meta = meta
 
   return exercise
 }
@@ -536,34 +538,55 @@ function onselect (name) {
   if (!exercise)
     return error(this.__('error.exercise.missing', {name: name}))
 
-  console.log(
-      '\n ' + chalk.green.bold(this.__('title'))
-    + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.__('title')).length + 2))
-    + '\n ' + chalk.yellow.bold(this.__('exercise.' + exercise.name))
-    + '\n ' + chalk.yellow.italic(this.__('progress.state', {count: exercise.number, amount: this.exercises.length}))
-    + '\n'
-  )
+    console.log(
+        '\n ' + chalk.green.bold(this.__('title'))
+      + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.__('title')).length + 2))
+      + '\n ' + chalk.yellow.bold(this.__('exercise.' + exercise.meta.name))
+      + '\n ' + chalk.yellow.italic(this.__('progress.state', {count: exercise.meta.number, amount: this.exercises.length}))
+      + '\n'
+    )
 
-  this.current = exercise.name
+  this.current = exercise.meta.name
 
   this.updateData('current', function () {
-    return exercise.name
+    return exercise.meta.name
   })
 
-  exercise.prepare(function (err) {
+  afterPreparation = function (err) {
     if (err)
       return error(this.__('error.exercise.preparing', {err: err.message || err}))
 
-    exercise.getExerciseText(function (err, type, exerciseText) {
-      if (err)
-        return error(this.__('error.exercise.loading', {err: err.message || err}))
+    afterProblem = function() {
+      if (exercise.problem)
+        print.text(this.appName, this.appDir, exercise.problemType || 'md', exercise.problem)
+      else
+        print.localisedFile(this.appName, this.appDir,  path.resolve(__dirname, 'i18n/missing_problem/{lang}.md'), this.lang)
 
-      print.text(this.appName, this.appDir, type, exerciseText)
+      if (exercise.footer || this.footer)
+        print.text(this.appName, this.appDir, exercise.footer || this.footer, this.lang)
+      else if (this.footerFile !== false)
+        print.localisedFirstFile(this.appName, this.appDir, this.footerFile || [], this.lang)
+    }.bind(this)
 
-      print.localisedFirstFile(this.appName, this.appDir, this.footerFile, this.lang)
+    if (!exercise.problem && typeof exercise.getExerciseText === 'function') {
+      exercise.getExerciseText(function (err, type, exerciseText) {
+        if (err)
+          return error(this.__('error.exercise.loading', {err: err.message || err}))
+        exercise.problem = exerciseText
+        exercise.problemType = type
+        afterProblem()
+      }.bind(this))
+    } else {
+      afterProblem()
+    }
 
-    }.bind(this))
-  }.bind(this))
+  }.bind(this)
+
+  if (typeof exercise.prepare === 'function') {
+    exercise.prepare(afterPreparation)
+  } else {
+    afterPreparation(null)
+  }
 }
 
 
