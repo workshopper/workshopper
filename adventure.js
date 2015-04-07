@@ -529,6 +529,7 @@ function error () {
 
 function onselect (name) {
   var exercise = this.loadExercise(name)
+    , afterPrepare
 
   if (!exercise)
     return error(this.__('error.exercise.missing', {name: name}))
