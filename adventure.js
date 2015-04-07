@@ -372,10 +372,10 @@ function onfail (msg) {
 
 Adventure.prototype.runExercise = function (exercise, mode, args) {
   // individual validation events
-  exercise.on('pass', onpass)
-  exercise.on('fail', onfail)
-  exercise.on('pass', this.emit.bind(this, 'pass', exercise, mode))
-  exercise.on('fail', this.emit.bind(this, 'fail', exercise, mode))
+    exercise.on('pass', onpass)
+    exercise.on('fail', onfail)
+    exercise.on('pass', this.emit.bind(this, 'pass', exercise, mode))
+    exercise.on('fail', this.emit.bind(this, 'fail', exercise, mode)) 
 
 
   function done (err, pass) {
@@ -534,6 +534,7 @@ function onselect (name) {
   if (!exercise)
     return error(this.__('error.exercise.missing', {name: name}))
 
+  if (this.showHeader)
     console.log(
         '\n ' + chalk.green.bold(this.__('title'))
       + '\n' + chalk.green.bold(util.repeat('\u2500', chalk.stripColor(this.__('title')).length + 2))
