@@ -257,6 +257,7 @@ Adventure.prototype.add = function (name_or_object, fn_or_object) {
 }
 
 Adventure.prototype.end = function (mode, pass, exercise, callback) {
+  if (typeof exercise.end == 'function')
     exercise.end(mode, pass, function (err) {
       if (err)
         return error(this.__('error.cleanup', {err: err.message || err}))
@@ -310,9 +311,7 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
     this.end(mode, true, exercise)
   }.bind(this)
 
-  if (exercise.hideSolutions)
-    return done()
-
+  if (!exercise.hideSolutions && typeof exercise.getSolutionFiles === 'function') 
     exercise.getSolutionFiles(function (err, files) {
       if (err)
         return error(this.__('solution.notes.load_error', {err: err.message || err}))
@@ -374,24 +373,28 @@ function onfail (msg) {
 
 Adventure.prototype.runExercise = function (exercise, mode, args) {
   // individual validation events
+  if (typeof exercise.on === 'function') {
     exercise.on('pass', onpass)
     exercise.on('fail', onfail)
     exercise.on('pass', this.emit.bind(this, 'pass', exercise, mode))
     exercise.on('fail', this.emit.bind(this, 'fail', exercise, mode)) 
-
+  }
 
   function done (err, pass) {
-    var errback
+    if (pass === undefined && (error === true || error === false)) {
+      pass = err
+      err = null
+    }
 
     if (err) {
       // if there was an error then we need to do this after cleanup
-      errback = function () {
+      return this.end(mode, true, exercise, function () {
         error(this.__('error.exercise.unexpected_error', {mode: mode, err: (err.message || err) }))
-      }.bind(this)
+      }.bind(this))
     }
 
-    if (mode == 'run' || err)
-      return this.end(mode, true, exercise, errback) // clean up
+    if (mode == 'run')
+      return this.end(mode, true, exercise) // clean up
 
     if (!pass)
       return this.exerciseFail(mode, exercise)
@@ -399,7 +402,13 @@ Adventure.prototype.runExercise = function (exercise, mode, args) {
     this.exercisePass(mode, exercise)
   }
 
-  exercise[mode](args, done.bind(this))
+  var method = exercise[mode]
+    , result = (method.length > 1)
+        ? method.bind(exercise)(args, done.bind(this))
+        : method.bind(exercise)(args)
+  
+  if (result)
+    print.text(this.appName, this.appDir, 'txt', result)
 }
 
 Adventure.prototype.selectLanguage = function (lang) {
