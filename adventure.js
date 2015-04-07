@@ -355,6 +355,8 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
 
       map(files, processSolutionFile, printSolutions.bind(this))
     }.bind(this))
+  
+  done()
 }
 
 
