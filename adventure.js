@@ -166,10 +166,10 @@ Adventure.prototype.execute = function (args) {
   }
 
   if (mode == 'verify' || mode == 'run') {
-    exercise = this.current && this.loadExercise(this.current)
-
     if (!this.current)
       return error(this.__('error.exercise.none_active'))
+
+    exercise = this.loadExercise(this.current)
 
     if (!exercise)
       return error(this.__('error.exercise.missing', {name: name}))
