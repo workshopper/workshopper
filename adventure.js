@@ -37,8 +37,8 @@ function Adventure (options) {
 
   this.appDir        = util.getDir(options.appDir, '.')
   if (this.appDir)
-    this.exerciseDir   = util.getDir(options.exerciseDir, this.appDir)
-                       || util.getDir('exercises', this.appDir)
+    this.exerciseDir = util.getDir(options.exerciseDir, this.appDir)
+                    || util.getDir('exercises', this.appDir)
 
   this.globalDataDir = util.userDir('.config', 'workshopper')
   this.dataDir       = util.userDir('.config', this.appName)

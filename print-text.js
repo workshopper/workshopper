@@ -20,10 +20,12 @@ function printText (appName, appDir, filetype, contents) {
     return variables[k] || ('{' + k + '}')
   })
 
-  // proper path resolution
-  contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
-    return 'file://' + path.join(appDir, subpath)
-  })
+  if (appDir) {
+    // proper path resolution
+    contents = contents.replace(/\{rootdir:([^}]+)\}/gi, function (match, subpath) {
+      return 'file://' + path.join(appDir, subpath)
+    })
+  }
 
   if (filetype == 'md') {
     // convert Markdown to ANSI
