@@ -97,12 +97,14 @@ function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLang
 module.exports = {
   chooseLang: chooseLang,
   init: function(options, exercises, lang) {
-    var translator = i18n(
-          i18nChain(
-              i18nFs(path.resolve(options.appDir, './i18n'))
-            , i18nFs(path.resolve(__dirname, './i18n'))
+    var generalTranslator = i18nChain(
+          i18nFs(path.resolve(__dirname, './i18n'))
             , i18nObject(createDefaultLookup(options, exercises))
           )
+      , translator = i18n(
+          options.appDir
+            ? i18nChain( i18nFs(path.resolve(options.appDir, './i18n')), generalTranslator)
+            : generalTranslator
         )
       , result = translator.lang(lang, true)
     translator.fallback = function (key) {
