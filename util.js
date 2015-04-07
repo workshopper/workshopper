@@ -17,26 +17,10 @@ function idFromName (id) {
 
 
 function dirFromName (exerciseDir, name) {
+  if (typeof exerciseDir !== 'string') {
+    return null;
+  }
   return path.join(exerciseDir, idFromName(name))
-}
-
-function assertDir (options, field, base, fallback) {
-  var target = options[field]
-    , stat
-  if (typeof target != 'string')
-    if (fallback)
-      options[field] = target = path.join(base, fallback)
-    else
-      throw new TypeError('need to provide an "' + field + '" String option')
-
-  try {
-    stat = fs.statSync(target)
-  } catch (e) {}
-
-  if (!stat || !stat.isDirectory())
-    throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a directory')
-
-  return target
 }
 
 function userDir () {
@@ -54,14 +38,18 @@ function applyTextMarker (text, marker, size) {
   return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
 }
 
-function getFile(field, file, base) {
+function getFsObject(type, file, base) {
   var stat
-  file = path.relative(base, file)
+  
+  if (typeof base !== 'string' || typeof file !== 'string')
+    return null
+
+  file = path.resolve(base, file)
   try {
     stat = fs.statSync(file)
   } catch(e) {}
 
-  if (!stat || !stat.isFile())
+  if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
     return null
 
   return file
@@ -72,7 +60,7 @@ module.exports = {
 	, dirFromName: dirFromName
   , repeat: repeat
   , applyTextMarker: applyTextMarker
-  , assertDir: assertDir
-  , getFile: getFile
+  , getDir: getFsObject.bind(null, 'dir')
+  , getFile: getFsObject.bind(null, 'file')
   , userDir: userDir
 }

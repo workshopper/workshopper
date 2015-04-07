@@ -35,8 +35,11 @@ function Adventure (options) {
   this.name       = options.name
   this.appName    = options.name
 
-  this.appDir        = util.assertDir(options, 'appDir')
-  this.exerciseDir   = util.assertDir(options, 'exerciseDir', options.appDir, 'exercises')
+  this.appDir        = util.getDir(options.appDir, '.')
+  if (this.appDir)
+    this.exerciseDir   = util.getDir(options.exerciseDir, this.appDir)
+                       || util.getDir('exercises', this.appDir)
+
   this.globalDataDir = util.userDir('.config', 'workshopper')
   this.dataDir       = util.userDir('.config', this.appName)
   
@@ -64,7 +67,7 @@ function Adventure (options) {
   this._adventures = []
   this._meta = {}
 
-  var menuJson = util.getFile('menuJson', options.menuJson || 'menu.json', options.exerciseDir)
+  var menuJson = util.getFile(options.menuJson || 'menu.json', this.exerciseDir)
   if (menuJson) {
     require(menuJson).forEach((function (entry) {
       this.add(entry)
@@ -107,7 +110,6 @@ Adventure.prototype.add = function (name_or_object, fn_or_object) {
 
     if (!meta.exerciseFile)
       meta.exerciseFile = path.join(meta.dir, './exercise.js')
-
 
     if (typeof fn_or_object === 'function')
       meta.fn = fn_or_object
