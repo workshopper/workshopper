@@ -577,7 +577,7 @@ function onselect (name) {
       var stream = require('combined-stream').create()
         , part
       if (exercise.problem)
-        print.text(this.appName, this.appDir, exercise.problemType || 'md', exercise.problem)
+        print.text(this.appName, this.appDir, exercise.problemType || 'txt', exercise.problem)
       else {
         part = print.localisedFileStream(this.appName, this.appDir,  path.resolve(__dirname, 'i18n/missing_problem/{lang}.md'), this.lang)
         if (part)
