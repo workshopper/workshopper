@@ -17,6 +17,7 @@ function getText (appName, appDir, filetype, contents) {
   var variables = {
       appname : appName
     , rootdir : appDir
+    , COMMAND : commandify(appName)
     , ADVENTURE_COMMAND : commandify(appName)
     , ADVENTURE_NAME : appName
   }
