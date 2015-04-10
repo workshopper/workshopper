@@ -391,7 +391,8 @@ Adventure.prototype.runExercise = function (exercise, mode, args) {
   }
 
   function done (err, pass) {
-    if (pass === undefined && (error === true || error === false)) {
+
+    if (pass === undefined && (err === true || err === false || err === undefined || err === null)) {
       pass = err
       err = null
     }
