@@ -272,9 +272,14 @@ Adventure.prototype.end = function (mode, pass, exercise, callback) {
 
 // overall exercise fail
 Adventure.prototype.exerciseFail = function (mode, exercise) {
+  if (exercise.fail) {
+    print.text(this.appName, this.appDir, exercise.failType || 'txt', exercise.fail)
+    console.log(exercise.fail)
+    console.log();
+  } else {
   console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
   console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.meta.name)}))
-
+  }
   this.end(mode, false, exercise)
 }
 
