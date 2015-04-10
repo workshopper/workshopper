@@ -410,7 +410,15 @@ Adventure.prototype.runExercise = function (exercise, mode, args) {
   }
 
   var method = exercise[mode]
-    , result = (method.length > 1)
+    , result;
+
+  if (!method)
+    return error('This problem doesn\'t have a .' + mode + ' function.')
+
+  if (typeof method !== 'function')
+    return error('This .' + mode + ' is a ' + typeof method + '. It should be a function instead.')
+
+  result = (method.length > 1)
         ? method.bind(exercise)(args, done.bind(this))
         : method.bind(exercise)(args)
   
