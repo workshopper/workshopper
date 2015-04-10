@@ -407,7 +407,7 @@ Adventure.prototype.runExercise = function (exercise, mode, args) {
     if (mode == 'run')
       return this.end(mode, true, exercise) // clean up
 
-    if (!pass)
+    if (!pass || exercise.fail)
       return this.exerciseFail(mode, exercise)
 
     this.exercisePass(mode, exercise)
