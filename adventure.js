@@ -281,8 +281,8 @@ Adventure.prototype.exerciseFail = function (mode, exercise) {
     console.log(exercise.fail)
     console.log();
   } else {
-  console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
-  console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.meta.name)}))
+    console.log('\n' + chalk.bold.red('# ' + this.__('solution.fail.title')) + '\n')
+    console.log(this.__('solution.fail.message', {name: this.__('exercise.' + exercise.meta.name)})) 
   }
   this.end(mode, false, exercise)
 }
@@ -290,9 +290,6 @@ Adventure.prototype.exerciseFail = function (mode, exercise) {
 
 // overall exercise pass
 Adventure.prototype.exercisePass = function (mode, exercise) {
-  console.log('\n' + chalk.bold.green('# ' + this.__('solution.pass.title')) + '\n')
-  console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.meta.name)})) + '\n')
-
   var done = function done () {
     var completed = this.getData('completed') || []
       , remaining
@@ -308,6 +305,16 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
 
     remaining = this.exercises.length - completed.length
 
+    if (exercise.pass) {
+      print.text(this.appName, this.appDir, exercise.passType || 'txt', exercise.pass)
+    } else {
+      console.log('\n' + chalk.bold.green('# ' + this.__('solution.pass.title')) + '\n')
+      console.log(chalk.bold(this.__('solution.pass.message', {name: this.__('exercise.' + exercise.meta.name)})) + '\n') 
+    }
+    
+    if (exercise.solution)
+      print.text(this.appName, this.appDir, exercise.solutionType || 'txt', exercise.solution)
+
     if (remaining === 0) {
       if (this.onComplete)
         return this.onComplete(this.end.bind(this, mode, true, exercise))
@@ -318,10 +325,11 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
       console.log(this.__('ui.return', {appName: this.appName}))
     }
 
+
     this.end(mode, true, exercise)
   }.bind(this)
 
-  if (!exercise.hideSolutions && typeof exercise.getSolutionFiles === 'function') 
+  if (!exercise.hideSolutions && typeof exercise.getSolutionFiles === 'function') {
     exercise.getSolutionFiles(function (err, files) {
       if (err)
         return error(this.__('solution.notes.load_error', {err: err.message || err}))
@@ -364,8 +372,9 @@ Adventure.prototype.exercisePass = function (mode, exercise) {
 
       map(files, processSolutionFile, printSolutions.bind(this))
     }.bind(this))
-  
-  done()
+  } else {
+    done()
+  }
 }
 
 
