@@ -10,6 +10,7 @@ const repeat          = require('./util').repeat
     , applyTextMarker = require('./util').applyTextMarker
     , maxListenersPerEvent = 10
 
+process.stdin.pause()
 
 function showMenu (opts, i18n) {
 
