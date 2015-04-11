@@ -64,11 +64,17 @@ function showMenu (opts, i18n) {
     return str.replace(/([\.\*\+\?\{\}\[\]\- \(\)\|\^\$\\])/g, "\\$1")
   }
 
+  function passDataToMenu(data) {
+    // Node 0.10 fix
+    menuStream.write(data)
+  }
+
   menu.on('select', function (label) {
     menu.y = 0
     menu.reset()
     menu.close()
     process.stdin.pause()
+    process.stdin.removeListener('data', passDataToMenu)
     menuStream.unpipe(process.stdout)
     process.stdin.unpipe(menuStream)
     process.stdin.setRawMode(false)
@@ -76,8 +82,9 @@ function showMenu (opts, i18n) {
 
   menuStream = menu.createStream()
   process.stdin
-    .pipe(menuStream, {end: false})
-    .pipe(process.stdout, {end: false})
+    .on("data", passDataToMenu)
+
+  menuStream.pipe(process.stdout, {end: false})
 
   if(!process.stdin.isTTY) {
     menu.reset()
