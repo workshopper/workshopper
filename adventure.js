@@ -43,6 +43,9 @@ function Adventure (options) {
   this.globalDataDir = util.userDir('.config', 'workshopper')
   this.dataDir       = util.userDir('.config', this.appName)
   
+  // Backwards compatibility with adventure
+  this.datadir       = this.dataDir
+  
   if (!options.languages) {
     // In case a workshopper didn't define a any language
     options.languages = ['en']
