@@ -1,6 +1,6 @@
 {
   "name": "workshopper-adventure",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "A terminal workshop runner framework (adventure compatible)",
   "main": "./index.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
