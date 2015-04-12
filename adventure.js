@@ -48,7 +48,11 @@ function Adventure (options) {
     options.languages = ['en']
   }
 
-  this.defaultLang = options.languages[0]
+  if (!options.defaultLang) {
+    options.defaultLang = options.languages[0]
+  }
+
+  this.defaultLang = options.defaultLang
   this.menuOptions = options.menu
   this.helpFile    = options.helpFile
   this.footer      = options.footer

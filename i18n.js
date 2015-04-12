@@ -32,12 +32,12 @@ function i18nChain() {
 }
 
 function createDefaultLookup(options, exercises) {
-  var result = {
-    en: {
-        title: options.title
-      , subtitle: options.subtitle
-      , exercise: {}
-    }
+  var result = {}
+
+  result[options.defaultLang] = {
+      title: options.title
+    , subtitle: options.subtitle
+    , exercise: {}
   }
 
   options.languages.forEach(function (language) {
@@ -49,7 +49,7 @@ function createDefaultLookup(options, exercises) {
   })
 
   exercises.forEach(function (exercise) {
-    result.en.exercise[exercise] = exercise
+    result[options.defaultLang].exercise[exercise] = exercise
   })
 
   return result
