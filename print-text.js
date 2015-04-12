@@ -25,6 +25,9 @@ function getText (appName, appDir, filetype, contents) {
   if (typeof contents === 'object')
     contents = contents.toString()
 
+  if (typeof contents === 'function')
+    contents = contents()
+
   if (typeof contents !== 'string')
     contents = ''
 
