@@ -1,7 +1,7 @@
 {bold}{yellow}Utilisation{/yellow}{/bold}
 
   {bold}{green}{appname}{/green}{/bold}
-    Affiche un menu pour choisir interactivement un exercice.
+    Affiche un menu interactif pour choisir un exercice.
   {bold}{green}{appname}{/green} list{/bold}
     Affiche une liste des exercices, à raison d’un par ligne.
   {bold}{green}{appname}{/green} select NAME{/bold}

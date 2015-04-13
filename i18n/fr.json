@@ -26,20 +26,20 @@
       "unexpected_error": "Impossible de {{mode}} : {{{err}}}",
       "missing_file": "ERREUR : {{{exerciseFile}}} n’existe pas !",
       "not_a_workshopper": "ERREUR : {{{exerciseFile}}} n’est pas un exercice d’atelier",
-      "preparing": "Erreur à la préparation de l’exercice : {{{err}}}",
+      "preparing": "Erreur lors de la préparation de l’exercice : {{{err}}}",
       "loading": "Erreur au chargement du texte de l’exercice : {{{err}}}"
     },
-    "no_uncomplete_left": "Il ne reste aucun exercice à faire après l’exercice actuel.",
+    "no_uncomplete_left": "Il ne reste aucun exercice à faire après celui-ci.",
     "cleanup": "Erreur au nettoyage : {{{err}}}"
   },
   "solution": {
     "fail": {
       "title": "RATÉ",
-      "message": "Votre solution pour {{{name}}} n’a pas marché. Réessayez !\n"
+      "message": "Votre solution pour {{{name}}} ne fonctionne pas. Réessayez !\n"
     },
     "pass": {
       "title": "RÉUSSI",
-      "message": "Votre solution pour {{{name}}} a fonctionné !"
+      "message": "Votre solution pour {{{name}}} fonctionne !"
     },
     "notes": {
       "compare": "Voici la solution officielle, si vous voulez comparer :\n",
