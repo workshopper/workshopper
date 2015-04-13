@@ -162,6 +162,10 @@ function Workshopper (options) {
     var remainingAfterCurrent = this.exercises.slice(this.exercises.indexOf(this.current))
 
     var completed = this.getData('completed')
+
+    if (!completed)
+      return error(this.__('error.exercise.none_active') + '\n')
+
     var incompleteAfterCurrent = remainingAfterCurrent.filter(function (elem) {
       return completed.indexOf(elem) < 0
     })
