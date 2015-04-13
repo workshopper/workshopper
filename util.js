@@ -4,11 +4,6 @@ const path   = require('path')
     , vw     = require('visualwidth')
 
 
-function repeat (ch, sz) {
-  return new Array(sz + 1).join(ch)
-}
-
-
 function idFromName (id) {
   return id.toLowerCase()
     .replace(/\s/g, '_')
@@ -28,14 +23,6 @@ function userDir () {
   var dir = path.join.apply(path, folders)
   mkdirp.sync(dir)
   return dir
-}
-
-function applyTextMarker (text, marker, size) {
-  var availableSpace = size - vw.width(marker, true)
-
-  text = vw.truncate(text, availableSpace, '...', true)
-
-  return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
 }
 
 function getFsObject(type, file, base) {
@@ -58,8 +45,6 @@ function getFsObject(type, file, base) {
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
-  , repeat: repeat
-  , applyTextMarker: applyTextMarker
   , getDir: getFsObject.bind(null, 'dir')
   , getFile: getFsObject.bind(null, 'file')
   , userDir: userDir

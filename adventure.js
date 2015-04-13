@@ -8,8 +8,7 @@ const minimist     = require('minimist')
     , EventEmitter = require('events').EventEmitter
 
 /* jshint -W079 */
-const showMenu         = require('./exerciseMenu')
-    , showLanguageMenu = require('./languageMenu')
+const createMenu         = require('simple-terminal-menu')
     , print            = require('./print-text')
     , util             = require('./util')
     , i18n             = require('./i18n')
@@ -56,12 +55,20 @@ function Adventure (options) {
   }
 
   this.defaultLang = options.defaultLang
-  this.menuOptions = options.menu
+  this.menuOptions = options.menu || {}
   this.helpFile    = options.helpFile
   this.footer      = options.footer
   this.showHeader  = options.showHeader || false
   this.footerFile  = [options.footerFile, path.join(__dirname, './i18n/footer/{lang}.md')]
-  this.width       = typeof options.width == 'number' ? options.width : defaultWidth
+
+  if (typeof this.menuOptions.width !== 'number')
+    this.menuOptions.width = typeof options.width == 'number' ? options.width : defaultWidth
+
+  if (typeof this.menuOptions.x !== 'number')
+    this.menuOptions.x = 3
+
+  if (typeof this.menuOptions.y !== 'number')
+    this.menuOptions.y = 2
   
   // an `onComplete` hook function *must* call the callback given to it when it's finished, async or not
   this.onComplete  = typeof options.onComplete == 'function' && options.onComplete
@@ -79,8 +86,7 @@ function Adventure (options) {
   if (options.menuItems && !options.commands)
     options.commands = options.menuItems
 
-  if (Array.isArray(options.commands))
-    this.commands = options.commands
+  this.commands = Array.isArray(options.commands) ? options.commands : []
 
   this.options = options
 }
@@ -121,9 +127,12 @@ Adventure.prototype.execute = function (args) {
   this.__n       = this.i18n.__n
   this.languages = this.i18n.languages
 
-  // backwards compatibility for title and subtitle
+  // backwards compatibility for title and subtitle and width
   this.__defineGetter__('title', this.__.bind(this, 'title'))
   this.__defineGetter__('subtitle', this.__.bind(this, 'subtitle'))
+  this.__defineGetter__('width', function () {
+    return this.menuOptions.width
+  }.bind(this))
 
   this.current = this.getData('current')
 
@@ -215,57 +224,57 @@ Adventure.prototype.execute = function (args) {
 }
 
 Adventure.prototype.add = function (name_or_object, fn_or_object) {
-    var meta
-      , dir
-      , stat
+  var meta
+    , dir
+    , stat
 
-    meta = (typeof name_or_object === 'object')
-      ? name_or_object
-      : (typeof fn_or_object === 'object')
-        ? fn_or_object
-        : { name: name_or_object }
+  meta = (typeof name_or_object === 'object')
+    ? name_or_object
+    : (typeof fn_or_object === 'object')
+      ? fn_or_object
+      : { name: name_or_object }
 
-    if (typeof name_or_object === 'string')
-      meta.name = name_or_object
+  if (typeof name_or_object === 'string')
+    meta.name = name_or_object
 
-    if (/^\/\//.test(meta.name))
-      return
+  if (/^\/\//.test(meta.name))
+    return
 
-    if (!meta.id)
-      meta.id = util.idFromName(meta.name)
+  if (!meta.id)
+    meta.id = util.idFromName(meta.name)
 
-    if (!meta.dir)
-      meta.dir = this.dirFromName(meta.name)
+  if (!meta.dir)
+    meta.dir = this.dirFromName(meta.name)
 
-    if (meta.dir && !meta.exerciseFile)
-      meta.exerciseFile = path.join(meta.dir, './exercise.js')
+  if (meta.dir && !meta.exerciseFile)
+    meta.exerciseFile = path.join(meta.dir, './exercise.js')
 
-    if (typeof fn_or_object === 'function')
-      meta.fn = fn_or_object
+  if (typeof fn_or_object === 'function')
+    meta.fn = fn_or_object
 
-    if (!meta.fn && meta.exerciseFile) {
-      try {
-        stat = fs.statSync(meta.exerciseFile)
-      } catch (err) {
-        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-      }
-
-      if (!stat || !stat.isFile())
-        return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
-
-      meta.fn = (function () {
-        return require(meta.exerciseFile)
-      }).bind(meta) 
+  if (!meta.fn && meta.exerciseFile) {
+    try {
+      stat = fs.statSync(meta.exerciseFile)
+    } catch (err) {
+      return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
     }
 
-    if (!meta.fn)
-      return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
+    if (!stat || !stat.isFile())
+      return error(this.__('error.exercise.missing_file', {exerciseFile: meta.exerciseFile}))
+
+    meta.fn = (function () {
+      return require(meta.exerciseFile)
+    }).bind(meta) 
+  }
+
+  if (!meta.fn)
+    return error(this.__('error.exercise.not_a_workshopper', {exerciseFile: meta.exerciseFile}))
 
 
-    this.exercises.push(meta.name)
-    this._meta[meta.id] = meta
-    meta.number = this.exercises.length
-    return this
+  this.exercises.push(meta.name)
+  this._meta[meta.id] = meta
+  meta.number = this.exercises.length
+  return this
 }
 
 Adventure.prototype.end = function (mode, pass, exercise, callback) {
@@ -452,17 +461,27 @@ Adventure.prototype.selectLanguage = function (lang) {
 }
 
 Adventure.prototype.printLanguageMenu = function () {
-  var menu = showLanguageMenu({
-      name      : this.appName
-    , languages : this.i18n.languages
-    , lang      : this.lang
-    , width     : this.width
-    , menu      : this.menuOptions
-  }, this.i18n)
+  var __ = this.i18n.__
+    , menu = createMenu(this.menuOptions)
+    , completed = this.getData('completed') || []
 
-  menu.on('select', this.selectLanguage.bind(this))
-  menu.on('cancel', this.printMenu.bind(this))
-  menu.on('exit', this._exit.bind(this))
+  menu.writeLine(chalk.bold(__('title')))
+
+  if (this.i18n.has('subtitle'))
+    menu.writeLine(chalk.italic(__('subtitle')))
+
+  menu.writeSeparator()
+
+  this.i18n.languages.forEach(function (language) {
+    var label = chalk.bold('»') + ' ' + __('language.' + language)
+      , marker = (this.lang === language) ? '[' + __('language._current') + ']' : ''
+    menu.add(label, marker, this.selectLanguage.bind(this, language))
+  }.bind(this))
+
+  menu.writeSeparator()
+
+  menu.add(chalk.bold(__('menu.cancel')), this.printMenu.bind(this))
+  menu.add(chalk.bold(__('menu.exit')), this._exit.bind(this))
 }
 
 Adventure.prototype._exit = function () {
@@ -470,34 +489,37 @@ Adventure.prototype._exit = function () {
 }
 
 Adventure.prototype.printMenu = function () {
-  var menu = showMenu({
-      name          : this.appName
-    , languages     : this.i18n.languages
-    , width         : this.width
-    , completed     : this.getData('completed') || []
-    , exercises     : this.exercises
-    , extras        : this.commands && this.commands
-                        .filter(function (item) {
-                          return item.menu !== false
-                        })
-                        .map(function (item) {
-                          return item.name.toLowerCase()
-                        })
-    , menu          : this.menuOptions
-  }, this.i18n)
+  var __ = this.i18n.__
+    , menu = createMenu(this.menuOptions)
+    , completed = this.getData('completed') || []
 
-  menu.on('select', onselect.bind(this))
-  menu.on('exit', this._exit.bind(this))
-  menu.on('language', this.printLanguageMenu.bind(this))
-  menu.on('help', this._printHelp.bind(this))
+  menu.writeLine(chalk.bold(__('title')))
 
-  if (this.commands) {
-    this.commands.forEach(function (item) {
-      menu.on('extra-' + item.name, function () {
-        item.handler(this)
-      }.bind(this))
-    }.bind(this))
-  }
+  if (this.i18n.has('subtitle'))
+    menu.writeLine(chalk.italic(__('subtitle')))
+
+  menu.writeSeparator()
+
+  this.exercises.forEach(function (exercise) {
+    var label = chalk.bold('»') + ' ' + __('exercise.' + exercise)
+      , marker = (completed.indexOf(exercise) >= 0) ? '[' + __('menu.completed') + ']' : ''
+    menu.add(label, marker, onselect.bind(this, exercise))
+  }.bind(this))
+
+  menu.writeSeparator()
+
+  menu.add(chalk.bold(__('menu.help')), this._printHelp.bind(this))
+
+  if (this.i18n.languages && this.i18n.languages.length > 1)
+      menu.add(chalk.bold(__('menu.language')), this.printLanguageMenu.bind(this))
+
+  this.commands.filter(function (extra) {
+    return extra.menu !== false
+  }).forEach(function (extra) {
+    menu.add(chalk.bold(__('menu.' + extra.name)), extra.handler.bind(extra, this))
+  }.bind(this))
+
+  menu.add(chalk.bold(__('menu.exit')), this._exit.bind(this))
 }
 
 

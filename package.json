@@ -18,6 +18,7 @@
     "minimist": "^1.1.1",
     "mkdirp": "~0.3.5",
     "msee": "~0.1.1",
+    "simple-terminal-menu": "^1.0.0",
     "terminal-menu": "^2.1.1",
     "through": "^2.3.7",
     "visualwidth": "~0.0.1",
