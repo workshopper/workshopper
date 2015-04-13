@@ -223,7 +223,7 @@ Adventure.prototype.execute = function (args) {
   this.printMenu()
 }
 
-Adventure.prototype.add = function (name_or_object, fn_or_object) {
+Adventure.prototype.add = function (name_or_object, fn_or_object, fn) {
   var meta
     , dir
     , stat
@@ -251,6 +251,9 @@ Adventure.prototype.add = function (name_or_object, fn_or_object) {
 
   if (typeof fn_or_object === 'function')
     meta.fn = fn_or_object
+
+  if (typeof fn === 'function')
+    meta.fn = fn
 
   if (!meta.fn && meta.exerciseFile) {
     try {
