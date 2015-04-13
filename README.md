@@ -37,6 +37,8 @@ Workshopper is essentially a *test-runner* with a fancy terminal UI. The Worksho
 * [@braz](https://github.com/braz)
 * [@timoxley](https://github.com/timoxley)
 * [@dominictarr](https://github.com/dominictarr)
+* [@dominhhai](https://github.com/dominhhai)
+* [@minatu2d](https://github.com/minatu2d)
 
 #### Maintainers
 

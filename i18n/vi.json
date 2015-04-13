@@ -1,0 +1,62 @@
+{
+  "menu": {
+    "exit": "THOÁT",
+    "help": "TRỢ GIÚP",
+    "completed": "HOÀN THÀNH",
+    "language": "CHỌN NGÔN NGỮ (CHOOSE LANGUAGE)",
+    "cancel": "HỦY BỎ"
+  },
+  "language": {
+    "_current": "HIỆN TẠI",
+    "de": "Tiếng Đức (Deutsch)",
+    "en": "Tiếng Anh (English)",
+    "fr": "Tiếng Pháp (français)",
+    "ja": "Tiếng Nhật (日本語)",
+    "zh-cn": "Tiếng Trung (中文)",
+    "zh-tw": "Tiếng Đài Loan (國語)",
+    "es": "Tiếng Tây Ban Nha (Español)",
+    "pt-br": "Tiếng Brasil (Português)",
+    "vi": "Tiếng Việt",
+    "ru": "Tiếng Nga (Русский)"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Bạn chưa chọn bài tập. Hãy chọn lấy một bài từ menu.",
+      "missing": "Không có bài tập nào là: {{{name}}}",
+      "unexpected_error": "Không thể {{mode}}: {{{err}}}",
+      "missing_file": "LỖI: {{{exerciseFile}}} không tồn tại!",
+      "not_a_workshopper": "LỖI: {{{exerciseFile}}} không nằm trong danh sách bài tập.",
+      "preparing": "Lỗi chuẩn bị bài tập: {{{err}}}",
+      "loading": "Lỗi nạp bài tập: {{{err}}}"
+    },
+    "no_uncomplete_left": "Không có bài tập chưa hoàn thành nào sau bài tập hiện tại",
+    "cleanup": "Lỗi dọn dẹp: {{{err}}}"
+  },
+  "solution": {
+    "fail": {
+      "title": "SAI",
+      "message": "Bài {{{name}}} của bạn chưa chuẩn. Thử lại xem sao!\n"
+    },
+    "pass": {
+      "title": "ĐÚNG",
+      "message": "Bài {{{name}}} của bạn rất ngon!"
+    },
+    "notes": {
+      "compare": "Đây là giải pháp chuẩn, bạn tham khảo xem sao:\n",
+      "load_error": "LỖI: Phát sinh lỗi in file giải pháp: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Gõ '{{appName}}' để hiển thị menu.\n",
+    "usage": "Cách dùng: {{appName}} {{mode}} mysubmission.js"
+  },
+  "progress": {
+    "reset": "reset lại bài tập {{title}}",
+    "finished": "Thật tuyệt vời! Chúc mừng bạn đã vượt qua tất cả các thử thách\n",
+    "state": "Bài số {{count}} / {{amount}}",
+    "remaining": {
+      "one": "Bạn còn một bài nữa thôi",
+      "other": "Bạn vẫn còn {{count}} bài."
+    }
+  }
+}
