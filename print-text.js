@@ -62,7 +62,7 @@ function printText (appName, appDir, filetype, contents) {
 
 function createFileStream (appName, appDir, file) {
   var filetype = path.extname(file).replace(/^\./, '')
-  return fs.createReadStream(file, 'utf8')
+  return fs.createReadStream(file, {encoding: 'utf8'})
            .pipe(through(function (data) {
               this.emit('data', getText(appName, appDir, filetype, data))
            }))
