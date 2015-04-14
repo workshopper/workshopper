@@ -4,6 +4,11 @@ const path   = require('path')
     , vw     = require('visualwidth')
 
 
+function repeat (ch, sz) {
+  return new Array(sz + 1).join(ch)
+}
+
+
 function idFromName (id) {
   return id.toLowerCase()
     .replace(/\s/g, '_')
@@ -45,6 +50,7 @@ function getFsObject(type, file, base) {
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
+  , repeat: repeat
   , getDir: getFsObject.bind(null, 'dir')
   , getFile: getFsObject.bind(null, 'file')
   , userDir: userDir
