@@ -1,0 +1,12 @@
+{
+  "title": "WORKSHOPPER 예제 WORKSHOP",
+  "subtitle": "\u001b[23m연습문제를 선택하고 \u001b[3mEnter\u001b[23m를 눌러 시작하세요.",
+  "menu": {
+    "credits": "CREDITS"
+  },
+  "exercise": {
+    "foo": "FOO",
+    "bar": "BAR",
+    "baz": "BAZ"
+  }
+}

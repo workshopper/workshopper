@@ -10,5 +10,5 @@ workshopper({
   , title       : 'FOO OR DIE'
   , exerciseDir : path.join(__dirname, 'exercises')
   , appDir      : __dirname
-  , languages   : ['de', 'en', 'es', 'fr', 'ja', 'pt-br', 'ru', 'vi', 'zh-cn', 'zh-tw']
+  , languages   : ['de', 'en', 'es', 'fr', 'ja', 'pt-br', 'ru', 'vi', 'zh-cn', 'zh-tw', 'ko']
 })
