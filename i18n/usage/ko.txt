@@ -1,0 +1,22 @@
+{bold}{yellow}사용법{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    워크숍을 선택하는 대화형 메뉴를 표시합니다.
+  {bold}{green}{appname}{/green} list{/bold}
+    모든 워크숍의 목록을 표시합니다.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    워크숍을 선택합니다.
+  {bold}{green}{appname}{/green} current{/bold}
+    지금 선택한 워크숍을 보여줍니다.
+  {bold}{green}{appname}{/green} print{/bold}
+    지금 선택한 워크숍의 설명을 출력합니다.
+  {bold}{green}{appname}{/green} next{/bold}
+    지금 선택한 워크숍 다음의 완료되지 않은 워크숍의 설명을 출력합니다.
+  {bold}{green}{appname}{/green} reset{/bold}
+    완료된 워크숍의 진행상황을 초기화합니다.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    선택한 입력으로 프로그램을 실행합니다.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    프로그램이 예측된 출력을 하는지 검증합니다.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    지정된 언어로 시스템을 변경합니다.
