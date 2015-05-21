@@ -1,0 +1,22 @@
+{bold}{yellow}Sposób użycia{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Pokaż menu aby interaktywnie wybrać warsztat.
+  {bold}{green}{appname}{/green} list{/bold}
+    Pokaż listę wszystkich warsztatów w osobnych wierszach.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Wybierz warsztat.
+  {bold}{green}{appname}{/green} current{/bold}
+    Pokaż aktualnie wybrany warsztat.
+  {bold}{green}{appname}{/green} print{/bold}
+    Wypisz instrukcje dla obecnie wybranego warsztatu.
+  {bold}{green}{appname}{/green} next{/bold}
+    Wypisz instrukcje dla kolejnego nieukończonego warsztatu po obecnie wybranym.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Wyzeruj postępy dla ukończonego warsztatu.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Uruchom swój program dla wybranych danych wejściowych.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Zweryfikuj swój program wobec oczekiwanych wyników.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Zmień język aplikacji.
