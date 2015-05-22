@@ -1,0 +1,65 @@
+{
+  "menu": {
+    "exit": "WYJDŹ",
+    "help": "POMOC",
+    "completed": "UKOŃCZONO",
+    "language": "WYBIERZ JĘZYK",
+    "cancel": "ANULUJ"
+  },
+  "language": {
+    "_current": "WYBRANO",
+    "de": "Niemiecki (Deutsch)",
+    "en": "Angielski (English)",
+    "fr": "Francuski (français)",
+    "ja": "Japoński (日本語)",
+    "zh-cn": "Chiński (中文)",
+    "zh-tw": "Tajwański (國語)",
+    "es": "Hiszpański (Español)",
+    "pt-br": "Brazylijski Portugalski (Português)",
+    "vi": "Wietnamski (Tiếng Việt)",
+    "ru": "Rosyjski (Русский)",
+    "ko": "Koreański (한국어)",
+    "pl": "Polski"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Brak aktywnego ćwiczenia. Wybierz jakieś z menu.",
+      "missing": "Brak ćwiczenia: {{{name}}}",
+      "unexpected_error": "Nie można {{mode}}: {{{err}}}",
+      "missing_file": "BŁĄD: {{{exerciseFile}}} nie istnieje!",
+      "not_a_workshopper": "BŁĄD: {{{exerciseFile}}} nie jest poprawnym ćwiczeniem",
+      "preparing": "Błąd podczas przygotowywania ćwiczenia: {{{err}}}",
+      "loading": "Błąd podczas wczytywania tekstu ćwiczenia: {{{err}}}"
+    },
+    "no_uncomplete_left": "Nie ma żadnych nieukończonych ćwiczeń po obecnym",
+    "cleanup": "Błąd podczas sprzątania: {{{err}}}",
+    "notty": "Uruchom to porszę w terminalu kompatybilnym z tty."
+  },
+  "solution": {
+    "fail": {
+      "title": "PORAŻKA",
+      "message": "Twoje rozwiązanie dla {{{name}}} nie zdało egzaminu. Spróbuj ponownie!\n"
+    },
+    "pass": {
+      "title": "SUKCES",
+      "message": "Twoje rozwiązanie dla {{{name}}} jest prawidłowe!"
+    },
+    "notes": {
+      "compare": "Oto oficjalne rozwiązanie dla porównania:\n",
+      "load_error": "BŁĄD: Błąd podczas wczytywania plików rozwiązania: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Wpisz '{{appName}}' aby pokazać menu.\n",
+    "usage": "Sposób użycia: {{appName}} {{mode}} rozwiązanie.js"
+  },
+  "progress": {
+    "reset": "wyzerowano postępy dla {{title}}",
+    "finished": "Udało Ci się wykonać wszystkie ćwiczenia! Hurra!\n",
+    "state": "Ćwiczenie {{count}} z {{amount}}",
+    "remaining": {
+      "one": "Pozostało Ci jedno ćwiczenie",
+      "other": "Pozostało Ci {{count}} ćwiczeń."
+    }
+  }
+}
