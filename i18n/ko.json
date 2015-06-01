@@ -23,15 +23,15 @@
   },
   "error": {
     "exercise": {
-      "none_active": "풀고 있는 연습문제가 없습니다. 메뉴에서 골라주세요.",
-      "missing": "{{{name}}}(이)라는 연습문제는 없습니다.",
+      "none_active": "풀고 있는 연습 문제가 없습니다. 메뉴에서 골라주세요.",
+      "missing": "{{{name}}}(이)라는 연습 문제는 없습니다.",
       "unexpected_error": "{{mode}}을(를) 할 수 없었습니다. {{{err}}}",
-      "missing_file": "에러: {{{exerciseFile}}}은(는) 존재하지 않습니다!",
-      "not_a_workshopper": "에러: {{{exerciseFile}}}은(는) 워크숍의 연습문제가 아닙니다.",
-      "preparing": "연습문제의 준비에 실패했습니다. {{{err}}}",
-      "loading": "연습문제의 택스트를 불러오는 중 에러가 발생했습니다. {{{err}}}"
+      "missing_file": "오류: {{{exerciseFile}}}은(는) 존재하지 않습니다!",
+      "not_a_workshopper": "오류: {{{exerciseFile}}}은(는) 워크숍의 연습 문제가 아닙니다.",
+      "preparing": "연습 문제의 준비에 실패했습니다. {{{err}}}",
+      "loading": "연습 문제의 텍스트를 불러오는 중 오류가 발생했습니다. {{{err}}}"
     },
-    "no_uncomplete_left": "지금의 연습문제를 마지막으로 더 이상 연습문제가 없습니다.",
+    "no_uncomplete_left": "이 연습 문제를 마지막으로 더 이상 연습 문제가 없습니다.",
     "cleanup": "청소 중 문제가 발생했습니다. {{{err}}}",
     "notty": "tty 호환 터미널에서 실행해주세요."
   },
@@ -45,8 +45,8 @@
       "message": "{{{name}}}의 해결책은 통과했습니다!"
     },
     "notes": {
-      "compare": "비교해보고 싶다면 이 것이 공식 해답은 이렇습니다.\n",
-      "load_error": "에러: 해답을 표시하는 도중 문제가 생겼습니다. {{{err}}}"
+      "compare": "비교해보고 싶다면 공식 해답은 이렇습니다.\n",
+      "load_error": "오류: 해답을 표시하는 도중 문제가 생겼습니다. {{{err}}}"
     }
   },
   "ui": {
@@ -55,11 +55,11 @@
   },
   "progress": {
     "reset": "{{title}}의 진행 상황을 초기화했습니다.",
-    "finished": "모든 연습문제를 끝냈습니다! 야호!\n",
-    "state": "연습문제 {{amount}} 개 중 {{count}}개 째",
+    "finished": "모든 연습 문제를 끝냈습니다! 야호!\n",
+    "state": "연습 문제 {{amount}}개 중 {{count}}개 째",
     "remaining": {
       "one": "한 개의 도전만 남아있습니다!",
-      "other": "앞으로 {{count}} 개의 도전이 남아 있습니다."
+      "other": "앞으로 {{count}}개의 도전이 남아 있습니다."
     }
   }
 }
