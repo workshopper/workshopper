@@ -55,7 +55,7 @@
     "usage": "Bruk: {{appName}} {{mode}} mysubmission.js"
   },
   "progress": {
-    "reset": "{{title}} progress reset",
+    "reset": "Start {{title}} på nytt",
     "finished": "Du har fullført alle oppgavene! Hurra!\n",
     "state": "Oppgave {{count}} av {{amount}}",
     "remaining": {
