@@ -11,7 +11,7 @@
   {bold}{green}{appname}{/green} print{/bold}
     Skriv ut instruksjonene for gjeldende oppgave.
   {bold}{green}{appname}{/green} next{/bold}
-    Skriv ut instruksjonene for den neste ikke utførste oppgaven i denne workshoppen.
+    Skriv ut instruksjonene for den neste oppgaven du ikke har fullført i denne workshoppen.
   {bold}{green}{appname}{/green} reset{/bold}
     Nullstill alle utførte oppgaver.
   {bold}{green}{appname}{/green} run program.js{/bold}
