@@ -1,0 +1,66 @@
+{
+  "menu": {
+    "exit": "AVSLUTT",
+    "help": "HJELP",
+    "completed": "FULLFØRT",
+    "language": "VELG SPRÅK",
+    "cancel": "AVBRYT"
+  },
+  "language": {
+    "_current": "GJELDENDE",
+    "de": "Tysk (Deutsch)",
+    "en": "Engelsk",
+    "fr": "Fansk (français)",
+    "ja": "Japansk (日本語)",
+    "zh-cn": "Kinesisk (中文)",
+    "zh-tw": "Taivansk (國語)",
+    "es": "Spansk (Español)",
+    "pt-br": "Brisiliansk Potugisisk (Português)",
+    "vi": "Vietnamesisk (Tiếng Việt)",
+    "ru": "Russisk (Русский)",
+    "ko": "Koreansk (한국어)",
+    "pl": "Polsk (Polski)",
+    "nb-no": "Norsk (Norsk)"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Ingen valgte oppgaver. Velg en fra menyen.",
+      "missing": "Fant ikke oppgaven: {{{name}}}",
+      "unexpected_error": "Kunne ikke {{mode}}: {{{err}}}",
+      "missing_file": "FEIL: {{{exerciseFile}}} finnes ikke!",
+      "not_a_workshopper": "FEIL: {{{exerciseFile}}} er ikke en workshopper oppgave",
+      "preparing": "Feil ved oppsett av oppgave: {{{err}}}",
+      "loading": "Feil ved lasting av oppgave: {{{err}}}"
+    },
+    "no_uncomplete_left": "Alle oppgaver er utført etter du har gjennomført denne oppgaven",
+    "cleanup": "Feil under opprensking: {{{err}}}",
+    "notty": "Vennligst start dette i et tty-kompatibel terminal program."
+  },
+  "solution": {
+    "fail": {
+      "title": "FEIL",
+      "message": "Din løsning på {{{name}}} er ikke godkjent. Prøv en gang til!\n"
+    },
+    "pass": {
+      "title": "RIKTIG",
+      "message": "Løsningen din på {{{name}}} er riktig!"
+    },
+    "notes": {
+      "compare": "Her er den offisielle løsningen i tilfelle du vil sammenligne:\n",
+      "load_error": "FEIL: Klarte ikke skrive ut løsningsfilene: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Skriv '{{appName}}' for å se menyen.\n",
+    "usage": "Bruk: {{appName}} {{mode}} mysubmission.js"
+  },
+  "progress": {
+    "reset": "Start {{title}} på nytt",
+    "finished": "Du har fullført alle oppgavene! Hurra!\n",
+    "state": "Oppgave {{count}} av {{amount}}",
+    "remaining": {
+      "one": "Du har en oppgave igjen",
+      "other": "Du har {{count}} oppgaver igjen."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{bold}{yellow}Bruk{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Vis menyen for å velge oppgaver.
+  {bold}{green}{appname}{/green} list{/bold}
+    Vis en nylinje-separert liste av alle oppgaver.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Velg en oppgave.
+  {bold}{green}{appname}{/green} current{/bold}
+    Vise den gjeldende oppgaven.
+  {bold}{green}{appname}{/green} print{/bold}
+    Skriv ut instruksjonene for gjeldende oppgave.
+  {bold}{green}{appname}{/green} next{/bold}
+    Skriv ut instruksjonene for den neste oppgaven du ikke har fullført i denne workshoppen.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Nullstill alle utførte oppgaver.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Kjør programmet mot valgt input.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Verifiser programmet ditt mot forventet output.
+  {bold}{green}{appname}{/green} -l <språk>{/bold}
+    Endre systemet språk til det valgte språk.
