@@ -1,6 +1,6 @@
 {
   "name": "workshopper",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "A terminal workshop runner framework",
   "main": "./workshopper.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
