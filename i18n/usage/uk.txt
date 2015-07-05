@@ -1,0 +1,22 @@
+{bold}{yellow}Використання{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Показати меню для вибору завдання.
+  {bold}{green}{appname}{/green} list{/bold}
+    Показати список всіх доступних завдань.
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Обрати завдання.
+  {bold}{green}{appname}{/green} current{/bold}
+    Показати назву поточного завдання.
+  {bold}{green}{appname}{/green} print{/bold}
+    Показати опис поточної задачі.
+  {bold}{green}{appname}{/green} next{/bold}
+    Показати опис наступної задачі.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Скинути поточний прогрес в проходженні воркшопу.
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Запусити переданий розв’язок.
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Перевірити передане завдання.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Змінити мову.
