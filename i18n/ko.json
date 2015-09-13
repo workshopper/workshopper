@@ -19,7 +19,9 @@
     "vi": "베트남어(Tiếng Việt)",
     "ru": "러시아어(Русский)",
     "ko": "한국어",
-    "pl": "폴란드어 (Polski)"
+    "pl": "폴란드어 (Polski)",
+    "nb-no": "노르웨이어 (Norsk)",
+    "it": "이탈리아어 (Italiano)"
   },
   "error": {
     "exercise": {
