@@ -1,22 +1,22 @@
 {bold}{yellow}Usage{/yellow}{/bold}
 
   {bold}{green}{appname}{/green}{/bold}
-    Show a menu to interactively select a workshop.
+    顯示選單以選擇題目。
   {bold}{green}{appname}{/green} list{/bold}
-    Show a newline-separated list of all the workshops.
+    列出所有題目。
   {bold}{green}{appname}{/green} select NAME{/bold}
-    Select a workshop.
+    選擇題目。
   {bold}{green}{appname}{/green} current{/bold}
-    Show the currently selected workshop.
+    顯示目前的題目名稱。
   {bold}{green}{appname}{/green} print{/bold}
-    Print the instructions for the currently selected workshop.
+    顯示目前題目的詳細說明。
   {bold}{green}{appname}{/green} next{/bold}
-    Print the instructions for the next incomplete workshop after the currently selected workshop.
+    顯示下一題的詳細說明。
   {bold}{green}{appname}{/green} reset{/bold}
-    Reset completed workshop progress.
+    重置已完成的題目。
   {bold}{green}{appname}{/green} run program.js{/bold}
-    Run your program against the selected input.
+    在測試環境執行你的程式。
   {bold}{green}{appname}{/green} verify program.js{/bold}
-    Verify your program against the expected output.
+    驗證你的程式。
   {bold}{green}{appname}{/green} -l <language>{/bold}
-    Change the system to the specified language.
+    更改系統的語言。
