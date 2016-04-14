@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/rvagg/workshopper.git"
   },
-  "license": "MIT",
+  "license": "MITNFA",
   "dependencies": {
     "chalk": "~0.4.0",
     "colors-tmpl": "~0.1.0",
