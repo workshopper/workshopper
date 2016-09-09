@@ -1,5 +1,11 @@
 # Workshopper
 
+# Workshopper is no longer maintained
+
+In mid-term workshopper will be replaced with [`workshopper-adventure`](https://github.com/workshopper/workshopper-adventure). Please try to build new workshoppers against workshopper-adventure. Thanks. (your maintainer)
+
+# Readme until now:
+
 **A terminal workshop runner framework**
 
 [![NPM](https://nodei.co/npm/workshopper.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/workshopper/) [![NPM](https://nodei.co/npm-dl/workshopper.png?months=3&height=3)](https://nodei.co/npm/workshopper/)
