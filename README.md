@@ -1,5 +1,7 @@
 # Workshopper
 
+[![Join the chat at https://gitter.im/nodeschool/workshoppers](https://badges.gitter.im/nodeschool/workshoppers.svg)](https://gitter.im/nodeschool/workshoppers?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # Workshopper is no longer maintained
 
 In mid-term workshopper will be replaced with [`workshopper-adventure`](https://github.com/workshopper/workshopper-adventure). Please try to build new workshoppers against workshopper-adventure. Thanks. (your maintainer)
