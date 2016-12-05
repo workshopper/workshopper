@@ -1,65 +1,65 @@
 {
   "menu": {
-    "exit": "EXIT",
-    "help": "HELP",
-    "completed": "COMPLETED",
-    "language": "CHOOSE LANGUAGE",
-    "cancel": "CANCEL"
+    "exit": "退出",
+    "help": "幫助",
+    "completed": "完成",
+    "language": "選擇語言 (CHOOSE LANGUAGE)",
+    "cancel": "取消"
   },
   "language": {
-    "_current": "CURRENT",
-    "de": "德语 (Deutsch)",
-    "en": "英语 (English)",
-    "fr": "法國 (français)",
-    "ja": "日语 (日本語)",
-    "zh-cn": "中文",
-    "zh-tw": "國語",
-    "es": "西班牙语 (Español)",
-    "pt-br": "葡萄牙 (Português)",
-    "vi": "越南 (Tiếng Việt)",
-    "ru": "俄 (Русский)",
+    "_current": "目前",
+    "de": "德語 (Deutsch)",
+    "en": "英語 (English)",
+    "fr": "法語 (français)",
+    "ja": "日語 (日本語)",
+    "zh-cn": "簡體中文 (简体中文)",
+    "zh-tw": "國語 (正體中文)",
+    "es": "西班牙語 (Español)",
+    "pt-br": "葡萄牙語 (Português)",
+    "vi": "越南語 (Tiếng Việt)",
+    "ru": "俄語 (Русский)",
     "ko": "韓國語 (한국어)",
     "pl": "波蘭語 (Polski)",
-    "nb-no": "挪威話 (Norsk)"
+    "nb-no": "挪威語 (Norsk)"
   },
   "error": {
     "exercise": {
-      "none_active": "No active exercise. Select one from the menu.",
-      "missing": "No such exercise: {{{name}}}",
-      "unexpected_error": "Could not {{mode}}: {{{err}}}",
-      "missing_file": "ERROR: {{{exerciseFile}}} does not exist!",
-      "not_a_workshopper": "ERROR: {{{exerciseFile}}} is not a workshopper exercise",
-      "preparing": "Error preparing exercise: {{{err}}}",
-      "loading": "Error loading exercise text: {{{err}}}"
+      "none_active": "尚未選擇題目，請從選單中選取。",
+      "missing": "沒有這個題目: {{{name}}}",
+      "unexpected_error": "無法執行 {{mode}}: {{{err}}}",
+      "missing_file": "錯誤: {{{exerciseFile}}} 不存在!",
+      "not_a_workshopper": "錯誤: {{{exerciseFile}}} 不是一個練習題",
+      "preparing": "處理題目時發生錯誤: {{{err}}}",
+      "loading": "載入題目的文件時發生錯誤: {{{err}}}"
     },
-    "no_uncomplete_left": "There are no incomplete exercises after the current exercise",
-    "cleanup": "Error cleaning up: {{{err}}}"
+    "no_uncomplete_left": "這題完成之後, 就沒有下一題囉.",
+    "cleanup": "清理過程錯誤: {{{err}}}"
   },
   "solution": {
     "fail": {
-      "title": "FAIL",
-      "message": "Your solution to {{{name}}} didn't pass. Try again!\n"
+      "title": "不對喔",
+      "message": "你在 {{{name}}} 這題提交的答案沒有通過測試, 請再試一次!\n"
     },
     "pass": {
-      "title": "PASS",
-      "message": "Your solution to {{{name}}} passed!"
+      "title": "過關",
+      "message": "你在 {{{name}}} 這題提交的答案通過測試!"
     },
     "notes": {
-      "compare": "Here's the official solution in case you want to compare notes:\n",
-      "load_error": "ERROR: There was a problem printing the solution files: {{{err}}}"
+      "compare": "這裡有官方提供的答案, 供你作為參考:\n",
+      "load_error": "錯誤: 印出答案時發生錯誤: {{{err}}}"
     }
   },
   "ui": {
-    "return": "Type '{{appName}}' to show the menu.\n",
-    "usage": "Usage: {{appName}} {{mode}} mysubmission.js"
+    "return": "輸入 '{{appName}}' 指令以顯示選單\n",
+    "usage": "用法: {{appName}} {{mode}} mysubmission.js"
   },
   "progress": {
-    "reset": "{{title}} progress reset",
-    "finished": "You've finished all the challenges! Hooray!\n",
-    "state": "Exercise {{count}} of {{amount}}",
+    "reset": "{{title}} 重設進度",
+    "finished": "恭喜你!你已經完成所有題目了!\n",
+    "state": "這是第 {{count}} 題, 共 {{amount}} 題",
     "remaining": {
-      "one": "You have one challenge left",
-      "other": "You have {{count}} challenges left."
+      "one": "只剩下最後一題了!",
+      "other": "你還剩下 {{count}} 題."
     }
   }
 }
