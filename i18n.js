@@ -32,16 +32,24 @@ function i18nChain() {
 }
 
 function createDefaultLookup(options, exercises) {
-  var result = {
-    en: {
-        title: options.title
-      , subtitle: options.subtitle
-      , exercise: {}
-    }
+  var result = {}
+
+  result[options.defaultLang] = {
+      title: options.title
+    , subtitle: options.subtitle
+    , exercise: {}
   }
 
+  options.languages.forEach(function (language) {
+    if (!result[language])
+      result[language] = {}
+
+    if (!result[language].title)
+      result[language].title = options.name.toUpperCase()
+  })
+
   exercises.forEach(function (exercise) {
-    result.en.exercise[exercise] = exercise
+    result[options.defaultLang].exercise[exercise] = exercise
   })
 
   return result
@@ -97,12 +105,14 @@ function chooseLang (globalDataDir, appDataDir, lang, defaultLang, availableLang
 module.exports = {
   chooseLang: chooseLang,
   init: function(options, exercises, lang) {
-    var translator = i18n(
-          i18nChain(
-              i18nFs(path.resolve(options.appDir, './i18n'))
-            , i18nFs(path.resolve(__dirname, './i18n'))
-            , i18nObject(createDefaultLookup(options, exercises))
-          )
+    var generalTranslator = i18nChain(
+          i18nFs(path.resolve(__dirname, './i18n'))
+        , i18nObject(createDefaultLookup(options, exercises))
+      )
+      , translator = i18n(
+          options.appDir
+            ? i18nChain( i18nFs(path.resolve(options.appDir, './i18n')), generalTranslator)
+            : generalTranslator
         )
       , result = translator.lang(lang, true)
     translator.fallback = function (key) {

@@ -4,11 +4,6 @@ const path   = require('path')
     , vw     = require('visualwidth')
 
 
-function repeat (ch, sz) {
-  return new Array(sz + 1).join(ch)
-}
-
-
 function idFromName (id) {
   return id.toLowerCase()
     .replace(/\s/g, '_')
@@ -17,26 +12,10 @@ function idFromName (id) {
 
 
 function dirFromName (exerciseDir, name) {
+  if (typeof exerciseDir !== 'string') {
+    return null;
+  }
   return path.join(exerciseDir, idFromName(name))
-}
-
-function assertFs (type, options, field, base, fallback) {
-  var target = options[field]
-    , stat
-  if (typeof target != 'string')
-    if (fallback)
-      options[field] = target = path.join(base, fallback)
-    else
-      throw new TypeError('need to provide an "' + field + '" String option')
-
-  try {
-    stat = fs.statSync(target)
-  } catch (e) {}
-
-  if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
-    throw new Error('"' + field + '" [' + path.relative('.', target) + '] does not exist or is not a ' + type)
-
-  return target
 }
 
 function userDir () {
@@ -46,20 +25,27 @@ function userDir () {
   return dir
 }
 
-function applyTextMarker (text, marker, size) {
-  var availableSpace = size - vw.width(marker, true)
+function getFsObject(type, file, base) {
+  var stat
+  
+  if (typeof base !== 'string' || typeof file !== 'string')
+    return null
 
-  text = vw.truncate(text, availableSpace, '...', true)
+  file = path.resolve(base, file)
+  try {
+    stat = fs.statSync(file)
+  } catch(e) {}
 
-  return text + repeat(' ', availableSpace - vw.width(text, true)) + marker
+  if (!stat || !(type === 'file' ? stat.isFile() : stat.isDirectory()))
+    return null
+
+  return file
 }
 
 module.exports = {
 	  idFromName: idFromName
 	, dirFromName: dirFromName
-  , repeat: repeat
-  , applyTextMarker: applyTextMarker
-  , assertDir: assertFs.bind(null, 'dir')
-  , assertFile: assertFs.bind(null, 'file')
+  , getDir: getFsObject.bind(null, 'dir')
+  , getFile: getFsObject.bind(null, 'file')
   , userDir: userDir
 }

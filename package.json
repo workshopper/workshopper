@@ -2,7 +2,7 @@
   "name": "workshopper",
   "version": "2.7.0",
   "description": "A terminal workshop runner framework",
-  "main": "./workshopper.js",
+  "main": "./index.js",
   "author": "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)",
   "repository": {
     "type": "git",
@@ -12,12 +12,15 @@
   "dependencies": {
     "chalk": "~0.4.0",
     "colors-tmpl": "~0.1.0",
+    "combined-stream": "0.0.7",
     "i18n-core": "^1.3.2",
     "map-async": "~0.1.1",
+    "minimist": "^1.1.1",
     "mkdirp": "~0.3.5",
     "msee": "~0.1.1",
-    "optimist": "~0.6.1",
+    "simple-terminal-menu": "^1.0.0",
     "terminal-menu": "^2.1.1",
+    "through": "^2.3.7",
     "visualwidth": "~0.0.1",
     "xtend": "~3.0.0"
   },
