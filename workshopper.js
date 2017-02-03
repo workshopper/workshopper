@@ -6,6 +6,7 @@ const argv         = require('optimist').argv
     , chalk        = require('chalk')
     , inherits     = require('util').inherits
     , EventEmitter = require('events').EventEmitter
+    , interpret    = require('interpret')
 
 /* jshint -W079 */
 const showMenu         = require('./exerciseMenu')
@@ -455,12 +456,16 @@ Workshopper.prototype.getExerciseMeta = function (name) {
 
   dir = this.dirFromName(name)
 
+  var exerciseFileName = fs.readdirSync(dir).filter(function (filename) {
+    return !!interpret.jsVariants[path.extname(filename)]
+  })[0]
+
   return {
       name         : name
     , number       : number
     , dir          : dir
     , id           : util.idFromName(name)
-    , exerciseFile : path.join(dir, './exercise.js')
+    , exerciseFile : path.join(dir, exerciseFileName)
   }
 }
 
