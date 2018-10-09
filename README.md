@@ -18,7 +18,7 @@ In mid-term workshopper will be replaced with [`workshopper-adventure`](https://
 
 *Documentation is being written for the v1 rewrite right now! Ping @rvagg if you need anything. **learnyounode** is now using this new version, for now you can use it to see how this works.
 
-For now, [@linclark](https://github.com/linclark) has written a good introduction on creating your own workshop, available [here](http://lin-clark.com/blog/2014/07/01/authoring-nodejs-workshopper-lessons/).
+For now, [@linclark](https://github.com/linclark) has written a good introduction on creating your own workshop, available [here](https://github.com/linclark/lin-clark.com/blob/master/content/blog/2014/07/01/authoring-nodejs-workshopper-lessons.md).
 
 ## High-level overview
 
