@@ -1,0 +1,12 @@
+{
+  "title": "WORKSHOPPER VOORBEELD WORKSHOP",
+  "subtitle": "\u001b[23mSelecteer een uitdaging en druk op \u001b[3mEnter\u001b[23m om te beginnen",
+  "menu": {
+    "credits": "CREDITS"
+  },
+  "exercise": {
+    "foo": "FOO",
+    "bar": "BAR",
+    "baz": "BAZ"
+  }
+}

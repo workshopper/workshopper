@@ -1,0 +1,68 @@
+{
+  "menu": {
+    "exit": "EXIT",
+    "help": "HULP",
+    "completed": "VOLTOOID",
+    "language": "KIES TAAL",
+    "cancel": "ANNULEREN"
+  },
+  "language": {
+    "_current": "HUIDIGE",
+    "de": "Duits (Deutsch)",
+    "en": "Engels",
+    "fr": "Frans (français)",
+    "ja": "Japans (日本語)",
+    "zh-cn": "Chinees (中文)",
+    "zh-tw": "Taiwanees (國語)",
+    "es": "Spaans (Español)",
+    "pt-br": "Braziliaans/Portugees (Português)",
+    "vi": "Vietnamees (Tiếng Việt)",
+    "uk": "Oekraïens (Українська)",
+    "ru": "Russisch (Русский)",
+    "ko": "Koreaans (한국어)",
+    "pl": "Pools (Polski)",
+    "nb-no": "Noors (Norsk)",
+    "nl": "Nederlands (Nederlands)"
+  },
+  "error": {
+    "exercise": {
+      "none_active": "Geen actieve uitdaging. Kies er een uit het menu.",
+      "missing": "Onbekende uitdaging: {{{name}}}",
+      "unexpected_error": "{{mode}} kon niet uitgevoerd worden: {{{err}}}",
+      "missing_file": "ERROR: {{{exerciseFile}}} bestaat niet!",
+      "not_a_workshopper": "ERROR: {{{exerciseFile}}} is geen workshopper uitdaging",
+      "preparing": "Fout bij het voorbereiden van uitdaging: {{{err}}}",
+      "loading": "Fout tijdens het laden van uitdaging tekst: {{{err}}}"
+    },
+    "no_uncomplete_left": "Er zijn geen onvoltooide uitdagingen na de huidige uitdaging",
+    "cleanup": "Fout bij het opschonen: {{{err}}}",
+    "notty": "Start dit a.u.b. in een tty-compatibel terminal programma."
+  },
+  "solution": {
+    "fail": {
+      "title": "MISLUKT",
+      "message": "Jouw oplossing voor {{{name}}} werkt niet. Probeer het opnieuw!\n"
+    },
+    "pass": {
+      "title": "SUCCES",
+      "message": "Jouw oplossing voor {{{name}}} werkt!"
+    },
+    "notes": {
+      "compare": "Hier is de officiële oplossing voor het geval je het wilt vergelijken:\n",
+      "load_error": "FOUT: Er was een probleem bij het tonen van de oplossings bestanden: {{{err}}}"
+    }
+  },
+  "ui": {
+    "return": "Typ '{{appName}}' om het menu te tonen.\n",
+    "usage": "Gebruik: {{appName}} {{mode}} mysubmission.js"
+  },
+  "progress": {
+    "reset": "{{title}} voortgang opnieuw ingesteld",
+    "finished": "Je hebt alle uitdagingen afgerond! Hoera!\n",
+    "state": "Uitdaging {{count}} van {{amount}}",
+    "remaining": {
+      "one": "Je hebt nog één uitdaging te gaan",
+      "other": "Je hebt nog {{count}} uitdagingen te gaan."
+    }
+  }
+}
