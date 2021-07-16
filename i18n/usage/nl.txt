@@ -1,0 +1,22 @@
+{bold}{yellow}Gebruik{/yellow}{/bold}
+
+  {bold}{green}{appname}{/green}{/bold}
+    Toon een menu om interactief een workshopper te selecteren
+  {bold}{green}{appname}{/green} list{/bold}
+    Toon alle workshops op een aparte regel
+  {bold}{green}{appname}{/green} select NAME{/bold}
+    Selecteer een workshop.
+  {bold}{green}{appname}{/green} current{/bold}
+    Toon de workshop die nu actief is.
+  {bold}{green}{appname}{/green} print{/bold}
+    Toon de instructies voor de actieve workshop.
+  {bold}{green}{appname}{/green} next{/bold}
+    Toon de instructies voor de volgende niet afgeronde workshop na de huidige workshop.
+  {bold}{green}{appname}{/green} reset{/bold}
+    Reset de workshop voortgang 
+  {bold}{green}{appname}{/green} run program.js{/bold}
+    Voer je programma uit met de geselecteerde invoer
+  {bold}{green}{appname}{/green} verify program.js{/bold}
+    Controleer je programma met de verwachte output.
+  {bold}{green}{appname}{/green} -l <language>{/bold}
+    Wijzig het systeem naar de opgegeven taal.
